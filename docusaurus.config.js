@@ -45,7 +45,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/vchoudhari45/codingcargo-2.0/',
+            'https://github.com/vchoudhari45/codingcargo-2.0/tree/main/',
         },
         blog: false,
 //        blog: {
