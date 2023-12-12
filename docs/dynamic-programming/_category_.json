@@ -3,6 +3,6 @@
   "position": 2,
   "link": {
     "type": "generated-index",
-    "description": "Dynamic Programming algorithm patterns."
+    "description": "Dynamic programming is an algorithmic technique used to solve problems by breaking them down into simpler overlapping sub-problems."
   }
 }

@@ -5,6 +5,8 @@
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
 import {themes as prismThemes} from 'prism-react-renderer';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -46,6 +48,8 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/vchoudhari45/codingcargo-2.0/tree/main/',
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
         },
         blog: false,
 //        blog: {
@@ -61,6 +65,21 @@ const config = {
       }),
     ],
   ],
+
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      type: 'text/css',
+      integrity: 'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+      crossorigin: 'anonymous',
+    },
+  ],
+
+  markdown: {
+    mermaid: true,
+  },
+
+  themes: ['@docusaurus/theme-mermaid'],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -140,9 +159,29 @@ const config = {
 //        copyright: `Copyright © ${new Date().getFullYear()} CodingCargo. Built with Docusaurus.`,
 //      },
       prism: {
-        theme: prismThemes.github,
+				theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
+        additionalLanguages: ['java'],
       },
+
+      mermaid: {
+        theme: {
+          light: 'base',
+          dark: 'forest'
+        },
+        options: {
+           // https://mermaid.js.org/config/theming.html#theme-variables
+           themeVariables: {
+             primaryColor: '#fff',
+             primaryTextColor: '#000',
+             primaryBorderColor: '#000',
+             lineColor: '#444',
+             secondaryColor: '#fff',
+             tertiaryColor: '#fff',
+             fontFamily: 'Arial'
+           }
+        },
+      }
     }),
 };
 

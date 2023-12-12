@@ -4,3 +4,99 @@ slug: /
 ---
 
 # Introduction
+
+Hey there and a warm welcome to Coding Cargo!
+
+I'm Vishal, and codingcargo.com is a space where I tackle challenging coding problems from various websites. If you find these solutions helpful, I'd love for you to share them with others.
+
+Got a question about any solution here? Don't hesitate to reach out on GitHub, and I'll be quick to respond.
+
+Your thoughts and ideas mean a lot! If you have suggestions to make any solution better, I'm all ears. Just click the link on the solution page to share your thoughts on GitHub.
+
+
+<br />
+
+### Array
+$
+\begin{bmatrix}
+1 & 2 & 3 
+\end{bmatrix}
+$
+
+
+<br />
+<br />
+
+### 2D Array
+$
+\begin{bmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+7 & 8 & 9 \\
+\end{bmatrix}
+$
+
+<br />
+<br />
+
+
+### HashMap
+$
+1 \rightarrow \begin{bmatrix}2 & 3 & 4 \end{bmatrix} \\
+2 \rightarrow \begin{bmatrix}4 & 5 & 6 \end{bmatrix} \\
+$
+
+<br />
+<br />
+
+### Linked List
+<div style={{textAlign:"center"}}>
+```mermaid
+graph LR
+    A((&nbsp;&nbsp; 0 &nbsp;&nbsp;)) ----> B((&nbsp;&nbsp; 1 &nbsp;&nbsp;))
+    B ----> C((&nbsp;&nbsp; 2 &nbsp;&nbsp;))
+    C ----> D((&nbsp;&nbsp; 3 &nbsp;&nbsp;))
+```
+</div>
+
+<br />
+<br />
+
+### Doubly Linked List
+<div style={{textAlign:"center"}}>
+```mermaid
+graph LR
+    A((&nbsp;&nbsp; 0 &nbsp;&nbsp;)) <----> B((&nbsp;&nbsp; 1 &nbsp;&nbsp;))
+    B <----> C((&nbsp;&nbsp; 2 &nbsp;&nbsp;))
+    C <----> D((&nbsp;&nbsp; 3 &nbsp;&nbsp;))
+```
+</div>
+
+<br />
+<br />
+
+### Tree
+<div style={{textAlign:"center"}}>
+```mermaid
+graph TD
+    A((Root)) --1--> B((&nbsp;&nbsp; 1 &nbsp;&nbsp;))
+    A((Root)) --2--> C((&nbsp;&nbsp; 2 &nbsp;&nbsp;))
+    A((Root)) --3--> D((&nbsp;&nbsp; 3 &nbsp;&nbsp;))
+    
+    B --&nbsp;2&nbsp;--> E((&nbsp; 1,2 &nbsp;))
+    B --&nbsp;3&nbsp;--> F((&nbsp; 1,3 &nbsp;))
+    
+    C --&nbsp;1&nbsp;--> G((&nbsp; 2,1 &nbsp;))
+    C --&nbsp;3&nbsp;--> H((&nbsp; 2,3 &nbsp;))
+    
+    D --&nbsp;1&nbsp;--> I((&nbsp; 3,1 &nbsp;))
+    D --&nbsp;2&nbsp;--> J((&nbsp; 3,2 &nbsp;))
+    
+    E --&nbsp;3&nbsp;--> K((&nbsp; 1,2,3 &nbsp;))
+    F --&nbsp;2&nbsp;--> L((&nbsp; 1,3,2 &nbsp;))
+    G --&nbsp;3&nbsp;--> M((&nbsp; 2,1,3 &nbsp;))
+    H --&nbsp;1&nbsp;--> N((&nbsp; 2,3,1 &nbsp;))
+    I --&nbsp;2&nbsp;--> O((&nbsp; 3,1,2 &nbsp;))
+    J --&nbsp;1&nbsp;--> P((&nbsp; 3,2,1 &nbsp;))
+```
+</div>
