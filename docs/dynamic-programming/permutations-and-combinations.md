@@ -1,7 +1,3 @@
----
-sidebar_position: 2
----
-
 # Partition n objects among k people
 
 Given an integer array num and integer $k$, partition/distribute num into $k$ non-empty sub-arrays such that ...

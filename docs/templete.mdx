@@ -1,0 +1,323 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+
+#  Split Array Largest Sum
+
+This page explains Java solution to leetcode problem [410. Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/description/) using Binary Search \
+algorithm.
+
+
+
+
+
+
+## Explanation 
+Often, split array into sub-arrays questions can be solved by repeatedly applying binary search to meet \
+the specified conditions.
+
+
+Let's take the sample input as below,
+
+<br />
+$$
+\text{nums} = \begin{bmatrix}
+7, & 2, & 5 & 10 & 8
+\end{bmatrix}, 
+\  \text{k} = 2
+$$
+<br />
+
+Initiate the binary search using the largest array value $10$ as the low threshold and the total sum of the \
+array $32$ as the high threshold.
+
+<br />
+$$
+\text{lo} = 10, \ \text{hi} = 32, \ \text{mid} = 21
+$$
+<br />
+
+With maximum sum as $21$, the first subarray will have $\begin{bmatrix}7, & 2, & 5\end{bmatrix}$, and the second subarray will have \
+$\begin{bmatrix}10, & 8\end{bmatrix}$. Since none of the subarray sums exceed value of $21$, let's lower the upper threshold to minimize \
+search value further.
+
+<br />
+$$
+\text{lo} = 10, \ \text{hi} = 21, \ \text{mid} = 15
+$$
+
+
+:::info[]
+Observe that we're setting $\text{hi} = \text{mid}$ instead of $\text{mid} - 1$. This maintains the value of $21$(which satisfies given condition) within the search range.
+:::
+
+<br />
+With a maximum sum as $15$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, & 2, & 5\end{bmatrix}$ is fine, but the \
+second subarray $\begin{bmatrix}10, & 8\end{bmatrix}$ exceeds the max sum of $15$. Let's increase the lower threshold.
+
+<br />
+$$
+\text{lo} = 16, \ \text{hi} = 21, \ \text{mid} = 18
+$$
+<br />
+
+With a maximum sum of $18$, we made two subarrays the first with numbers $\begin{bmatrix}7, & 2, & 5\end{bmatrix}$ and the second \
+with numbers $\begin{bmatrix}10, & 8\end{bmatrix}$. Since none of the subarray sums exceed value of $18$ let's lower the upper threshold \
+to minimize search value further.
+
+<br />
+$$
+\text{lo} = 16, \ \text{hi} = 18, \ \text{mid} = 17
+$$
+<br />
+
+With a maximum sum of $17$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, & 2, & 5\end{bmatrix}$ is fine, but the \
+second subarray $\begin{bmatrix}10, & 8\end{bmatrix}$ exceeds the max sum of $17$. Let's increase the lower threshold.
+
+<br />
+$$
+\text{lo} = 18, \ \text{hi} = 18, \ \text{mid} = 18
+$$
+<br />
+
+
+Since the lower limit equals the upper limit, we exit the binary search, finding the answer as $18$.
+
+
+
+
+
+
+
+## Implementation
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    public int splitArray(int[] nums, int k) {
+        // Initialize the lower and upper bounds for binary search
+        int lo = Integer.MIN_VALUE;
+        int hi = 0;
+        
+        // Determine the bounds for the binary search
+        for (int num : nums) {
+            lo = Math.max(lo, num); 
+            hi += num; 
+        }
+
+        // Perform binary search
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2; 
+            // Check if more partitions are needed
+            boolean isMore = isMorePartition(nums, mid, k); 
+            if (isMore)
+                lo = mid + 1; 
+            else
+                hi = mid; 
+        }
+        return lo; 
+    }
+
+    // Helper function to check if more partitions are required
+    private boolean isMorePartition(int[] nums, int required, int k) {
+        int index = 0, sum = 0, partition = 1;
+
+        // Iterate through the array to check for partitions
+        while (index < nums.length) {
+            sum += nums[index]; // Accumulate the sum
+            if (sum > required) {
+                sum = nums[index]; // Reset the sum for a new partition
+                partition++; // Increment the partition count
+            }
+            index++; // Move to the next element
+
+            if (partition > k)
+                return true; // If partitions exceed the given count, return true
+        }
+        return false; // Return false if partitions are within the given count
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+
+
+
+
+
+
+
+## Complexity 
+
+Let's say there are $N$ elements in an array, and total sum of all elements in an array is $S$.
+
+### Time complexity 
+$
+O(N \ \text{log} \ S)
+$
+
+### Space complexity
+$
+O(1)
+$
+
+
+
+
+
+
+
+
+## Similar questions
+
+### Capacity To Ship Packages Within D Days
+
+#### Problem Statement
+[1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    public int shipWithinDays(int[] weights, int days) {
+        int lo = Integer.MIN_VALUE;
+        int hi = 0;
+
+        // Determine the bounds for the binary search
+        for (int weight : weights) {
+            lo = Math.max(lo, weight); d
+            hi += weight; 
+        }
+
+        // Perform binary search to find the minimum capacity
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2;
+            // Check if more days are required
+            boolean isMoreDays = daysRequired(weights, mid, days); 
+            if (isMoreDays)
+                lo = mid + 1; 
+            else
+                hi = mid; 
+        }
+        return lo; // Return the minimum capacity
+    }
+
+    // Helper function to check if more days are required based on the capacity
+    private boolean daysRequired(int[] weights, int capacity, int days) {
+        int requiredDays = 1, index = 0, sum = 0;
+
+        // Iterate through the weights to determine the required days
+        while (index < weights.length) {
+            sum += weights[index]; // Accumulate the sum of weights
+            if (sum > capacity) {
+                sum = weights[index]; // Reset the sum for a new day
+                requiredDays++; // Increment the required days
+            }
+            index++; // Move to the next weight
+
+            if (requiredDays > days)
+                return true; // If required days exceed the given limit
+        }
+        return false; // If required days are within the given limit
+    }
+}	
+```
+</TabItem>
+</Tabs>
+</details>
+
+
+
+
+
+
+
+### Divide Chocolate
+
+#### Problem Statement
+[1231. Divide Chocolate](https://leetcode.com/problems/divide-chocolate/description/)
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    public int maximizeSweetness(int[] sweetness, int k) {
+        // Initialize the lower bound `lo` and the upper bound `hi`
+        int lo = Integer.MAX_VALUE;
+        int hi = 0;
+
+        // Determine the bounds for the binary search
+        for (int i = 0; i < sweetness.length; i++) {
+            lo = Math.min(lo, sweetness[i]);
+            hi += sweetness[i];
+        }
+
+        // Increment `k` by 1 (because questions say excluding you there k members)
+        k++;
+
+        // Binary search to find the maximum sweetness value
+        while (lo < hi) {
+            int mid = (lo + hi + 1) / 2; // Calculate the middle value
+
+            // Get the number of partitions
+            int partitions = getPartitions(sweetness, mid); 
+
+            // Adjust bounds based on the number of partitions
+            if (partitions < k)
+                hi = mid - 1;
+            else
+                lo = mid;
+        }
+
+        return lo; 
+    }
+
+    /**
+     * Method to calculate the number of partitions achievable 
+     * based on a sweetness threshold
+     */
+    private int getPartitions(int[] nums, int required) {
+        int index = 0, sum = 0, partitions = 0;
+
+        // Iterate through the sweetness array and count the partitions
+        while (index < nums.length) {
+            sum += nums[index];
+
+            // Check if the current sum meets the required sweetness threshold
+            if (sum >= required) {
+                sum = 0; // Reset sum for the next partition
+                partitions++; // Increment partitions count
+            }
+
+            index++; // Move to the next sweetness value
+        }
+
+        return partitions; 
+    }
+}
+```
+</TabItem>
+</Tabs>
+</details>
+
+:::info[]
+Notice how We use $\text{mid} = (\text{lo} + \text{hi} + 1) / 2$ in our solution because once $\text{mid}$ satisfies the condition, \
+we set $\text{lo} = \text{mid}$ to keep $\text{mid}$ within the search range. This matters if we ever reach a scenario \
+where $\text{hi} - \text{lo} = 1$.
+
+For example,
+lets say we have $\text{lo} = 2$ and $\text{hi} = 3$ we get $\text{mid} = 2$ initially if we use $\text{mid} = (\text{lo} + \text{hi}) / 2$. 
+
+Now if $2$ satisfies the condition and we assign $\text{lo} = \text{mid}$, which keeps all the values same for the next iteration, causing the logic to run endlessly
+:::

@@ -1,0 +1,92 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+
+#  Maximum Bags With Full Capacity of Rocks
+
+This page explains Java solution to leetcode problem [2279. Maximum Bags With Full Capacity of Rocks](https://leetcode.com/problems/maximum-bags-with-full-capacity-of-rocks/) \
+using greedy technique.
+
+
+
+
+
+## Explanation 
+
+The idea is straightforward identify the bag requiring the fewest additional rocks, then greedily start filling \
+that bag first until you run out of addional rocks.
+
+
+Let's take the sample input below,
+
+<br />
+$$
+\text{capacity} = \begin{bmatrix}
+2, & 3, & 4 & 5
+\end{bmatrix}, \
+\text{rocks} = \begin{bmatrix}
+1, & 2, & 4 & 4
+\end{bmatrix}, 
+\  \text{additionalRocks} = 2
+$$
+<br />
+
+First, we'll create an array called $\text{requiredRocks}$, where each element is the bag's capacity minus the rocks \
+already in the bag at the $i^{th}$ position.
+
+After obtaining $\text{requiredRocks}$, sort that array and apply a greedy technique to start filling the bags.
+
+## Implementation
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    public int maximumBags(int[] capacity, int[] rocks, int additionalRocks) {
+        int n = rocks.length;
+        int[] requiredRocks = new int[n];
+				
+        //calculate requiredRocks array 
+        for(int i = 0; i < n; i++) {
+            required[i] = capacity[i] - rocks[i];
+        }
+
+        //sort requiredRocks array
+        Arrays.sort(required);
+
+        //start filling bag with least requiredRocks first 
+        int index = 0;
+        while(additionalRocks > 0 && index < required.length) {
+            if(additionalRocks >= required[index]) {
+                additionalRocks -= required[index++];
+            }
+            else break; // break if additionalRocks can't fill current bag
+        }
+        return index;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+
+
+
+
+
+
+
+## Complexity 
+
+Let's say there are $N$ elements in a rock's array.
+
+### Time complexity 
+$
+O(N \ \text{log} \ N)
+$
+
+### Space complexity
+$
+O(N)
+$

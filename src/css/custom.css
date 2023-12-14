@@ -42,3 +42,25 @@ a.navbar__brand:hover {
 .navbar__brand {
     margin-left: 6px;
 }
+
+details {
+  background-color: #fff !important;
+	border-color: #fff !important;
+	box-shadow: none !important;
+	padding: 0 !important;
+  cursor: pointer;
+}
+
+details summary {
+  background-color: #fff !important;
+	border-color: #fff !important;
+	box-shadow: none !important;
+  cursor: pointer;
+}
+
+details div {
+  border: 1px solid #fff !important;
+	border-color: #fff !important;
+	box-shadow: none !important;
+  border-top: none;
+}
