@@ -24,9 +24,9 @@
     "tags": ["binary-search","split-array-larest-sum"]
   },
 	{
-    "id": 1891,
-    "name": "Cutting Ribbons",
-		"link": "https://leetcode.com/problems/cutting-ribbons/",
+    "id": 2279,
+    "name": "Maximum Bags With Full Capacity of Rocks",
+		"link": "https://leetcode.com/problems/maximum-bags-with-full-capacity-of-rocks/",
     "tags": ["greedy","maximum-bags-with-full-capacity-of-rocks"]
   }
 ]

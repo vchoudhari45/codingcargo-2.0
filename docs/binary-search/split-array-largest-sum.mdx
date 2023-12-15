@@ -23,7 +23,7 @@ Let's take the sample input below,
 <br />
 $$
 \text{nums} = \begin{bmatrix}
-7, & 2, & 5 & 10 & 8
+7, 2, 5, 10, 8
 \end{bmatrix}, 
 \  \text{k} = 2
 $$
@@ -38,8 +38,9 @@ $$
 $$
 <br />
 
-With maximum sum as $21$, the first subarray will have $\begin{bmatrix}7, & 2, & 5\end{bmatrix}$, and the second subarray will have \
-$\begin{bmatrix}10, & 8\end{bmatrix}$. Since none of the subarray sums exceed value of $21$, let's lower the upper threshold to minimize \
+With maximum sum as $21$, the first subarray will have $\begin{bmatrix}7, 2, 5\end{bmatrix}$, and the second subarray will have
+$\begin{bmatrix}10, 8\end{bmatrix}$. \
+Since none of the subarray sums exceed value of $21$, let's lower the upper threshold to minimize \
 search value further.
 
 <br />
@@ -53,8 +54,8 @@ Observe that we're setting $\text{hi} = \text{mid}$ instead of $\text{mid} - 1$.
 :::
 
 <br />
-With a maximum sum as $15$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, & 2, & 5\end{bmatrix}$ is fine, but the \
-second subarray $\begin{bmatrix}10, & 8\end{bmatrix}$ exceeds the max sum of $15$. Let's increase the lower threshold.
+With a maximum sum as $15$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, 2, 5\end{bmatrix}$ is fine, but the 
+second subarray $\begin{bmatrix}10, 8\end{bmatrix}$ exceeds the max sum of $15$. Let's increase the lower threshold.
 
 <br />
 $$
@@ -62,8 +63,8 @@ $$
 $$
 <br />
 
-With a maximum sum of $18$, we made two subarrays the first with numbers $\begin{bmatrix}7, & 2, & 5\end{bmatrix}$ and the second \
-with numbers $\begin{bmatrix}10, & 8\end{bmatrix}$. Since none of the subarray sums exceed value of $18$ let's lower the upper threshold \
+With a maximum sum of $18$, we made two subarrays the first with numbers $\begin{bmatrix}7, 2, 5\end{bmatrix}$ and the second
+with numbers $\begin{bmatrix}10, 8\end{bmatrix}$. Since none of the subarray sums exceed value of $18$ let's lower the upper threshold \
 to minimize search value further.
 
 <br />
@@ -72,8 +73,8 @@ $$
 $$
 <br />
 
-With a maximum sum of $17$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, & 2, & 5\end{bmatrix}$ is fine, but the \
-second subarray $\begin{bmatrix}10, & 8\end{bmatrix}$ exceeds the max sum of $17$. Let's increase the lower threshold.
+With a maximum sum of $17$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, 2, 5\end{bmatrix}$ is fine, but the 
+second subarray $\begin{bmatrix}10, 8\end{bmatrix}$ exceeds the max sum of $17$. Let's increase the lower threshold.
 
 <br />
 $$

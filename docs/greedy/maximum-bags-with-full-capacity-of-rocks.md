@@ -32,8 +32,8 @@ $$
 $$
 <br />
 
-First, we'll create an array called $\text{requiredRocks}$, where each element is the bag's capacity minus the rocks \
-already in the bag at the $i^{th}$ position.
+First, we'll create an array called $\text{requiredRocks}$, where each element is the bag's capacity minus the \
+rocks already in the bag at the $i^{th}$ position.
 
 After obtaining $\text{requiredRocks}$, sort that array and apply a greedy technique to start filling the bags.
 
