@@ -5,8 +5,8 @@ import TabItem from '@theme/TabItem';
 
 #  Maximum Bags With Full Capacity of Rocks
 
-This page explains Java solution to leetcode problem [2279. Maximum Bags With Full Capacity of Rocks](https://leetcode.com/problems/maximum-bags-with-full-capacity-of-rocks/) \
-using greedy technique.
+This page explains Java solution to leetcode problem [2279. Maximum Bags With Full Capacity of Rocks](https://leetcode.com/problems/maximum-bags-with-full-capacity-of-rocks/) using \
+greedy technique.
 
 
 
@@ -14,8 +14,8 @@ using greedy technique.
 
 ## Explanation 
 
-The idea is straightforward identify the bag requiring the fewest additional rocks, then greedily start filling \
-that bag first until you run out of addional rocks.
+The idea is straightforward identify the bag requiring the fewest additional rocks, then greedily start filling that \
+bag first until you run out of addional rocks.
 
 
 Let's take the sample input below,
@@ -32,8 +32,7 @@ $$
 $$
 <br />
 
-First, we'll create an array called $\text{requiredRocks}$, where each element is the bag's capacity minus the \
-rocks already in the bag at the $i^{th}$ position.
+First, we'll create an array called $\text{requiredRocks}$, where each element is the bag's capacity minus the rocks already in the bag at the $i^{th}$ position.
 
 After obtaining $\text{requiredRocks}$, sort that array and apply a greedy technique to start filling the bags.
 

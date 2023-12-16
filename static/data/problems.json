@@ -2,19 +2,19 @@
   {
     "id": 410,
     "name": "Split Array Largest Sum",
-		"link": "https://leetcode.com/problems/split-array-largest-sum/description/",
+		"link": "https://leetcode.com/problems/split-array-largest-sum/",
     "tags": ["binary-search","split-array-larest-sum"]
   },
 	{
     "id": 1011,
     "name": "Capacity To Ship Packages Within D Days",
-		"link": "https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/description/",
+		"link": "https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/",
     "tags": ["binary-search","split-array-larest-sum"]
   },
 	{
     "id": 1231,
     "name": "Divide Chocolate",
-		"link": "https://leetcode.com/problems/divide-chocolate/description/",
+		"link": "https://leetcode.com/problems/divide-chocolate/",
     "tags": ["binary-search","split-array-larest-sum"]
   },
 	{
@@ -28,5 +28,17 @@
     "name": "Maximum Bags With Full Capacity of Rocks",
 		"link": "https://leetcode.com/problems/maximum-bags-with-full-capacity-of-rocks/",
     "tags": ["greedy","maximum-bags-with-full-capacity-of-rocks"]
+  },
+	{
+    "id": 698,
+    "name": "Partition to K Equal Sum Subsets",
+		"link": "https://leetcode.com/problems/partition-to-k-equal-sum-subsets/",
+    "tags": ["dynamic-programming","partition-to-k-equal-subset-sum"]
+  },
+	{
+    "id": 416,
+    "name": "Partition Equal Subset Sum",
+		"link": "https://leetcode.com/problems/partition-equal-subset-sum/",
+    "tags": ["dynamic-programming","partition-to-k-equal-subset-sum"]
   }
 ]

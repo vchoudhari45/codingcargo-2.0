@@ -16,7 +16,7 @@ This page explains Java solution to leetcode problem [698. Partition to K Equal 
 
 Let's take the sample input as below,
 
-<br />
+
 $$
 \text{nums} = \begin{bmatrix}
 1,2,3
@@ -195,8 +195,8 @@ $
 
 
 ## Combination Approach
-In this problem, the order of items in a subset doesn't make a difference. So, we can use a combination \
-method to solve it.
+In this problem, the order of items in a subset doesn't make a difference. So, we can use a combination method \
+to solve it.
 
 
 ### Implementation
@@ -314,7 +314,8 @@ O(k \ . 2^{N})
 $
 
 :::warning[]
-The complexity of $O(k \ . 2^{N})$ is slightly better than the complexity of the permutation approach. However, it remains suitable for smaller inputs due to its exponential nature.
+The complexity of $O(k \ . 2^{N})$ is slightly better than the complexity of the permutation approach. However, \
+it remains suitable for smaller inputs due to its exponential nature.
 :::
 
 
@@ -331,65 +332,143 @@ $
 
 
 
-## Similar questions
 
-### Capacity To Ship Packages Within D Days
 
-#### Problem Statement
-[1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)
 
-<details>
-  <summary>Solution</summary>
+
+
+
+## Memoization and Bitmasking.
+
+We can avoid redundant computations by adding memoization. 
+
+Consider if we've chosen the 0<sup>th</sup> and 1<sup>st</sup> elements in set 1 and the 2<sup>nd</sup> and 3<sup>rd</sup> elements in set 2, but then found 
+we can't make set 3 with the remaining items, we remember this situation."
+
+If in different recursive calls, we selected the 0<sup>th</sup> and 3<sup>rd</sup> elements in set 1, and the 1<sup>st</sup> and 2<sup>nd</sup> elements in \
+set 2, rather than rechecking if we can create set 3, we retrieve the previously stored answer (false) from memory.
+
+
+Also, since the number of elements in this problem is limited to 16, we can efficiently use Bitmasking.
+
+
+
+
+
+
+
+
+
+
+
+
+### Implementation
 
 <Tabs>
   <TabItem value="Java" label="Java" default>
 
 ```java
 class Solution {
-    public int shipWithinDays(int[] weights, int days) {
-        int lo = Integer.MIN_VALUE;
-        int hi = 0;
 
-        // Determine the bounds for the binary search
-        for (int weight : weights) {
-            lo = Math.max(lo, weight); d
-            hi += weight; 
+    private HashMap<Integer, Boolean> memo;
+
+    // Function to check if the given array can be partitioned 
+    // into k subsets with equal sums
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        memo = new HashMap<>();
+
+        // Calculate the total sum of the array elements
+        int totalArraySum = 0;
+        for (int num : nums) {
+            totalArraySum += num;
         }
 
-        // Perform binary search to find the minimum capacity
-        while (lo < hi) {
-            int mid = lo + (hi - lo) / 2;
-            // Check if more days are required
-            boolean isMoreDays = daysRequired(weights, mid, days); 
-            if (isMoreDays)
-                lo = mid + 1; 
-            else
-                hi = mid; 
+        // If the total sum is not divisible by k, return false as 
+        // equal partitioning isn't possible
+        if (totalArraySum % k != 0) {
+            return false;
         }
-        return lo; // Return the minimum capacity
+
+        // Check if the array can be partitioned into k subsets with equal sums
+        return combination(nums, 0, 0, 0, totalArraySum / k, k);
     }
 
-    // Helper function to check if more days are required based on the capacity
-    private boolean daysRequired(int[] weights, int capacity, int days) {
-        int requiredDays = 1, index = 0, sum = 0;
+    // Recursive function to find if partitioning is possible
+    private boolean combination(int[] nums, int mask, int index, int sum, 
+      int requiredSum, int k) {
+        
+        if(memo.containsKey(mask)) return memo.get(mask);
 
-        // Iterate through the weights to determine the required days
-        while (index < weights.length) {
-            sum += weights[index]; // Accumulate the sum of weights
-            if (sum > capacity) {
-                sum = weights[index]; // Reset the sum for a new day
-                requiredDays++; // Increment the required days
+        // If all k subsets are formed, return true
+        if (k == 0) {
+            return true;
+        } else if (sum > requiredSum) {
+            // If the current sum exceeds the required sum, return false
+            return false;
+        } else if (sum == requiredSum) {
+            // If the current sum matches the required sum, move to the next subset
+            boolean ans = combination(nums, mask, 0, 0, requiredSum, k - 1);
+            memo.put(mask, ans);
+            return ans;
+        }
+
+        // Iterate through array elements
+        for (int i = index; i < nums.length; i++) {
+            // Check if index is already visited 
+            if(((mask >> i) & 1) != 0) continue;
+
+            // Mark element as visited
+            mask = (mask | (1 << i));
+
+            // Recursively check next elements to form the subsets
+            if (combination(nums, mask, i + 1, sum + nums[i], requiredSum, k)) {
+                memo.put(mask, true);
+                return true;
             }
-            index++; // Move to the next weight
 
-            if (requiredDays > days)
-                return true; // If required days exceed the given limit
+            // Backtrack if subset with current element doesn't lead to a solution
+            mask = (mask ^ (1 << i));
         }
-        return false; // If required days are within the given limit
+        memo.put(mask, false);
+        return false;
     }
-}	
+}
 ```
 </TabItem>
 </Tabs>
-</details>
+
+
+
+
+
+
+
+
+
+
+### Complexity 
+
+Let's say there are $N$ elements in an array.
+
+#### Time complexity 
+$
+O(N \ . \ 2^{N})
+$
+
+
+#### Space complexity
+$
+O(2^{N})
+$
+<br />
+
+
+
+
+
+
+
+
+
+
 
