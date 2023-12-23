@@ -33,12 +33,24 @@
     "id": 698,
     "name": "Partition to K Equal Sum Subsets",
 		"link": "https://leetcode.com/problems/partition-to-k-equal-sum-subsets/",
-    "tags": ["dynamic-programming","partition-to-k-equal-subset-sum"]
+    "tags": ["permutation-and-combination","partition-to-k-equal-subset-sum"]
   },
 	{
-    "id": 416,
-    "name": "Partition Equal Subset Sum",
-		"link": "https://leetcode.com/problems/partition-equal-subset-sum/",
-    "tags": ["dynamic-programming","partition-to-k-equal-subset-sum"]
+    "id": 2305,
+    "name": "2305. Fair Distribution of Cookies",
+		"link": "https://leetcode.com/problems/fair-distribution-of-cookies/",
+    "tags": ["backtracking","fair-distribution-of-cookie"]
+  },
+	{
+    "id": 2591,
+    "name": "2591. Distribute Money to Maximum Children",
+		"link": "https://leetcode.com/problems/distribute-money-to-maximum-children/",
+    "tags": ["binary-search","split-array-larest-sum"]
+  },
+	{
+    "id": 548,
+    "name": "548. Split Array with Equal Sum",
+		"link": "https://leetcode.com/problems/split-array-with-equal-sum/",
+    "tags": ["prefix-array","split-array-equal-sum"]
   }
 ]

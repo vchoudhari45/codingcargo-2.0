@@ -1,5 +1,6 @@
 ---
 slug: /greedy
+sidebar_position: 4
 ---
 
 # Greedy

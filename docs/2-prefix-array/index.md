@@ -1,0 +1,10 @@
+---
+slug: /prefix-array
+sidebar_position: 2
+---
+
+# Prefix Array
+
+A prefix array, also known as a prefix sum array or cumulative sum array, is an array where each element at an index stores the sum of all elements preceding it, including itself.
+
+Prefix arrays are often used to efficiently compute cumulative sums for various ranges within the original array. 

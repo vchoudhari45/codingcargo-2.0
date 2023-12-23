@@ -1,5 +1,6 @@
 ---
 slug: /heap
+sidebar_position: 5
 ---
 
 # Heap

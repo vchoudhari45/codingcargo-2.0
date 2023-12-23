@@ -55,6 +55,36 @@ $$
 
 
 
+Permutation tree will look like below.
+
+<br />
+<div style={{textAlign:"center"}}>
+
+```mermaid
+graph TD
+    A((Root)) --1--> B((&nbsp;&nbsp; 1 &nbsp;&nbsp;))
+    A((Root)) --2--> C((&nbsp;&nbsp; 2 &nbsp;&nbsp;))
+    A((Root)) --3--> D((&nbsp;&nbsp; 3 &nbsp;&nbsp;))
+    
+    B --&nbsp;2&nbsp;--> E((&nbsp; 1,2 &nbsp;))
+    B --&nbsp;3&nbsp;--> F((&nbsp; 1,3 &nbsp;))
+    
+    C --&nbsp;1&nbsp;--> G((&nbsp; 2,1 &nbsp;))
+    C --&nbsp;3&nbsp;--> H((&nbsp; 2,3 &nbsp;))
+    
+    D --&nbsp;1&nbsp;--> I((&nbsp; 3,1 &nbsp;))
+    D --&nbsp;2&nbsp;--> J((&nbsp; 3,2 &nbsp;))
+    
+    E --&nbsp;3&nbsp;--> K((&nbsp; 1,2,3 &nbsp;))
+    F --&nbsp;2&nbsp;--> L((&nbsp; 1,3,2 &nbsp;))
+    G --&nbsp;3&nbsp;--> M((&nbsp; 2,1,3 &nbsp;))
+    H --&nbsp;1&nbsp;--> N((&nbsp; 2,3,1 &nbsp;))
+    I --&nbsp;2&nbsp;--> O((&nbsp; 3,1,2 &nbsp;))
+    J --&nbsp;1&nbsp;--> P((&nbsp; 3,2,1 &nbsp;))
+```
+
+</div>
+<br />
 
 
 
@@ -129,37 +159,6 @@ Notice how we start the for loop from $0$ every time and continue with the recur
 
 
 
-Permutation tree will look like below.
-
-<br />
-<div style={{textAlign:"center"}}>
-
-```mermaid
-graph TD
-    A((Root)) --1--> B((&nbsp;&nbsp; 1 &nbsp;&nbsp;))
-    A((Root)) --2--> C((&nbsp;&nbsp; 2 &nbsp;&nbsp;))
-    A((Root)) --3--> D((&nbsp;&nbsp; 3 &nbsp;&nbsp;))
-    
-    B --&nbsp;2&nbsp;--> E((&nbsp; 1,2 &nbsp;))
-    B --&nbsp;3&nbsp;--> F((&nbsp; 1,3 &nbsp;))
-    
-    C --&nbsp;1&nbsp;--> G((&nbsp; 2,1 &nbsp;))
-    C --&nbsp;3&nbsp;--> H((&nbsp; 2,3 &nbsp;))
-    
-    D --&nbsp;1&nbsp;--> I((&nbsp; 3,1 &nbsp;))
-    D --&nbsp;2&nbsp;--> J((&nbsp; 3,2 &nbsp;))
-    
-    E --&nbsp;3&nbsp;--> K((&nbsp; 1,2,3 &nbsp;))
-    F --&nbsp;2&nbsp;--> L((&nbsp; 1,3,2 &nbsp;))
-    G --&nbsp;3&nbsp;--> M((&nbsp; 2,1,3 &nbsp;))
-    H --&nbsp;1&nbsp;--> N((&nbsp; 2,3,1 &nbsp;))
-    I --&nbsp;2&nbsp;--> O((&nbsp; 3,1,2 &nbsp;))
-    J --&nbsp;1&nbsp;--> P((&nbsp; 3,2,1 &nbsp;))
-```
-
-</div>
-<br />
-
 
 
 
@@ -197,6 +196,35 @@ $
 ## Combination Approach
 In this problem, the order of items in a subset doesn't make a difference. So, we can use a combination method \
 to solve it.
+
+
+
+
+
+Combination tree will look like below.
+
+<br />
+<div style={{textAlign:"center"}}>
+
+```mermaid
+graph TD
+    A((Root)) --1--> B((&nbsp;&nbsp; 1 &nbsp;&nbsp;))
+    A((Root)) --2--> C((&nbsp;&nbsp; 2 &nbsp;&nbsp;))
+    A((Root)) --3--> D((&nbsp;&nbsp; 3 &nbsp;&nbsp;))
+    
+    B --&nbsp;2&nbsp;--> E((&nbsp; 1,2 &nbsp;))
+		B --&nbsp;3&nbsp;--> F((&nbsp; 1,3 &nbsp;))
+    
+    C --&nbsp;3&nbsp;--> G((&nbsp; 2,3 &nbsp;))
+    
+    E --&nbsp;3&nbsp;--> H((&nbsp; 1,2,3 &nbsp;))
+```
+
+</div>
+<br />
+
+
+
 
 
 ### Implementation
@@ -270,30 +298,6 @@ In Combination approach we begin the for loop from a $\text{index}$ each time an
 
 
 
-
-
-
-Combination tree will look like below.
-
-<br />
-<div style={{textAlign:"center"}}>
-
-```mermaid
-graph TD
-    A((Root)) --1--> B((&nbsp;&nbsp; 1 &nbsp;&nbsp;))
-    A((Root)) --2--> C((&nbsp;&nbsp; 2 &nbsp;&nbsp;))
-    A((Root)) --3--> D((&nbsp;&nbsp; 3 &nbsp;&nbsp;))
-    
-    B --&nbsp;2&nbsp;--> E((&nbsp; 1,2 &nbsp;))
-		B --&nbsp;3&nbsp;--> F((&nbsp; 1,3 &nbsp;))
-    
-    C --&nbsp;3&nbsp;--> G((&nbsp; 2,3 &nbsp;))
-    
-    E --&nbsp;3&nbsp;--> H((&nbsp; 1,2,3 &nbsp;))
-```
-
-</div>
-<br />
 
 
 
@@ -461,14 +465,5 @@ $
 O(2^{N})
 $
 <br />
-
-
-
-
-
-
-
-
-
 
 

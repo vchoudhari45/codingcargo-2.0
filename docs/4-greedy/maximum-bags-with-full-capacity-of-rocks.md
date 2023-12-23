@@ -23,10 +23,10 @@ Let's take the sample input below,
 <br />
 $$
 \text{capacity} = \begin{bmatrix}
-2, & 3, & 4 & 5
+2, 3, 4, 5
 \end{bmatrix}, \
 \text{rocks} = \begin{bmatrix}
-1, & 2, & 4 & 4
+1, 2, 4, 4
 \end{bmatrix}, 
 \  \text{additionalRocks} = 2
 $$
@@ -68,6 +68,8 @@ class Solution {
 ```
 </TabItem>
 </Tabs>
+
+
 
 
 
