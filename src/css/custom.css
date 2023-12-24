@@ -64,3 +64,12 @@ details div {
 	box-shadow: none !important;
   border-top: none;
 }
+
+
+.table-of-contents__link {
+	position: relative;
+	width: 200px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

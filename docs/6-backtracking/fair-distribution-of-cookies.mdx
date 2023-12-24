@@ -157,7 +157,7 @@ $
 
 ## Similar questions
 
-### Probability of a Two Boxes Having The Same Number of Distinct Balls
+### &#8226;&nbsp;Probability of a Two Boxes Having The Same Number of Distinct Balls
 
 #### Problem Statement
 [1467. Probability of a Two Boxes Having The Same Number of Distinct Balls](https://leetcode.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/description/)
@@ -220,6 +220,78 @@ class Solution {
         return factorial[n] / factorial[n - r] / factorial[r];
     }
 }
+```
+</TabItem>
+</Tabs>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+### &#8226;&nbsp;Minimum XOR Sum of Two Arrays
+
+#### Problem Statement
+[1879. Minimum XOR Sum of Two Arrays](https://leetcode.com/problems/minimum-xor-sum-of-two-arrays/description/)
+
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+import java.util.HashMap;
+
+class Solution {
+    private HashMap<Integer, Integer> memo;
+
+    public int minimumXORSum(int[] nums1, int[] nums2) {
+        memo = new HashMap<>();
+        return backtrack(nums1, nums2, 0, 0);
+    }
+
+    // Backtracking method to find the minimum XOR sum
+    private int backtrack(int[] nums1, int[] nums2, int index, int mask) {
+        // Check if the mask is memoized
+        if (memo.containsKey(mask)) {
+            return memo.get(mask);
+        }
+
+        // Base case: all elements of nums2 are used
+        if (index == nums2.length) {
+            return 0;
+        } else {
+            int ans = Integer.MAX_VALUE;
+            for (int i = 0; i < nums2.length; i++) {
+                // Skip if the bit at position i in the mask is already set
+                if (((mask >> i) & 1) == 1) {
+                    continue;
+                }
+
+                // Calculate internal answer using XOR and recursion
+                int internalAns = (nums1[index] ^ nums2[i]) + backtrack(
+                        nums1,
+                        nums2,
+                        index + 1,
+                        mask | (1 << i)
+                );
+                ans = Math.min(ans, internalAns);
+            }
+            memo.put(mask, ans);
+            return ans;
+        }
+    }
+}
+
 ```
 </TabItem>
 </Tabs>

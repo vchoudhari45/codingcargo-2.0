@@ -172,7 +172,7 @@ $
 
 ## Similar questions
 
-### Capacity To Ship Packages Within D Days
+### &#8226;&nbsp;Capacity To Ship Packages Within D Days
 
 #### Problem Statement
 [1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)
@@ -231,92 +231,3 @@ class Solution {
 </TabItem>
 </Tabs>
 </details>
-
-
-
-
-
-
-
-### Divide Chocolate
-
-#### Problem Statement
-[1231. Divide Chocolate](https://leetcode.com/problems/divide-chocolate/description/)
-
-<details>
-  <summary>Solution</summary>
-
-<Tabs>
-  <TabItem value="Java" label="Java" default>
-
-```java
-class Solution {
-    public int maximizeSweetness(int[] sweetness, int k) {
-        // Initialize the lower bound `lo` and the upper bound `hi`
-        int lo = Integer.MAX_VALUE;
-        int hi = 0;
-
-        // Determine the bounds for the binary search
-        for (int i = 0; i < sweetness.length; i++) {
-            lo = Math.min(lo, sweetness[i]);
-            hi += sweetness[i];
-        }
-
-        // Increment `k` by 1 (because questions say excluding you there k members)
-        k++;
-
-        // Binary search to find the maximum sweetness value
-        while (lo < hi) {
-            int mid = (lo + hi + 1) / 2; // Calculate the middle value
-
-            // Get the number of partitions
-            int partitions = getPartitions(sweetness, mid); 
-
-            // Adjust bounds based on the number of partitions
-            if (partitions < k)
-                hi = mid - 1;
-            else
-                lo = mid;
-        }
-
-        return lo; 
-    }
-
-    /**
-     * Method to calculate the number of partitions achievable 
-     * based on a sweetness threshold
-     */
-    private int getPartitions(int[] nums, int required) {
-        int index = 0, sum = 0, partitions = 0;
-
-        // Iterate through the sweetness array and count the partitions
-        while (index < nums.length) {
-            sum += nums[index];
-
-            // Check if the current sum meets the required sweetness threshold
-            if (sum >= required) {
-                sum = 0; // Reset sum for the next partition
-                partitions++; // Increment partitions count
-            }
-
-            index++; // Move to the next sweetness value
-        }
-
-        return partitions; 
-    }
-}
-```
-</TabItem>
-</Tabs>
-</details>
-
-:::info[]
-Notice how We use $\text{mid} = (\text{lo} + \text{hi} + 1) / 2$ in our solution because once $\text{mid}$ satisfies the condition, \
-we set $\text{lo} = \text{mid}$ to keep $\text{mid}$ within the search range. This matters if we ever reach a scenario \
-where $\text{hi} - \text{lo} = 1$.
-
-For example,
-lets say we have $\text{lo} = 2$ and $\text{hi} = 3$ we get $\text{mid} = 2$ initially if we use $\text{mid} = (\text{lo} + \text{hi}) / 2$. 
-
-Now if $2$ satisfies the condition and we assign $\text{lo} = \text{mid}$, which keeps all the values same for the next iteration, causing the logic to run endlessly
-:::

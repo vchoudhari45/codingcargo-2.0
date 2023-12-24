@@ -24,33 +24,59 @@
     "tags": ["binary-search","split-array-larest-sum"]
   },
 	{
-    "id": 2279,
-    "name": "Maximum Bags With Full Capacity of Rocks",
-		"link": "https://leetcode.com/problems/maximum-bags-with-full-capacity-of-rocks/",
-    "tags": ["greedy","maximum-bags-with-full-capacity-of-rocks"]
-  },
-	{
-    "id": 698,
-    "name": "Partition to K Equal Sum Subsets",
-		"link": "https://leetcode.com/problems/partition-to-k-equal-sum-subsets/",
-    "tags": ["permutation-and-combination","partition-to-k-equal-subset-sum"]
-  },
-	{
-    "id": 2305,
-    "name": "2305. Fair Distribution of Cookies",
-		"link": "https://leetcode.com/problems/fair-distribution-of-cookies/",
-    "tags": ["backtracking","fair-distribution-of-cookie"]
-  },
-	{
     "id": 2591,
     "name": "2591. Distribute Money to Maximum Children",
 		"link": "https://leetcode.com/problems/distribute-money-to-maximum-children/",
     "tags": ["binary-search","split-array-larest-sum"]
   },
 	{
+    "id": 2279,
+    "name": "Maximum Bags With Full Capacity of Rocks",
+		"link": "https://leetcode.com/problems/maximum-bags-with-full-capacity-of-rocks/",
+    "tags": ["greedy","maximum-bags-with-full-capacity-of-rocks"]
+  },
+
+
+
+
+	{
+    "id": 698,
+    "name": "Partition to K Equal Sum Subsets",
+		"link": "https://leetcode.com/problems/partition-to-k-equal-sum-subsets/",
+    "tags": ["permutation-and-combination","partition-to-k-equal-subset-sum"]
+  },
+
+
+
+
+
+	{
     "id": 548,
     "name": "548. Split Array with Equal Sum",
 		"link": "https://leetcode.com/problems/split-array-with-equal-sum/",
     "tags": ["prefix-array","split-array-equal-sum"]
+  },
+
+
+
+
+
+	{
+    "id": 2305,
+    "name": "2305. Fair Distribution of Cookies",
+		"link": "https://leetcode.com/problems/fair-distribution-of-cookies/",
+    "tags": ["backtracking","fair-distribution-of-cookie"] 
+  },
+	{
+    "id": 1467,
+    "name": "1467. Probability of a Two Boxes Having The Same Number of Distinct Balls",
+		"link": "https://leetcode.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/",
+    "tags": ["backtracking","fair-distribution-of-cookie"]
+  },
+	{
+    "id": 1879,
+    "name": "1879. Minimum XOR Sum of Two Arrays",
+		"link": "https://leetcode.com/problems/minimum-xor-sum-of-two-arrays/",
+    "tags": ["backtracking","fair-distribution-of-cookie"]
   }
 ]
