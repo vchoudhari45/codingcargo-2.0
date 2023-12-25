@@ -14,6 +14,15 @@ This page explains Java solution to leetcode problem [698. Partition to K Equal 
 
 ## Explanation 
 
+This problem can be solved using a backtracking approach. This means that for each element in the array, we attempt to assign it to one of the k subsets. However, the time complexity of this approach can be exponential \
+($k^N$), where $N$ represents the number of elements.
+
+A more efficient alternative is the permutation approach. Despite having the flexibility to reuse any of the $k$ subsets for array elements, we recognize the stopping point because each subset should have the same total.
+
+Hence, a better approach is to explore all permutations of the array, progressively forming subsets until each one contains an equal sum, resulting in factorial time complexity.
+
+
+<br />
 Let's take the sample input as below,
 
 
@@ -40,9 +49,9 @@ $$
 
 Let's say we have $N$ elements in an array.
 
-The Idea is for each recursive call, we will iterate over $N$ elements and make another recursive call. Assume \
-we picked one element, then we iterate over the array and make recursive calls to remaining $N−1$ \
-elements and so on.
+The Idea is for each recursive call, we will iterate over $N$ elements and make another recursive call. Assume we \
+picked one element, then we iterate over the array and make recursive calls to remaining $N−1$ elements and \
+so on.
 
 Therefore, in the worst-case scenario, the total number of recursive calls will be
 
@@ -346,14 +355,13 @@ $
 
 We can avoid redundant computations by adding memoization. 
 
-Consider if we've chosen the 0<sup>th</sup> and 1<sup>st</sup> elements in set 1 and the 2<sup>nd</sup> and 3<sup>rd</sup> elements in set 2, but then found 
-we can't make set 3 with the remaining items, we remember this situation."
+Consider if we've chosen the $0$<sup>th</sup> and $1$<sup>st</sup> elements in set $1$ and the $2$<sup>nd</sup> and $3$<sup>rd</sup> elements in set $2$, but then found 
+we can't make set $3$ with the remaining items, we remember this situation.
 
-If in different recursive calls, we selected the 0<sup>th</sup> and 3<sup>rd</sup> elements in set 1, and the 1<sup>st</sup> and 2<sup>nd</sup> elements in \
-set 2, rather than rechecking if we can create set 3, we retrieve the previously stored answer (false) from memory.
+If in different recursive calls, we selected the $0$<sup>th</sup> and $3$<sup>rd</sup> elements in set $1$, and the $1$<sup>st</sup> and $2$<sup>nd</sup> elements in set $2$, rather than rechecking if we can create set $3$, we retrieve the previously stored answer (false) from memory.
 
 
-Also, since the number of elements in this problem is limited to 16, we can efficiently use Bitmasking.
+Also, since the number of elements in this problem is limited to $16$, we can efficiently use Bitmasking.
 
 
 
@@ -467,3 +475,170 @@ $
 <br />
 
 
+
+
+
+
+
+
+
+
+
+
+
+## Similar questions
+
+### &#8226;&nbsp;Minimum XOR Sum of Two Arrays
+
+#### Problem Statement
+[1879. Minimum XOR Sum of Two Arrays](https://leetcode.com/problems/minimum-xor-sum-of-two-arrays/description/)
+
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+
+import java.util.HashMap;
+
+class Solution {
+    private HashMap<Integer, Integer> memo;
+
+    public int minimumXORSum(int[] nums1, int[] nums2) {
+        memo = new HashMap<>();
+        return permute(nums1, nums2, 0, 0);
+    }
+
+    // Permute method to find the minimum XOR sum
+    private int permute(int[] nums1, int[] nums2, int index, int mask) {
+        // Check if the mask is memoized
+        if (memo.containsKey(mask)) {
+            return memo.get(mask);
+        }
+
+        // Base case: all elements of nums2 are used
+        if (index == nums2.length) {
+            return 0;
+        } else {
+            int ans = Integer.MAX_VALUE;
+            for (int i = 0; i < nums2.length; i++) {
+                // Skip if the bit at position i in the mask is already set
+                if (((mask >> i) & 1) == 1) {
+                    continue;
+                }
+
+                // Calculate internal answer using XOR and recursion
+                int internalAns = (nums1[index] ^ nums2[i]) + permute(
+                        nums1,
+                        nums2,
+                        index + 1,
+                        mask | (1 << i)
+                );
+                ans = Math.min(ans, internalAns);
+            }
+            memo.put(mask, ans);
+            return ans;
+        }
+    }
+}
+
+
+```
+</TabItem>
+</Tabs>
+</details>
+
+
+
+
+
+
+
+
+
+
+<br />
+
+### &#8226;&nbsp;Minimum Number of Work Sessions to Finish the Tasks
+
+#### Problem Statement
+[1986. Minimum Number of Work Sessions to Finish the Tasks](https://leetcode.com/problems/minimum-number-of-work-sessions-to-finish-the-tasks/description/)
+
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+
+import java.util.HashMap;
+
+class Solution {
+    private HashMap<String, Integer> memo;
+
+    public int minSessions(int[] tasks, int sessionTime) {
+        memo = new HashMap<>();
+        return permute(tasks, 0, sessionTime, 0);
+    }
+
+    // Function to calculate the minimum sessions needed
+    private int permute(int[] tasks, int currentSession, int sessionTime, int mask) {
+        String key = currentSession + " " + mask;
+
+        // If all tasks are completed, return 1 session
+        if (mask == (1 << tasks.length) - 1) {
+            return 1;
+        }
+        // If memoization contains the calculated result, return the value
+        else if (memo.containsKey(key)) {
+            return memo.get(key);
+        } else {
+            int res = Integer.MAX_VALUE;
+
+            // Iterate through each task to find the minimum sessions required
+            for (int i = 0; i < tasks.length; i++) {
+                if (((mask >> i) & 1) == 1) {
+                    continue; // Skip if task is completed
+                }
+
+                // If the current session time plus the task time exceeds the session time limit
+                if (currentSession + tasks[i] > sessionTime) {
+                    res = Math.min(
+                            res,
+                            1 + permute(
+                                    tasks,
+                                    tasks[i],  // Start a new session with the current task
+                                    sessionTime,
+                                    mask | (1 << i)
+                            )
+                    );
+                } else {
+                    // Continue the current session with the current task
+                    res = Math.min(
+                            res,
+                            permute(tasks,
+                                    currentSession + tasks[i],
+                                    sessionTime,
+                                    mask | (1 << i)
+                            )
+                    );
+                }
+            }
+
+            // Store the calculated result in memoization
+            memo.put(key, res);
+            return res;
+        }
+    }
+}
+
+
+```
+</TabItem>
+</Tabs>
+</details>

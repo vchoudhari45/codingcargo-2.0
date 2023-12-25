@@ -45,6 +45,18 @@
 		"link": "https://leetcode.com/problems/partition-to-k-equal-sum-subsets/",
     "tags": ["permutation-and-combination","partition-to-k-equal-subset-sum"]
   },
+	{
+    "id": 1879,
+    "name": "1879. Minimum XOR Sum of Two Arrays",
+		"link": "https://leetcode.com/problems/minimum-xor-sum-of-two-arrays/",
+    "tags": ["permutation-and-combination","partition-to-k-equal-subset-sum"]
+  },
+	{
+    "id": 1986,
+    "name": "Minimum Number of Work Sessions to Finish the Tasks",
+		"link": "https://leetcode.com/problems/minimum-number-of-work-sessions-to-finish-the-tasks/",
+    "tags": ["permutation-and-combination","partition-to-k-equal-subset-sum"]
+  },
 
 
 
@@ -71,12 +83,6 @@
     "id": 1467,
     "name": "1467. Probability of a Two Boxes Having The Same Number of Distinct Balls",
 		"link": "https://leetcode.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/",
-    "tags": ["backtracking","fair-distribution-of-cookie"]
-  },
-	{
-    "id": 1879,
-    "name": "1879. Minimum XOR Sum of Two Arrays",
-		"link": "https://leetcode.com/problems/minimum-xor-sum-of-two-arrays/",
     "tags": ["backtracking","fair-distribution-of-cookie"]
   }
 ]
