@@ -73,3 +73,43 @@ details div {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
+
+.oval-tag {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px; 
+  background-color: #f0f0f0; 
+  color: #333;
+  margin-right: 5px;
+	margin-top: 5px; 
+  font-size: 12px; 
+  text-transform: capitalize; 
+	cursor: pointer;
+}
+
+.problem-name {
+  font-size: 14px; 
+}
+
+table {
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+	border: none !important;
+}
+
+tr {
+	border: none !important;
+}
+
+th {
+	background-color: --ifm-table-cell-color !important;
+  border: none !important;
+	text-align: left !important;
+}
+
+td {
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+  border: none !important;
+}

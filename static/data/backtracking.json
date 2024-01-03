@@ -1,0 +1,12 @@
+[
+	{
+    "id": 2305,
+    "name": "Fair Distribution of Cookies",
+    "tags": ["backtracking","fair-distribution-of-cookie"] 
+  },
+	{
+    "id": 1467,
+    "name": "Probability of a Two Boxes Having The Same Number of Distinct Balls",
+    "tags": ["backtracking","fair-distribution-of-cookie"]
+  }
+]

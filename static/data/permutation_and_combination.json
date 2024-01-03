@@ -1,0 +1,17 @@
+[
+	{
+		"id": 698,
+		"name": "Partition to K Equal Sum Subsets",
+		"tags": ["permutation-and-combination","partition-to-k-equal-subset-sum"]
+	},
+	{
+		"id": 1879,
+		"name": "Minimum XOR Sum of Two Arrays",
+		"tags": ["permutation-and-combination","partition-to-k-equal-subset-sum"]
+	},
+	{
+		"id": 1986,
+		"name": "Minimum Number of Work Sessions to Finish the Tasks",
+		"tags": ["permutation-and-combination","partition-to-k-equal-subset-sum"]
+	}
+]
