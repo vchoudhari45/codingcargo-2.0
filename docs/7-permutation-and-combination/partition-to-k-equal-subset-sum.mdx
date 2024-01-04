@@ -351,7 +351,7 @@ $
 
 
 
-## Memoization and Bitmasking.
+## Memoization and Bitmasking
 
 We can avoid redundant computations by adding memoization. 
 
@@ -362,16 +362,6 @@ If in different recursive calls, we selected the $0$<sup>th</sup> and $3$<sup>rd
 
 
 Also, since the number of elements in this problem is limited to $16$, we can efficiently use Bitmasking.
-
-
-
-
-
-
-
-
-
-
 
 
 ### Implementation
@@ -451,10 +441,101 @@ class Solution {
 
 
 
+### Complexity 
+
+Let's say there are $N$ elements in an array.
+
+#### Time complexity 
+$
+O(N \ . \ 2^{N})
+$
+
+
+#### Space complexity
+$
+O(2^{N})
+$
+<br />
 
 
 
 
+
+## Choose or Skip approach
+
+The combination approach algorithm can also be expressed as choosing or skipping an element, rather than the previously discussed for loop approach.
+
+
+
+### Implementation
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+import java.util.HashMap;
+
+class Solution {
+
+    private HashMap<Integer, Boolean> memo;
+
+    // Checks if the array can be partitioned into k subsets with equal sums
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        memo = new HashMap<>();
+
+        int totalArraySum = 0;
+        for (int num : nums) {
+            totalArraySum += num;
+        }
+
+        // If the total sum is not divisible by k, return false
+        if (totalArraySum % k != 0) {
+            return false;
+        }
+
+        return combination(nums, 0, 0, 0, totalArraySum / k, k);
+    }
+
+    // Helper function to find subsets with required sum
+    private boolean combination(int[] nums, int mask, int index, int sum, 
+      int requiredSum, int k) {
+        if (memo.containsKey(mask)) return memo.get(mask);
+
+        if (k == 0) {
+            return true;
+        } else if (sum > requiredSum) {
+            return false;
+        } else if (sum == requiredSum) {
+            // Recursive call to find subsets with reduced k
+            boolean ans = combination(nums, mask, 0, 0, requiredSum, k - 1);
+            memo.put(mask, ans);
+            return ans;
+        }
+
+        if (index == nums.length) return false;
+
+        // Choose the current element and explore subsets
+        if (((mask >> index) & 1) == 0) {
+            mask = (mask | (1 << index));
+            if (combination(nums, mask, index + 1, sum + nums[index], 
+              requiredSum, k)) {
+                memo.put(mask, true);
+                return true;
+            }
+            mask = (mask ^ (1 << index)); // Unchoose the current element
+        }
+        // Move to the next element without choosing the current one
+        if (combination(nums, mask, index + 1, sum, requiredSum, k)) {
+            memo.put(mask, true);
+            return true;
+        }
+        memo.put(mask, false);
+        return false;
+    }
+}
+```
+</TabItem>
+</Tabs>
 
 
 
@@ -486,9 +567,11 @@ $
 
 
 
+
+
 ## Similar questions
 
-### &#8226;&nbsp;Minimum XOR Sum of Two Arrays
+### Minimum XOR Sum of Two Arrays
 
 #### Problem Statement
 [1879. Minimum XOR Sum of Two Arrays](https://leetcode.com/problems/minimum-xor-sum-of-two-arrays/description/)
@@ -501,7 +584,6 @@ $
   <TabItem value="Java" label="Java" default>
 
 ```java
-
 import java.util.HashMap;
 
 class Solution {
@@ -544,8 +626,6 @@ class Solution {
         }
     }
 }
-
-
 ```
 </TabItem>
 </Tabs>
@@ -562,7 +642,7 @@ class Solution {
 
 <br />
 
-### &#8226;&nbsp;Minimum Number of Work Sessions to Finish the Tasks
+### Minimum Number of Work Sessions to Finish the Tasks
 
 #### Problem Statement
 [1986. Minimum Number of Work Sessions to Finish the Tasks](https://leetcode.com/problems/minimum-number-of-work-sessions-to-finish-the-tasks/description/)
@@ -575,7 +655,6 @@ class Solution {
   <TabItem value="Java" label="Java" default>
 
 ```java
-
 import java.util.HashMap;
 
 class Solution {
@@ -587,15 +666,15 @@ class Solution {
     }
 
     // Function to calculate the minimum sessions needed
-    private int permute(int[] tasks, int currentSession, int sessionTime, int mask) {
+    private int permute(int[] tasks, int currentSession, int sessionTime, 
+      int mask) {
         String key = currentSession + " " + mask;
 
         // If all tasks are completed, return 1 session
         if (mask == (1 << tasks.length) - 1) {
             return 1;
-        }
-        // If memoization contains the calculated result, return the value
-        else if (memo.containsKey(key)) {
+        } else if (memo.containsKey(key)) { 
+            // If memoization contains the calculated result, return the value
             return memo.get(key);
         } else {
             int res = Integer.MAX_VALUE;
@@ -606,15 +685,17 @@ class Solution {
                     continue; // Skip if task is completed
                 }
 
-                // If the current session time plus the task time exceeds the session time limit
+                // If the current session time plus the task 
+                // time exceeds the session time limit
                 if (currentSession + tasks[i] > sessionTime) {
                     res = Math.min(
                             res,
                             1 + permute(
-                                    tasks,
-                                    tasks[i],  // Start a new session with the current task
-                                    sessionTime,
-                                    mask | (1 << i)
+                                  tasks,
+                                  // Start a new session with the current task
+                                  tasks[i], 
+                                  sessionTime,
+                                  mask | (1 << i)
                             )
                     );
                 } else {
@@ -622,9 +703,9 @@ class Solution {
                     res = Math.min(
                             res,
                             permute(tasks,
-                                    currentSession + tasks[i],
-                                    sessionTime,
-                                    mask | (1 << i)
+                              currentSession + tasks[i],
+                              sessionTime,
+                              mask | (1 << i)
                             )
                     );
                 }
@@ -636,8 +717,6 @@ class Solution {
         }
     }
 }
-
-
 ```
 </TabItem>
 </Tabs>

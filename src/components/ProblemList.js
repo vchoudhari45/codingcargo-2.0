@@ -8,6 +8,8 @@ import prefixArray from '@site/static/data/prefix_array.json';
 const ProblemList = () => {
   const allData = [backtracking, binarySearch, greedy, permutationAndCombination, prefixArray];
 
+	const totalCount = allData.reduce((total, data) => total + data.length, 0);
+
   // Merge all JSON data into a single array
   const mergedData = allData.reduce((acc, data) => [...acc, ...data], []);
 
@@ -86,6 +88,7 @@ const ProblemList = () => {
         {renderTableHeader()}
         {renderTableData()}
       </table>
+			<b>Total Solved: {totalCount} </b>
     </div>
   );
 };
