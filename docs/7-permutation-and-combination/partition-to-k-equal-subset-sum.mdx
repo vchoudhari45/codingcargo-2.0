@@ -721,3 +721,71 @@ class Solution {
 </TabItem>
 </Tabs>
 </details>
+
+
+
+
+
+
+<br />
+
+### String Compression II
+
+#### Problem Statement
+[1531. String Compression II](https://leetcode.com/problems/string-compression-ii/description/)
+
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+import java.util.HashMap;
+
+class Solution {
+    // Memoization to store calculated results
+    private HashMap<String, Integer> memo = new HashMap<>();
+
+    public int getLengthOfOptimalCompression(String s, int k) {
+        return combinations(s, 0, '0', 0, k);
+    }
+
+    private int combinations(String s, int index, char prevChar, 
+      int prevCharCount, int k) {
+        // Base case: If 'k' is negative, return a high value
+        if (k < 0) return Integer.MAX_VALUE / 2;
+
+        // Base case: If reached end of string, return 0
+        if (index == s.length()) return 0;
+
+        // Generate unique key for memoization
+        String key = index + " " + k + " " + prevChar + " " + prevCharCount;
+        if (memo.containsKey(key)) return memo.get(key);
+
+        // Recursive call to find optimal compression length
+        int delete = combinations(s, index + 1, prevChar, prevCharCount, k - 1);
+        int keep = Integer.MAX_VALUE;
+
+        // Check if current character matches previous character
+        if (s.charAt(index) == prevChar) {
+            int length = (prevCharCount == 1 || 
+              String.valueOf(prevCharCount).length() != 
+              String.valueOf(prevCharCount + 1).length()) ? 1 : 0;
+            keep = length + combinations(s, index + 1, prevChar, 
+                              prevCharCount + 1, k);
+        } else {
+            keep = 1 + combinations(s, index + 1, s.charAt(index), 1, k);
+        }
+
+        // Calculate the minimum of delete and keep
+        int res = Math.min(delete, keep);
+        memo.put(key, res);
+        return res;
+    }
+}
+```
+</TabItem>
+</Tabs>
+</details>
