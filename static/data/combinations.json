@@ -1,0 +1,18 @@
+[
+	{
+		"id": 698,
+		"name": "Partition to K Equal Sum Subsets",
+		"tags": ["combinations"]
+	},
+
+	{
+		"id": 1531,
+		"name": "String Compression II",
+		"tags": ["combinations"]
+	},
+	{
+		"id": 1621,
+		"name": "Number of Sets of K Non-Overlapping Line Segments",
+		"tags": ["combinations"]
+	}
+]

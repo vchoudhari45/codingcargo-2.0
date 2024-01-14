@@ -4,18 +4,20 @@ import TabItem from '@theme/TabItem';
 
 
 
-#  Fair Distribution of Cookies
-
-This page explains Java solution to leetcode problem [2305. Fair Distribution of Cookies](https://leetcode.com/problems/fair-distribution-of-cookies/description/) using Backtracking \
-algorithm.
+# Partition Array Into K Subarrays
 
 
+This page offers detailed explanations and Java solutions for problems that involve partitioning an array into $K$ subarrays, using the Backtracking technique.
+
+
+## Fair Distribution of Cookies
+
+The problem description can be found at [2305. Fair Distribution of Cookies](https://leetcode.com/problems/fair-distribution-of-cookies/description/).
 
 
 
 
-
-## Explanation 
+### Explanation 
 Some problems simply call for a basic backtracking method to solve them. You can spot these by considering \
 the size of the input. Another clue is that the problem requires checking all possible outcomes before arriving \
 at the expected solution.
@@ -52,7 +54,7 @@ assigning the first bag of cookies to each child one by one, then proceed to the
 
 Let's visualize the distribution of cookie bags $P$, $Q$, and $R$ among $2$ children.
 
-
+<br />
 <div style={{textAlign:"center"}}>
 
 ```mermaid
@@ -72,14 +74,14 @@ graph TD
 		G --Assign bag R--> K((&nbsp;&nbsp;&nbsp;&nbsp; Child 1: Q, R &nbsp;&nbsp; \n Child 2: P &nbsp))
 ```
 </div>
+<br />
 
 
 
 
 
 
-
-## Implementation
+### Implementation
 <Tabs>
   <TabItem value="Java" label="Java" default>
 
@@ -121,25 +123,22 @@ class Solution {
 
 
 
-<br />
 
 
 
 
 
 
-
-
-## Complexity 
+### Complexity 
 
 Let's say there are $N$ bags of cookies to distribute among $K$ children.
 
-### Time complexity 
+#### Time complexity 
 $
 O(K ^ N)
 $
 
-### Space complexity
+#### Space complexity
 $
 O(K + N)
 $
@@ -153,14 +152,16 @@ $
 
 
 
-
+<br />
 
 ## Similar questions
 
+Here are some more questions that can be solved using the same technique.
+
+
 ### Probability of a Two Boxes Having The Same Number of Distinct Balls
 
-#### Problem Statement
-[1467. Probability of a Two Boxes Having The Same Number of Distinct Balls](https://leetcode.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/description/)
+The problem description can be found at [1467. Probability of a Two Boxes Having The Same Number of Distinct Balls](https://leetcode.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/description/).
 
 
 <details>

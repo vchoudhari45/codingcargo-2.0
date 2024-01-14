@@ -3,16 +3,18 @@ import TabItem from '@theme/TabItem';
 
 
 
-#  Split Array with Equal Sum
+#  Split Array Into Subarray With Equal Sum
 
-This page explains Java solution to leetcode problem [548. Split Array with Equal Sum](https://leetcode.com/problems/split-array-with-equal-sum/description/) using Prefix Array algorithm.
-
-
+This page offers detailed explanations and Java solutions for problems that involve splitting an array into subarrays with equal sums, using the Prefix Array technique.
 
 
+## Split Array with Equal Sum
+
+The problem description can be found at [Leetcode 548. Split Array with Equal Sum](https://leetcode.com/problems/split-array-with-equal-sum/description/).
 
 
-## Explanation 
+
+### Explanation 
 
 
 
@@ -32,7 +34,7 @@ To solve this problem, we traverse through all array indices to establish the va
 
 Next, adjust the starting and maximum values for $i$, $j$, and $k$ to fit the conditions outlined in the question.
 
-## Implementation
+### Implementation
 <Tabs>
   <TabItem value="Java" label="Java" default>
 
@@ -83,23 +85,16 @@ class Solution {
 </TabItem>
 </Tabs>
 
-
-
-
-
-
-
-
-## Complexity 
+### Complexity 
 
 Let's say there are $N$ elements in an array.
 
-### Time complexity 
+#### Time complexity 
 $
 O(N^2)
 $
 
-### Space complexity
+#### Space complexity
 $
 O(N)
 $

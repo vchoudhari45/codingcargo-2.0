@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import backtracking from '@site/static/data/backtracking.json';
 import binarySearch from '@site/static/data/binary_search.json';
 import greedy from '@site/static/data/greedy.json';
-import permutationAndCombination from '@site/static/data/permutation_and_combination.json';
+import permutations from '@site/static/data/permutations.json';
+import combinations from '@site/static/data/combinations.json';
 import prefixArray from '@site/static/data/prefix_array.json';
 
 const ProblemList = () => {
-  const allData = [backtracking, binarySearch, greedy, permutationAndCombination, prefixArray];
+  const allData = [backtracking, binarySearch, greedy, permutations, combinations, prefixArray];
 
 	const totalCount = allData.reduce((total, data) => total + data.length, 0);
 

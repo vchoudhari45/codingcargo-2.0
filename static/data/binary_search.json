@@ -2,26 +2,26 @@
   {
     "id": 410,
     "name": "Split Array Largest Sum",
-    "tags": ["binary-search","split-array-larest-sum"]
+    "tags": ["binary-search"]
   },
 	{
     "id": 1011,
     "name": "Capacity To Ship Packages Within D Days",
-    "tags": ["binary-search","split-array-larest-sum"]
+    "tags": ["binary-search"]
   },
 	{
     "id": 1231,
     "name": "Divide Chocolate",
-    "tags": ["binary-search","split-array-larest-sum"]
+    "tags": ["binary-search"]
   },
 	{
     "id": 1891,
     "name": "Cutting Ribbons",
-    "tags": ["binary-search","split-array-larest-sum"]
+    "tags": ["binary-search"]
   },
 	{
     "id": 2591,
     "name": "Distribute Money to Maximum Children",
-    "tags": ["binary-search","split-array-larest-sum"]
+    "tags": ["binary-search"]
   }
 ]

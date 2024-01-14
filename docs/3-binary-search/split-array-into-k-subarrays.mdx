@@ -3,17 +3,18 @@ import TabItem from '@theme/TabItem';
 
 
 
-#  Split Array Largest Sum
+#  Split Array Into K Subarrays
 
-This page explains Java solution to leetcode problem [410. Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/description/) using Binary Search \
-algorithm.
-
+This page offers detailed explanations and Java solutions for problems that involve splitting an array into $K$ subarrays, using the Binary Search technique.
 
 
+## Split Array Largest Sum
+
+The problem description can be found at [LeetCode 410. Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/).
 
 
 
-## Explanation 
+### Explanation 
 Often, split array into sub-arrays questions can be solved by repeatedly applying binary search to meet \
 the specified conditions.
 
@@ -47,7 +48,7 @@ search value further.
 $$
 \text{lo} = 10, \ \text{hi} = 21, \ \text{mid} = 15
 $$
-
+<br />
 
 :::info[]
 Observe that we're setting $\text{hi} = \text{mid}$ instead of $\text{mid} - 1$. This maintains the value of $21$(which satisfies given condition) within the search range.
@@ -91,7 +92,7 @@ Since the lower limit equals the upper limit, we exit the binary search, finding
 
 
 
-## Implementation
+### Implementation
 <Tabs>
   <TabItem value="Java" label="Java" default>
 
@@ -151,16 +152,16 @@ class Solution {
 
 
 
-## Complexity 
+### Complexity 
 
 Let's say there are $N$ elements in an array, and total sum of all elements in an array is $S$.
 
-### Time complexity 
+#### Time complexity 
 $
 O(N \ \text{log} \ S)
 $
 
-### Space complexity
+#### Space complexity
 $
 O(1)
 $
@@ -170,15 +171,16 @@ $
 
 
 
-
+<br />
 
 ## Similar questions
 
+Here are some more questions that can be solved using the same technique.
 
 ### Divide Chocolate
 
-#### Problem Statement
-[1231. Divide Chocolate](https://leetcode.com/problems/divide-chocolate/)
+The problem description can be found at [Leetcode 1231. Divide Chocolate](https://leetcode.com/problems/divide-chocolate/).
+
 
 <details>
   <summary>Solution</summary>
@@ -269,8 +271,8 @@ Now if $2$ satisfies the condition and we assign $\text{lo} = \text{mid}$, which
 
 ### Cutting Ribbons
 
-#### Problem Statement
-[1891. Cutting Ribbons](https://leetcode.com/problems/cutting-ribbons/)
+The problem description can be found at [LeetCode 1891. Cutting Ribbons](https://leetcode.com/problems/cutting-ribbons/).
+
 
 <details>
   <summary>Solution</summary>
@@ -321,8 +323,8 @@ class Solution {
 
 ### Capacity To Ship Packages Within D Days
 
-#### Problem Statement
-[1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)
+The problem description can be found at [LeetCode 1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)
+
 
 <details>
   <summary>Solution</summary>
@@ -392,8 +394,7 @@ class Solution {
 
 ### Minimized Maximum of Products Distributed to Any Store
 
-#### Problem Statement
-[2064. Minimized Maximum of Products Distributed to Any Store](https://leetcode.com/problems/minimized-maximum-of-products-distributed-to-any-store)
+The problem description can be found at [LeetCode 2064. Minimized Maximum of Products Distributed to Any Store](https://leetcode.com/problems/minimized-maximum-of-products-distributed-to-any-store)
 
 <details>
   <summary>Solution</summary>
@@ -444,8 +445,8 @@ class Solution {
 
 ### Distribute Money to Maximum Children
 
-#### Problem Statement
-[2591. Distribute Money to Maximum Children](https://leetcode.com/problems/distribute-money-to-maximum-children/)
+The problem description can be found at [LeetCode 2591. Distribute Money to Maximum Children](https://leetcode.com/problems/distribute-money-to-maximum-children/)
+
 
 <details>
   <summary>Solution</summary>

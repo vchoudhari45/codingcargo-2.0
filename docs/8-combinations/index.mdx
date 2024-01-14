@@ -1,0 +1,204 @@
+---
+slug: /combinations
+sidebar_position: 7
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+# Combinations
+Combinations, represent selections of items where the order doesn't matter. 
+
+<br />
+$$
+^nC_r= \frac{n!}{r!(n−r)!}
+$$
+
+<br />
+
+The code for generating combinations can be implemented in two ways.
+
+## Approach I
+
+It uses a for loop to iterate over elements starting from the $\text{index}$ onward in a recursive call. Code execution tree will look like below.
+
+<br />
+<div style={{textAlign:"center"}}>
+
+```mermaid
+graph TD
+    A((Root)) --1--> B((&nbsp;&nbsp; 1 &nbsp;&nbsp;))
+    A((Root)) --2--> C((&nbsp;&nbsp; 2 &nbsp;&nbsp;))
+    A((Root)) --3--> D((&nbsp;&nbsp; 3 &nbsp;&nbsp;))
+    
+    B --&nbsp;2&nbsp;--> E((&nbsp; 1,2 &nbsp;))
+		B --&nbsp;3&nbsp;--> F((&nbsp; 1,3 &nbsp;))
+    
+    C --&nbsp;3&nbsp;--> G((&nbsp; 2,3 &nbsp;))
+    
+    E --&nbsp;3&nbsp;--> H((&nbsp; 1,2,3 &nbsp;))
+```
+
+</div>
+<br />
+
+### Implementation
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+import java.util.*;
+
+class Solution {
+
+    List<List<Integer>> res;
+
+    // function to generate combinations elements from given array num
+    public List<List<Integer>> combinations(int[] nums) {
+        res = new ArrayList<>();
+
+        // Sort the array to bring duplicates together.
+        Arrays.sort(nums);
+        
+        // generate combinations
+        solve(nums, 0, new boolean[nums.length], new ArrayList<>());
+        return res;
+    }
+
+    private void solve(int[] nums, int index, boolean[] visited, List<Integer> list) {
+        // add a subset to combination list
+        res.add(new ArrayList<>(list));
+
+        // start generating a new subset from current index
+        for(int i = index; i < nums.length; i++) {
+            if(visited[i]) continue;
+
+            // if the current element is a duplicate 
+            // and the previous element has not been used yet, avoid creating a subset
+            if(i > 0 && nums[i] == nums[i - 1] && !visited[i - 1]) continue;
+
+            visited[i] = true;
+            list.add(nums[i]);
+            solve(nums, i + 1, visited, list);
+            list.remove(list.size() - 1);
+            visited[i] = false;
+        }
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+### Complexity
+
+Let's say there $N$ elements in an array
+
+#### Time Complexity
+$
+O(2^N)
+$
+
+#### Space Complexity
+$
+O(N)
+$
+<br />
+
+## Approach II 
+
+It is keep or skip approach, where the algorithm creates two subsets, one with the current element and another without the current element. Code execution tree will look like below.
+
+<div style={{textAlign:"center"}}>
+
+```mermaid
+graph TD
+    A((Root)) --Keep 1--> B((&nbsp;&nbsp; 1 &nbsp;&nbsp;))
+    A((Root)) --Skip 1--> C((&nbsp;&nbsp;  &nbsp;&nbsp;))
+    
+    B --&nbsp;Keep 2&nbsp;--> E((&nbsp; 1,2 &nbsp;))
+		B --&nbsp;Skip 2&nbsp;--> F((&nbsp; 1 &nbsp;))
+    
+    C --&nbsp;Keep 2&nbsp;--> G((&nbsp; 2 &nbsp;))
+		C --&nbsp;Skip 2&nbsp;--> H((&nbsp; &nbsp;))
+
+
+		E --&nbsp;Keep 3&nbsp;--> I((&nbsp; 1,2,3 &nbsp;))
+		E --&nbsp;Skip 3&nbsp;--> J((&nbsp; 1,2 &nbsp;))
+
+		F --&nbsp;Keep 3&nbsp;--> K((&nbsp; 1,3 &nbsp;))
+		F --&nbsp;Skip 3&nbsp;--> L((&nbsp; 1 &nbsp;))
+    
+    G --&nbsp;Keep 3&nbsp;--> M((&nbsp; 2,3 &nbsp;))
+		G --&nbsp;Skip 3&nbsp;--> N((&nbsp; 2 &nbsp;))
+
+		H --&nbsp;Keep 3&nbsp;--> O((&nbsp; 3 &nbsp;))
+		H --&nbsp;Skip 3&nbsp;--> P((&nbsp; &nbsp;))
+```
+
+</div>
+<br />
+
+### Implementation
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+import java.util.*;
+
+class Solution {
+
+    List<List<Integer>> res;
+
+   // function to generate combinations elements from given array num
+    public List<List<Integer>> combinations(int[] nums) {
+        res = new ArrayList<>();
+
+        // Sort the array to bring duplicates together.
+        Arrays.sort(nums);
+
+        keepOrSkip(nums, 0, new ArrayList<>());
+        return res;
+    }
+
+    private void keepOrSkip(int[] nums, int index, List<Integer> list) {
+        if (index == nums.length) {
+            // add a subset to combination list
+            res.add(new ArrayList<>(list));
+            return;
+        }
+
+        // keep the current element
+        list.add(nums[index]);
+        keepOrSkip(nums, index + 1, list);
+        list.remove(list.size() - 1);
+
+        // Skip duplicates
+        while (index < nums.length - 1 && nums[index] == nums[index + 1]) {
+            index++;
+        }
+
+        // Skip the current element
+        keepOrSkip(nums, index + 1, list);
+    }
+}
+
+```
+</TabItem>
+</Tabs>
+
+### Complexity
+
+Let's say there $N$ elements in an array
+
+#### Time Complexity
+$
+O(2^N)
+$
+
+#### Space Complexity
+$
+O(N)
+$

@@ -3,16 +3,22 @@ import TabItem from '@theme/TabItem';
 
 
 
-#  Maximum Bags With Full Capacity of Rocks
+#  Greedy
 
-This page explains Java solution to leetcode problem [2279. Maximum Bags With Full Capacity of Rocks](https://leetcode.com/problems/maximum-bags-with-full-capacity-of-rocks/) using \
-greedy technique.
-
+This page offers detailed explanations and Java solutions for problems, using the Greedy technique.
 
 
+The greedy strategy works by iteratively making the best choice at each step without reconsidering the choices made previously. It assumes that choosing the best immediate option at each stage will lead to an optimal solution for the whole problem.
 
 
-## Explanation 
+
+
+## Maximum Bags With Full Capacity of Rocks
+
+The problem description can be found at [2279. Maximum Bags With Full Capacity of Rocks](https://leetcode.com/problems/maximum-bags-with-full-capacity-of-rocks/).
+
+
+### Explanation 
 
 The idea is straightforward identify the bag requiring the fewest additional rocks, then greedily start filling that \
 bag first until you run out of addional rocks.
@@ -36,7 +42,7 @@ First, we'll create an array called $\text{requiredRocks}$, where each element i
 
 After obtaining $\text{requiredRocks}$, sort that array and apply a greedy technique to start filling the bags.
 
-## Implementation
+### Implementation
 <Tabs>
   <TabItem value="Java" label="Java" default>
 
@@ -69,25 +75,16 @@ class Solution {
 </TabItem>
 </Tabs>
 
-
-
-
-
-
-
-
-
-
-## Complexity 
+### Complexity 
 
 Let's say there are $N$ elements in a rock's array.
 
-### Time complexity 
+#### Time complexity 
 $
 O(N \ \text{log} \ N)
 $
 
-### Space complexity
+#### Space complexity
 $
 O(N)
 $

@@ -5,24 +5,26 @@ import TabItem from '@theme/TabItem';
 
 #  Template
 
-This page explains Java solution to leetcode problem [410. Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/description/) using Binary Search \
-algorithm.
+This page offers detailed explanations and Java solutions for problems which involve splitting an array into $K$ subarrays, using the Binary Search technique.
+
+
+## Split Array Largest Sum
+
+The problem description can be found at [LeetCode 410. Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/).
 
 
 
-
-
-## Explanation 
+### Explanation 
 Often, split array into sub-arrays questions can be solved by repeatedly applying binary search to meet \
 the specified conditions.
 
 
-Let's take the sample input as below,
+Let's take the sample input below,
 
 <br />
 $$
 \text{nums} = \begin{bmatrix}
-7, & 2, & 5 & 10 & 8
+7, 2, 5, 10, 8
 \end{bmatrix}, 
 \  \text{k} = 2
 $$
@@ -37,8 +39,9 @@ $$
 $$
 <br />
 
-With maximum sum as $21$, the first subarray will have $\begin{bmatrix}7, & 2, & 5\end{bmatrix}$, and the second subarray will have \
-$\begin{bmatrix}10, & 8\end{bmatrix}$. Since none of the subarray sums exceed value of $21$, let's lower the upper threshold to minimize \
+With maximum sum as $21$, the first subarray will have $\begin{bmatrix}7, 2, 5\end{bmatrix}$, and the second subarray will have
+$\begin{bmatrix}10, 8\end{bmatrix}$. \
+Since none of the subarray sums exceed value of $21$, let's lower the upper threshold to minimize \
 search value further.
 
 <br />
@@ -52,8 +55,8 @@ Observe that we're setting $\text{hi} = \text{mid}$ instead of $\text{mid} - 1$.
 :::
 
 <br />
-With a maximum sum as $15$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, & 2, & 5\end{bmatrix}$ is fine, but the \
-second subarray $\begin{bmatrix}10, & 8\end{bmatrix}$ exceeds the max sum of $15$. Let's increase the lower threshold.
+With a maximum sum as $15$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, 2, 5\end{bmatrix}$ is fine, but the 
+second subarray $\begin{bmatrix}10, 8\end{bmatrix}$ exceeds the max sum of $15$. Let's increase the lower threshold.
 
 <br />
 $$
@@ -61,8 +64,8 @@ $$
 $$
 <br />
 
-With a maximum sum of $18$, we made two subarrays the first with numbers $\begin{bmatrix}7, & 2, & 5\end{bmatrix}$ and the second \
-with numbers $\begin{bmatrix}10, & 8\end{bmatrix}$. Since none of the subarray sums exceed value of $18$ let's lower the upper threshold \
+With a maximum sum of $18$, we made two subarrays the first with numbers $\begin{bmatrix}7, 2, 5\end{bmatrix}$ and the second
+with numbers $\begin{bmatrix}10, 8\end{bmatrix}$. Since none of the subarray sums exceed value of $18$ let's lower the upper threshold \
 to minimize search value further.
 
 <br />
@@ -71,8 +74,8 @@ $$
 $$
 <br />
 
-With a maximum sum of $17$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, & 2, & 5\end{bmatrix}$ is fine, but the \
-second subarray $\begin{bmatrix}10, & 8\end{bmatrix}$ exceeds the max sum of $17$. Let's increase the lower threshold.
+With a maximum sum of $17$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, 2, 5\end{bmatrix}$ is fine, but the 
+second subarray $\begin{bmatrix}10, 8\end{bmatrix}$ exceeds the max sum of $17$. Let's increase the lower threshold.
 
 <br />
 $$
@@ -89,7 +92,7 @@ Since the lower limit equals the upper limit, we exit the binary search, finding
 
 
 
-## Implementation
+### Implementation
 <Tabs>
   <TabItem value="Java" label="Java" default>
 
@@ -149,16 +152,16 @@ class Solution {
 
 
 
-## Complexity 
+### Complexity 
 
 Let's say there are $N$ elements in an array, and total sum of all elements in an array is $S$.
 
-### Time complexity 
+#### Time complexity 
 $
 O(N \ \text{log} \ S)
 $
 
-### Space complexity
+#### Space complexity
 $
 O(1)
 $
@@ -168,14 +171,160 @@ $
 
 
 
-
+<br />
 
 ## Similar questions
 
-### &#8226;&nbsp;Capacity To Ship Packages Within D Days
+Here are some more questions that can be solved using the same technique.
 
-#### Problem Statement
-[1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)
+### Divide Chocolate
+
+The problem description can be found at [Leetcode 1231. Divide Chocolate](https://leetcode.com/problems/divide-chocolate/).
+
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    public int maximizeSweetness(int[] sweetness, int k) {
+        // Initialize the lower bound `lo` and the upper bound `hi`
+        int lo = Integer.MAX_VALUE;
+        int hi = 0;
+
+        // Determine the bounds for the binary search
+        for (int i = 0; i < sweetness.length; i++) {
+            lo = Math.min(lo, sweetness[i]);
+            hi += sweetness[i];
+        }
+
+        // Increment `k` by 1 (because questions say excluding you there k members)
+        k++;
+
+        // Binary search to find the maximum sweetness value
+        while (lo < hi) {
+            int mid = (lo + hi + 1) / 2; // Calculate the middle value
+
+            // Get the number of partitions
+            int partitions = getPartitions(sweetness, mid); 
+
+            // Adjust bounds based on the number of partitions
+            if (partitions < k)
+                hi = mid - 1;
+            else
+                lo = mid;
+        }
+
+        return lo; 
+    }
+
+    /**
+     * Method to calculate the number of partitions achievable 
+     * based on a sweetness threshold
+     */
+    private int getPartitions(int[] nums, int required) {
+        int index = 0, sum = 0, partitions = 0;
+
+        // Iterate through the sweetness array and count the partitions
+        while (index < nums.length) {
+            sum += nums[index];
+
+            // Check if the current sum meets the required sweetness threshold
+            if (sum >= required) {
+                sum = 0; // Reset sum for the next partition
+                partitions++; // Increment partitions count
+            }
+
+            index++; // Move to the next sweetness value
+        }
+
+        return partitions; 
+    }
+}
+```
+</TabItem>
+</Tabs>
+</details>
+
+:::info[]
+Notice how We use $\text{mid} = (\text{lo} + \text{hi} + 1) / 2$ in our solution because once $\text{mid}$ satisfies the condition, \
+we set $\text{lo} = \text{mid}$ to keep $\text{mid}$ within the search range. This matters if we ever reach a scenario \
+where $\text{hi} - \text{lo} = 1$.
+
+For example,
+lets say we have $\text{lo} = 2$ and $\text{hi} = 3$ we get $\text{mid} = 2$ initially if we use $\text{mid} = (\text{lo} + \text{hi}) / 2$. 
+
+Now if $2$ satisfies the condition and we assign $\text{lo} = \text{mid}$, which keeps all the values same for the next iteration, causing the logic to run endlessly.
+:::
+
+
+
+
+
+
+
+
+<br />
+
+### Cutting Ribbons
+
+The problem description can be found at [LeetCode 1891. Cutting Ribbons](https://leetcode.com/problems/cutting-ribbons/).
+
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    public int maxLength(int[] ribbons, int k) {
+        int lo = 0;
+        int hi = Integer.MIN_VALUE;
+        for(int i = 0; i < ribbons.length; i++) {
+            hi = Math.max(ribbons[i], hi);
+        }
+
+        while(lo < hi) {
+            int mid = (lo + hi + 1) / 2;
+            int partitions = getPartitions(ribbons, mid);
+            if(partitions >= k) lo = mid;
+            else hi = mid - 1;
+        }
+        return lo;
+    }
+
+    private int getPartitions(int[] ribbons, int required) {
+        int partitions = 0;
+        for(int i = 0; i < ribbons.length; i++) {
+            partitions += ribbons[i] / required;
+        }
+        return partitions;
+    }
+}
+```
+</TabItem>
+</Tabs>
+</details>
+
+
+
+
+
+
+
+
+
+<br />
+
+### Capacity To Ship Packages Within D Days
+
+The problem description can be found at [LeetCode 1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)
+
 
 <details>
   <summary>Solution</summary>
@@ -231,3 +380,109 @@ class Solution {
 </TabItem>
 </Tabs>
 </details>
+
+
+
+
+
+
+
+
+
+
+<br />
+
+### Minimized Maximum of Products Distributed to Any Store
+
+The problem description can be found at [LeetCode 2064. Minimized Maximum of Products Distributed to Any Store](https://leetcode.com/problems/minimized-maximum-of-products-distributed-to-any-store)
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    public int minimizedMaximum(int n, int[] quantities) {
+        int lo = 1;
+        int hi = Integer.MIN_VALUE;
+        for(int i = 0; i < quantities.length; i++) {
+            hi = Math.max(hi, quantities[i]);
+        }
+
+        while(lo < hi) {
+            int mid = (lo + hi) / 2;
+            int partitions = getPartitions(quantities, mid);
+            if(partitions > n) lo = mid + 1;
+            else hi = mid;
+        }
+        return lo;
+    }
+
+    private int getPartitions(int[] quantities, int required) {
+        int partitions = 0;
+        for(int i = 0; i < quantities.length; i++) {
+            partitions += quantities[i] / required;
+            if(quantities[i] % required != 0) 
+                partitions++;           
+        }
+        return partitions;
+    }
+}
+```
+</TabItem>
+</Tabs>
+</details>
+
+
+
+
+
+
+
+<br />
+
+### Distribute Money to Maximum Children
+
+The problem description can be found at [LeetCode 2591. Distribute Money to Maximum Children](https://leetcode.com/problems/distribute-money-to-maximum-children/)
+
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    public int distMoney(int money, int children) {
+        int lo = -1;
+        int hi = children;
+        while(lo < hi) {
+            int mid = (lo + hi + 1) / 2;
+            if(isValid(money, mid, children)) lo = mid;
+            else hi = mid - 1;
+        }
+        return lo;
+    }
+
+    private boolean isValid(int money, int maxChlidren, int children) {
+        int remainingMoney = money - 8 * maxChlidren;
+        int remainingChildren = children - maxChlidren;
+        if(remainingMoney == 4 && remainingChildren == 1) return false;
+        else if(remainingMoney < remainingChildren) return false;
+        else if(remainingMoney > 0 && remainingChildren == 0) return false;
+        else return true;
+    }
+}
+```
+</TabItem>
+</Tabs>
+</details>
+
+
+
+
+
+

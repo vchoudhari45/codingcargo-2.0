@@ -81,7 +81,7 @@ const config = {
   themes: ['@docusaurus/theme-mermaid'],
 
   themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+	  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       colorMode: {
         defaultMode: 'light',
