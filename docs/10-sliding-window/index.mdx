@@ -1,0 +1,108 @@
+---
+slug: /sliding-window
+sidebar_position: 10
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Sliding Window
+
+This page offers detailed explanations and Java solutions for problems, using the Sliding Window technique.
+
+## Delivering Boxes from Storage to Ports
+
+The problem description can be found at [LeetCode 1687. Delivering Boxes from Storage to Ports](https://leetcode.com/problems/delivering-boxes-from-storage-to-ports/description/).
+
+
+
+### Explanation 
+
+The problem involves employing a sliding window technique to maximize the number of boxes that can be delivered in a single trip.
+
+If the constraints of $\text{maxWeight}$ and $\text{maxBoxes}$, as specified in the problem description, are exceeded, the current window representing one trip is divided into two trips by incrementing the variable $\text{start}$, marking the beginning of a new trip.
+
+Furthermore, if the $\text{dp}$ value of the new starting position is the same as the previous one, the new trip position can be further incremented. This is because including the new starting position in the previous trip incurs no additional cost and simultaneously reduces the weight in the current trip.
+
+
+### Implementation
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+import java.util.Arrays;
+
+class Solution {
+    public int boxDelivering(int[][] boxes, int portsCount, int maxBoxes, 
+      int maxWeight) {
+        int n = boxes.length;
+
+        // dp[i] represents the minimum number of trips required to  
+        // deliver boxes up to index i.
+        int[] dp = new int[n];
+
+       // assign max value to all the array elements 
+        Arrays.fill(dp, Integer.MAX_VALUE);
+
+        int start = 0, end = 0, weight = 0, trips = 2;
+
+        while (end < n) {
+            weight += boxes[end][1];
+
+            // If the drop-off port for the current box is different from the last 
+            // one, increment trips.
+            if (end > 0 && boxes[end][0] != boxes[end - 1][0]) trips++;
+
+            while (
+              // constraints from the problem description
+              weight > maxWeight || (end - start + 1) > maxBoxes ||
+						
+              // If dp[start] is equal to dp[start - 1],
+              // then the box at index 'start' can be part of the previous trip
+              // as it incurs no extra cost, allowing us to reduce 
+              // current trip's weight.
+              (start > 0 && start < end && dp[start] == dp[start - 1])
+            ) {
+
+                weight -= boxes[start][1];
+
+                if (boxes[start][0] != boxes[start + 1][0]) trips--;
+
+                // decrease the sliding window
+                start++;
+            }
+
+            dp[end] = Math.min(dp[end], (start - 1 >= 0 ? dp[start - 1] : 0) + trips);
+
+            end++;
+        }
+
+        return dp[n - 1];
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+
+
+
+
+
+
+
+### Complexity 
+
+Let's say there are $N$ elements in an array.
+
+#### Time complexity 
+$
+O(N)
+$
+
+#### Space complexity
+$
+O(N)
+$
+

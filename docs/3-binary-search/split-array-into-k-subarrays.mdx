@@ -15,8 +15,7 @@ The problem description can be found at [LeetCode 410. Split Array Largest Sum](
 
 
 ### Explanation 
-Often, split array into sub-arrays questions can be solved by repeatedly applying binary search to meet \
-the specified conditions.
+Often, split array into sub-arrays questions can be solved by repeatedly applying binary search to meet the specified conditions.
 
 
 Let's take the sample input below,
@@ -30,8 +29,8 @@ $$
 $$
 <br />
 
-Initiate the binary search using the largest array value $10$ as the low threshold and the total sum of the \
-array $32$ as the high threshold.
+Initiate the binary search using the largest array value $10$ as the low threshold and the total sum of the array \
+$32$ as the high threshold.
 
 <br />
 $$
@@ -41,8 +40,7 @@ $$
 
 With maximum sum as $21$, the first subarray will have $\begin{bmatrix}7, 2, 5\end{bmatrix}$, and the second subarray will have
 $\begin{bmatrix}10, 8\end{bmatrix}$. \
-Since none of the subarray sums exceed value of $21$, let's lower the upper threshold to minimize \
-search value further.
+Since none of the subarray sums exceed value of $21$, let's lower the upper threshold to minimize search value further.
 
 <br />
 $$
@@ -65,8 +63,7 @@ $$
 <br />
 
 With a maximum sum of $18$, we made two subarrays the first with numbers $\begin{bmatrix}7, 2, 5\end{bmatrix}$ and the second
-with numbers $\begin{bmatrix}10, 8\end{bmatrix}$. Since none of the subarray sums exceed value of $18$ let's lower the upper threshold \
-to minimize search value further.
+with numbers $\begin{bmatrix}10, 8\end{bmatrix}$. Since none of the subarray sums exceed value of $18$ let's lower the upper threshold to minimize search value further.
 
 <br />
 $$
@@ -251,8 +248,8 @@ class Solution {
 
 :::info[]
 Notice how We use $\text{mid} = (\text{lo} + \text{hi} + 1) / 2$ in our solution because once $\text{mid}$ satisfies the condition, \
-we set $\text{lo} = \text{mid}$ to keep $\text{mid}$ within the search range. This matters if we ever reach a scenario \
-where $\text{hi} - \text{lo} = 1$.
+we set $\text{lo} = \text{mid}$ to keep $\text{mid}$ within the search range. This matters if we ever reach a scenario where \
+$\text{hi} - \text{lo} = 1$.
 
 For example,
 lets say we have $\text{lo} = 2$ and $\text{hi} = 3$ we get $\text{mid} = 2$ initially if we use $\text{mid} = (\text{lo} + \text{hi}) / 2$. 
