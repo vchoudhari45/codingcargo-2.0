@@ -14,5 +14,10 @@
 		"id": 1621,
 		"name": "Number of Sets of K Non-Overlapping Line Segments",
 		"tags": ["combinations"]
+	},
+	{
+		"id": 1681,
+		"name": "Minimum Incompatibility",
+		"tags": ["combinations"]
 	}
 ]

@@ -32,39 +32,6 @@ $$
 <br />
 
 
-Code execution tree will look like below,
-
-<br />
-<div style={{textAlign:"center"}}>
-
-```mermaid
-graph TD
-    A((Root)) --5, mask=000--> B((&nbsp;&nbsp; 5 &oplus; 1&nbsp;=&nbsp;4 &nbsp;&nbsp;))
-    A((Root)) --3, mask=000--> C((&nbsp;&nbsp; 3 &oplus; 1&nbsp;=&nbsp;2 &nbsp;&nbsp;))
-    A((Root)) --4, mask=000--> D((&nbsp;&nbsp; 4 &oplus; 1&nbsp;=&nbsp;5 &nbsp;&nbsp;))
-    
-    B --&nbsp;3, mask=001&nbsp;--> E((#40;5 &oplus; 1#41;&nbsp; \n+ #40;3 &oplus; 0#41;&nbsp;=&nbsp;7 &nbsp;&nbsp;))
-    B --&nbsp;4, mask=001&nbsp;--> F((#40;5 &oplus; 1#41;&nbsp; \n+ #40;4 &oplus; 0#41;&nbsp;=&nbsp;8 &nbsp;&nbsp;))
-    
-    C --&nbsp;5, mask=010&nbsp;--> G((#40;3 &oplus; 1#41;&nbsp; \n+ #40;5 &oplus; 0#41;&nbsp;=&nbsp;7 &nbsp;&nbsp;))
-    C --&nbsp;4, mask=010&nbsp;--> H((#40;3 &oplus; 1#41;&nbsp; \n+ #40;4 &oplus; 0#41;&nbsp;=&nbsp;6 &nbsp;&nbsp;))
-    
-    D --&nbsp;5, mask=100&nbsp;--> I((#40;4 &oplus; 1#41;&nbsp; \n+ #40;5 &oplus; 0#41;&nbsp;=&nbsp;10 &nbsp;&nbsp;))
-    D --&nbsp;3, mask=100&nbsp;--> J((#40;4 &oplus; 1#41;&nbsp; \n+ #40;3 &oplus; 0#41;&nbsp;=&nbsp;5 &nbsp;&nbsp;))
-    
-    E --&nbsp;4, mask=011&nbsp;--> K((&nbsp;&nbsp;&nbsp;#40;5 &oplus; 1#41;&nbsp \n+ #40;3 &oplus; 0#41;&nbsp; \n&nbsp;+ #40;4 &oplus; 3#41;&nbsp;=&nbsp;14&nbsp;&nbsp;&nbsp;))
-    F --&nbsp;3, mask=101&nbsp;--> L((&nbsp;&nbsp;&nbsp;#40;5 &oplus; 1#41;&nbsp \n+ #40;4 &oplus; 0#41;&nbsp; \n&nbsp;+ #40;3 &oplus; 3#41;&nbsp;=&nbsp;8&nbsp;&nbsp;&nbsp;))
-    G --&nbsp;4, mask=011&nbsp;--> M((&nbsp;&nbsp;&nbsp;#40;3 &oplus; 1#41;&nbsp \n+ #40;5 &oplus; 0#41;&nbsp; \n&nbsp;+ return from mask 011&nbsp;=&nbsp;14&nbsp;&nbsp;&nbsp;))
-    H --&nbsp;5, mask=110&nbsp;--> N((&nbsp;&nbsp;&nbsp;#40;3 &oplus; 1#41;&nbsp \n+ #40;4 &oplus; 0#41;&nbsp; \n&nbsp;+ #40;5 &oplus; 3#41;&nbsp;=&nbsp;12&nbsp;&nbsp;&nbsp;))
-    I --&nbsp;3, mask=101&nbsp;--> O((&nbsp;&nbsp;&nbsp;#40;4 &oplus; 1#41;&nbsp \n+ #40;5 &oplus; 0#41;&nbsp; \n&nbsp;+ return from mask 101&nbsp;=&nbsp;10&nbsp;&nbsp;&nbsp;))
-    J --&nbsp;5, mask=110&nbsp;--> P((&nbsp;&nbsp;&nbsp;#40;4 &oplus; 1#41;&nbsp \n+ #40;3 &oplus; 0#41;&nbsp; \n&nbsp;+ return from mask 110=&nbsp;11&nbsp;&nbsp;&nbsp;))
-```
-
-</div>
-
-<br />
-
-
 ### Implementation
 <Tabs>
   <TabItem value="Java" label="Java" default>

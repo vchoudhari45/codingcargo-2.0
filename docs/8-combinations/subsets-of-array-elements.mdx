@@ -242,34 +242,6 @@ class Solution {
 The problem description can be found at [Leetcode 1621. Number of Sets of K Non-Overlapping Line Segments](https://leetcode.com/problems/string-compression-ii/description/)
 
 
-The combination tree will appear as shown below for the sample input $n = 3$ and $k = 2$, where $p$ represents the point index and $r$ denotes the required lines.
-
-<br />
-<div style={{textAlign:"center"}}>
-
-```mermaid
-graph TD
-    A((p = 0 \n&nbsp;&nbsp; r = 2 &nbsp;&nbsp;)) --Skip Point 0--> B((p = 1 \n&nbsp;&nbsp; r = 2 &nbsp;&nbsp;))
-    A((p = 0 \n&nbsp;&nbsp; r = 2 &nbsp;&nbsp;)) --Use Point 0: \n Draw line from 0 to 1 --> C((p = 1 \n&nbsp;&nbsp; r = 1 &nbsp;&nbsp;))
-		A((p = 0 \n&nbsp;&nbsp; r = 2 &nbsp;&nbsp;)) --Use Point 0: \n Draw line from 0 to 2 --> D((p = 2 \n&nbsp;&nbsp; r = 1 &nbsp;&nbsp;))
-
-	  B --Skip Point 1--> E((p = 2 \n&nbsp;&nbsp; r = 2 &nbsp;&nbsp;))
-		B --Use Point 1: \n Draw line from 1 to 2 --> F((p = 2 \n&nbsp;&nbsp; r = 1 &nbsp;&nbsp;))
-
-		C --Skip Point 1--> G((p = 2 \n&nbsp;&nbsp; r = 1 &nbsp;&nbsp;))
-		C --Use Point 1: \n Draw line from 1 to 2 --> H((p = 2 \n&nbsp;&nbsp; r = 0 &nbsp;&nbsp;))
-
-		D --Discarded as \n p == n && r > 0 --> I((&nbsp; return 0&nbsp;)) 
-
-		E --Discarded as \n p == n &&  r > 0 --> J((&nbsp; return 0&nbsp;)) 
-		F --Discarded as \n p == n &&  r > 0 --> K((&nbsp; return 0&nbsp;)) 
-		G --Discarded as \n p == n &&  r > 0 --> L((&nbsp; return 0&nbsp;)) 
-		H --Valid as \n p == n && r == 0 --> M((&nbsp; return 1&nbsp;)) 
-```
-
-</div>
-<br />
-
 <details>
   <summary>Solution</summary>
 
@@ -351,3 +323,116 @@ In this solution, retaining the current point doesn't result in a single output 
 
 However, calculating line counts from a given point to all subsequent points on a 1D plane necessitates running a for loop. To enhance efficiency, we've utilized pre-calculation techniques via an integer array named memoAll.
 :::
+
+
+
+
+
+
+
+<br />
+
+### Minimum Incompatibility
+
+The problem description can be found at [Leetcode 1681. Minimum Incompatibility](https://leetcode.com/problems/minimum-incompatibility/description/)
+
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+import java.util.*;
+
+class Solution {
+    private HashMap<Integer, Integer> memo = new HashMap<>();
+
+    public int minimumIncompatibility(int[] nums, int k) {
+        int res = solve(nums, 0, k);
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
+
+    // Function to calculate the minimum incompatibility
+    private int solve(int[] nums, int mask, int k) {
+        if (mask == (1 << nums.length) - 1) return 0;
+
+        if (memo.containsKey(mask)) return memo.get(mask);
+
+        // Remaining indexes after removing visited indexes indicated by the mask
+        List<Integer> remainingIndexes = getRemainingIndexes(nums.length, mask);
+
+        // Generate combination from remaining indexes
+        List<List<Integer>> comb = combinations(remainingIndexes, 0, 
+          nums.length / k, new ArrayList<>());
+
+        int res = Integer.MAX_VALUE;
+        for (List<Integer> c : comb) {
+            int newMask = mask;
+
+            HashSet<Integer> set = new HashSet<>();
+
+            // Calculating the minimum and maximum values for a specific combination
+            boolean duplicate = false;
+            int max = Integer.MIN_VALUE;
+            int min = Integer.MAX_VALUE;
+            for (Integer ci : c) {
+                newMask = newMask | (1 << ci);
+                max = Math.max(max, nums[ci]);
+                min = Math.min(min, nums[ci]);
+                if (!set.add(nums[ci])) duplicate = true;
+            }
+
+            // Discard the combination if it contains duplicate elements
+            if (duplicate) continue;
+
+            // Compute the minimum incompatibility among the 
+            // remaining elements indicated by the new mask
+            int ans = solve(nums, newMask, k);
+
+            res = ans != Integer.MAX_VALUE ? Math.min(res, max - min + ans) : res;
+        }
+
+        // Memoization
+        memo.put(mask, res);
+
+        return res;
+    }
+
+    // Given a mask indicating visited indexes, 
+   // the function returns a list of unvisited indexes
+    private List<Integer> getRemainingIndexes(int n, int mask) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (((mask >> i) & 1) == 1) continue;
+            res.add(i);
+        }
+        return res;
+    }
+
+    // Generates combinations of a specified size
+    private List<List<Integer>> combinations(List<Integer> numIndexes, int index, 
+      int size, List<Integer> list) {
+        List<List<Integer>> res = new ArrayList<>();
+
+        // Base condition on size
+        if (size == 0) res.add(new ArrayList<>(list));
+
+        // Generate combinations as long as the end of an array has not been reached
+        else if (index < numIndexes.size()) {
+            // Keep the element at the current index
+            list.add(numIndexes.get(index));
+            res.addAll(combinations(numIndexes, index + 1, size - 1, list));
+            list.remove(list.size() - 1);
+
+            // Skip the element at the current index
+            res.addAll(combinations(numIndexes, index + 1, size, list));
+        }
+        return res;
+    }
+}
+```
+</TabItem>
+</Tabs>
+</details>
