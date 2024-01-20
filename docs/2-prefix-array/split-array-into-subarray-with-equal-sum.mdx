@@ -99,3 +99,86 @@ $
 O(N)
 $
 
+
+
+
+<br />
+
+
+
+
+## Similar questions
+
+Here are some more questions that can be solved using the same technique.
+
+
+### Sum Of Special Evenly-Spaced Elements In Array
+
+The problem description can be found at [Leetcode 1714. Sum Of Special Evenly-Spaced Elements In Array](https://leetcode.com/problems/sum-of-special-evenly-spaced-elements-in-array/description/)
+
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    private final int MOD = (int) 1e9 + 7;
+
+    public int[] solve(int[] nums, int[][] queries) {
+        int n = nums.length;
+
+        // Precalculate the answer using the suffixArray technique.
+        // For each step, suffixArray[step][from] represents 
+				// the cumulative sum of elements
+        // in the array when traversed backward, starting from the 'from' index
+        // up to and including the 'from' index.
+				// The cumulative sum is computed with a step size.
+        // for e.g. for input array nums = [0,1,2,3,4,5,6,7]
+        // suffixArray[1] will be [28, 28, 27, 25, 22, 18, 6, 7] 
+				// taking 1 step before doing cumulative sum
+        // suffixArray[2] will be [12, 16, 12, 15, 10, 12, 6, 7] 
+				// taking 2 steps before doing cumulative sum
+        int sqrt = (int) Math.sqrt(n);
+        int[][] suffixArray = new int[sqrt + 1][n];
+        for (int step = 1; step <= sqrt; step++) {
+            for (int index = n - 1; index >= 0; index--) {
+                suffixArray[step][index] = modAdd(
+                        nums[index],
+                        ((index + step < n) ? suffixArray[step][index + step] : 0)
+                );
+            }
+        }
+
+        int m = queries.length;
+        int[] res = new int[m];
+        for (int i = 0; i < m; i++) {
+            int from = queries[i][0];
+            int step = queries[i][1];
+
+            // use pre-calculated answer if step is 
+            // less than equal to square root of given array length
+            if (step <= sqrt) {
+                res[i] = suffixArray[step][from];
+            }
+            // else calculate the answer by running the for loop
+            else {
+                for (int index = from; index < n; index += step)
+                    res[i] = modAdd(res[i], nums[index]);
+            }
+        }
+        return res;
+    }
+
+    private int modAdd(int a, int b) {
+        int res = (a + b);
+        if (res < 0) res += MOD;
+        return res % MOD;
+    }
+}
+```
+</TabItem>
+</Tabs>
+</details>

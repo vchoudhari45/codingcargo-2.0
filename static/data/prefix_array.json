@@ -3,5 +3,10 @@
 		"id": 548,
 		"name": "Split Array with Equal Sum",
 		"tags": ["prefix-array"]
+	},
+	{
+		"id": 1714,
+		"name": "Sum Of Special Evenly-Spaced Elements In Array",
+		"tags": ["prefix-array"]
 	}
 ]
