@@ -12,7 +12,7 @@ This page offers detailed explanations and Java solutions for problems that invo
 
 ## Fair Distribution of Cookies
 
-The problem description can be found at [2305. Fair Distribution of Cookies](https://leetcode.com/problems/fair-distribution-of-cookies/description/).
+The problem description can be found at [Leetcode 2305. Fair Distribution of Cookies](https://leetcode.com/problems/fair-distribution-of-cookies/description/).
 
 
 
@@ -87,24 +87,35 @@ graph TD
 
 ```java
 class Solution {
+    private int min = Integer.MAX_VALUE;
+
     public int distributeCookies(int[] cookies, int k) {
-        return backtrack(cookies, 0, new int[k]);
+        backtrack(cookies, 0, new int[k]);
+        return min;
     }
 
     // Backtracking method to find the minimum of maximum value
-    private int backtrack(int[] cookies, int index, int[] dist) {
+    private void backtrack(int[] cookies, int index, int[] dist) {
         // Base case: all cookies are distributed
         if (index == cookies.length) {
-            return max(dist);
+            min = Math.min(min, max(dist));
+        } else {
+            // Try distributing the current cookie to each child 
+            // and find the minimum value
+            for (int i = 0; i < dist.length; i++) {
+                // If the current distribution is the same as the previous 
+                // distribution then discard this distribution
+                if (i > 0 && dist[i] == dist[i - 1]) continue;
+
+                // If the distribution already exceeds the previously found min, 
+                // then discard this distribution
+                if (dist[i] + cookies[index] >= min) continue;
+
+                dist[i] += cookies[index]; // Distribute cookie to child i
+                backtrack(cookies, index + 1, dist);
+                dist[i] -= cookies[index]; // Backtrack: remove the distributed cookie
+            }
         }
-        int minValue = Integer.MAX_VALUE;
-        // Try distributing current cookie to each child and find the minimum value
-        for (int i = 0; i < dist.length; i++) {
-            dist[i] += cookies[index]; // Distribute cookie to child i
-            minValue = Math.min(minValue, backtrack(cookies, index + 1, dist));
-            dist[i] -= cookies[index]; // Backtrack: remove the distributed cookie
-        }
-        return minValue;
     }
 
     // Method to find the maximum value in a distribution
@@ -161,7 +172,7 @@ Here are some more questions that can be solved using the same technique.
 
 ### Probability of a Two Boxes Having The Same Number of Distinct Balls
 
-The problem description can be found at [1467. Probability of a Two Boxes Having The Same Number of Distinct Balls](https://leetcode.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/description/).
+The problem description can be found at [Leetcode 1467. Probability of a Two Boxes Having The Same Number of Distinct Balls](https://leetcode.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/description/).
 
 
 <details>
@@ -219,6 +230,66 @@ class Solution {
     // Method to calculate combinations using factorials
     private double combinations(int n, int r) {
         return factorial[n] / factorial[n - r] / factorial[r];
+    }
+}
+```
+</TabItem>
+</Tabs>
+</details>
+
+
+
+
+###  Find Minimum Time to Finish All Jobs
+
+The problem description can be found at [Leetcode 1723. Find Minimum Time to Finish All Jobs](https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs/description/).
+
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    private int min = Integer.MAX_VALUE;
+
+    // Main method to calculate minimum time required
+    public int minimumTimeRequired(int[] jobs, int k) {
+        backtrack(jobs, 0, new int[k]);
+        return min;
+    }
+
+    // Backtracking method to find the minimum of maximum value
+    private void backtrack(int[] jobs, int index, int[] workers) {
+        // Base case: all jobs are assigned
+        if (index == jobs.length) {
+            min = Math.min(min, max(workers));
+        } else {
+            // Try assigning the current job to each worker and find the minimum value
+            for (int i = 0; i < workers.length; i++) {
+                // If the current assignment is the same as the previous one, skip
+                if (i > 0 && workers[i] == workers[i - 1]) continue;
+
+                // If the current assignment exceeds the previously found min, then discard
+                if (workers[i] + jobs[index] > min) continue;
+
+                workers[i] += jobs[index]; // Assign job to worker i
+                backtrack(jobs, index + 1, workers);
+                workers[i] -= jobs[index]; // Backtrack: remove the assigned job
+            }
+        }
+    }
+
+    // Method to find the maximum value in an array
+    private int max(int[] array) {
+        int maxValue = Integer.MIN_VALUE;
+        // Find the maximum value in the array
+        for (int i = 0; i < array.length; i++) {
+            maxValue = Math.max(maxValue, array[i]);
+        }
+        return maxValue;
     }
 }
 ```
