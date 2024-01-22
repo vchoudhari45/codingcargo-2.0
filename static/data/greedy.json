@@ -3,5 +3,10 @@
 		"id": 2279,
 		"name": "Maximum Bags With Full Capacity of Rocks",
 		"tags": ["greedy"]
+	},
+	{
+		"id": 2323,
+		"name": "Find Minimum Time to Finish All Jobs II",
+		"tags": ["greedy"]
 	}
 ]

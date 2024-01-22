@@ -85,3 +85,52 @@ $
 $
 O(N)
 $
+
+
+
+<br />
+
+## Similar questions
+
+Here are some more questions that can be solved using the same technique.
+
+### Find Minimum Time to Finish All Jobs II
+
+The problem description can be found at [Leetcode 2323. Find Minimum Time to Finish All Jobs II](https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs-ii/description/).
+
+
+<details>
+  <summary>Solution</summary>
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+import java.util.Arrays;
+
+class Solution {
+    // Main method to calculate minimum time required
+    public int minimumTime(int[] jobs, int[] workers) {
+        // Sort jobs and workers arrays
+        Arrays.sort(jobs);
+        Arrays.sort(workers);
+        
+        int min = 0;
+
+        // Iterate through jobs
+        for (int i = 0; i < jobs.length; i++) {
+            // Calculate days needed for current job and worker
+            int days = jobs[i] / workers[i];
+            if (jobs[i] % workers[i] > 0) days++;
+
+            // Update min with the maximum of current days and previous min
+            min = Math.max(min, days);
+        }
+
+        return min;
+    }
+}
+```
+</TabItem>
+</Tabs>
+</details>

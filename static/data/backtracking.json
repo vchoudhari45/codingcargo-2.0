@@ -8,5 +8,10 @@
     "id": 1467,
     "name": "Probability of a Two Boxes Having The Same Number of Distinct Balls",
     "tags": ["backtracking"]
+  },
+	{
+    "id": 1723,
+    "name": "Find Minimum Time to Finish All Jobs",
+    "tags": ["backtracking"]
   }
 ]
