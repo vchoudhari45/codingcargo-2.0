@@ -9,19 +9,19 @@ import TabItem from '@theme/TabItem';
 
 This page offers detailed explanations and Java solutions for problems, using the Sliding Window technique.
 
-## Delivering Boxes from Storage to Ports
+## Minimum Window Substring
 
-The problem description can be found at [LeetCode 1687. Delivering Boxes from Storage to Ports](https://leetcode.com/problems/delivering-boxes-from-storage-to-ports/description/).
+The problem description can be found at [LeetCode 76. Minimum Window Substrings](https://leetcode.com/problems/minimum-window-substring/description/).
 
 
 
 ### Explanation 
 
-The problem involves employing a sliding window technique to maximize the number of boxes that can be delivered in a single trip.
+This solution utilizes a sliding window approach to find the minimum window substring in string $s$ containing all characters from string $t$. 
 
-If the constraints of $\text{maxWeight}$ and $\text{maxBoxes}$, as specified in the problem description, are exceeded, the current window representing one trip is divided into two trips by incrementing the variable $\text{start}$, marking the beginning of a new trip.
+It initializes a HashMap to track character frequencies, iterates through string $t$ to update the HashMap, and then uses two pointers, $\text{start}$ and $\text{end}$, to traverse string $s$. The $\text{end}$ pointer moves forward, updating the HashMap, and when a required character is found, the $\text{start}$ pointer is adjusted to minimize the window. 
 
-Furthermore, if the $\text{dp}$ value of the new starting position is the same as the previous one, the new trip position can be further incremented. This is because including the new starting position in the previous trip incurs no additional cost and simultaneously reduces the weight in the current trip.
+The process continues until the end of string $s$, and the minimum window substring is returned.
 
 
 ### Implementation
@@ -30,54 +30,57 @@ Furthermore, if the $\text{dp}$ value of the new starting position is the same a
   <TabItem value="Java" label="Java" default>
 
 ```java
-import java.util.Arrays;
+import java.util.HashMap;
 
-class Solution {
-    public int boxDelivering(int[][] boxes, int portsCount, int maxBoxes, 
-      int maxWeight) {
-        int n = boxes.length;
+public class Solution {
 
-        // dp[i] represents the minimum number of trips required to  
-        // deliver boxes up to index i.
-        int[] dp = new int[n];
+    // Finds the minimum window substring in string 's' 
+    // containing all characters from string 't'.
+    public String minWindow(String s, String t) {
+        // initialize a HashMap to store character frequencies.
+        HashMap<Character, Integer> map = new HashMap<>();
+        int required = 0;
 
-       // assign max value to all the array elements 
-        Arrays.fill(dp, Integer.MAX_VALUE);
-
-        int start = 0, end = 0, weight = 0, trips = 2;
-
-        while (end < n) {
-            weight += boxes[end][1];
-
-            // If the drop-off port for the current box is different from the last 
-            // one, increment trips.
-            if (end > 0 && boxes[end][0] != boxes[end - 1][0]) trips++;
-
-            while (
-              // constraints from the problem description
-              weight > maxWeight || (end - start + 1) > maxBoxes ||
-						
-              // If dp[start] is equal to dp[start - 1],
-              // then the box at index 'start' can be part of the previous trip
-              // as it incurs no extra cost, allowing us to reduce 
-              // current trip's weight.
-              (start > 0 && start < end && dp[start] == dp[start - 1])
-            ) {
-
-                weight -= boxes[start][1];
-
-                if (boxes[start][0] != boxes[start + 1][0]) trips--;
-
-                // decrease the sliding window
-                start++;
-            }
-
-            dp[end] = Math.min(dp[end], (start - 1 >= 0 ? dp[start - 1] : 0) + trips);
-
-            end++;
+        // count the total number of required characters and update the HashMap.
+        for (int i = 0; i < t.length(); i++) {
+            char ch = t.charAt(i);
+            required++;
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
         }
 
-        return dp[n - 1];
+        int end = 0, start = 0, min = Integer.MAX_VALUE;
+        String res = "";
+
+        // move the 'end' pointer through string 's'.
+        while (end < s.length()) {
+            char ch = s.charAt(end++);
+
+            // check if the current character is part of string 't'.
+            if (map.containsKey(ch)) {
+                map.put(ch, map.getOrDefault(ch, 0) - 1);
+                if (map.get(ch) >= 0) required--;
+
+                // check if the current window contains all required characters.
+                while (start < end && required == 0) {
+                    if (min > end - start) {
+                        // Update minimum window and result.
+                        min = end - start;
+                        res = s.substring(start, end);
+                    }
+
+                    char chs = s.charAt(start++);
+
+                    // update character frequency in the HashMap.
+                    if (map.containsKey(chs)) 
+                        map.put(chs, map.getOrDefault(chs, 0) + 1);
+
+                    if (map.getOrDefault(chs, 0) > 0) required++;
+                }
+            }
+        }
+
+        // return the minimum window substring.
+        return res;
     }
 }
 ```
@@ -93,7 +96,7 @@ class Solution {
 
 ### Complexity 
 
-Let's say there are $N$ elements in an array.
+Let's say there are $N$ characters in string $s$ and $M$ characters in string $t$.
 
 #### Time complexity 
 $
@@ -102,6 +105,6 @@ $
 
 #### Space complexity
 $
-O(N)
+O(M)
 $
 

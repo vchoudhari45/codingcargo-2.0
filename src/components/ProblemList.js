@@ -7,10 +7,11 @@ import combinations from '@site/static/data/combinations.json';
 import prefixArray from '@site/static/data/prefix_array.json';
 import dynamicProgramming from '@site/static/data/dynamic_programming.json';
 import slidingWindow from '@site/static/data/sliding_window.json';
+import deque from '@site/static/data/deque.json';
 
 const ProblemList = () => {
   const allData = [backtracking, binarySearch, greedy, permutations, combinations, prefixArray,
-		dynamicProgramming, slidingWindow];
+		dynamicProgramming, slidingWindow, deque];
 
 	const totalCount = allData.reduce((total, data) => total + data.length, 0);
 
