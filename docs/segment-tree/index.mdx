@@ -92,7 +92,7 @@ private void build(int[] arr, int[] segmentTree, int treeIndex, int lo, int hi) 
 
 ## How to Use Segment Tree
 
-There are $3$ main conditions to consider when calculating range sum using segment tree
+There are $3$ main conditions to consider when calculating range sum using segment tree.
 
 1. Return $0$ if current segment range falls completely outside the input range.
 
@@ -116,7 +116,7 @@ Let's calculate range sum for range $2$ to $3$.
 
 6. Backtracking to range $0-4$ and traversing into the right subtree, we find current range as $3-4$, which entirely falls within the input range $2-3$. Therefore, we return the pre-computed value from node $3-4$, which is $92$.
 
-There final value for the range sum from $2$ to $3$ is $37 + 92 = 129$
+There final value for the range sum from $2$ to $3$ is $37 + 92 = 129$.
 
 
 <Tabs>
@@ -130,8 +130,8 @@ public int rangeSum(int fromIndex, int toIndex) {
 private int rangeSumInternal(int treeIndex, int segmentStart, int segmentEnd, 
   int fromIndex, int toIndex) {
     // If the segment falls completely outside the input range fromIndex toIndex
-    // Case 1: fromIndex < toIndex < segmentStart < segmentEnd
-    // Case 2: segmentStart < segmentEnd < fromIndex < toIndex
+    // fromIndex < toIndex < segmentStart < segmentEnd
+    // segmentStart < segmentEnd < fromIndex < toIndex
     if (toIndex < segmentStart || segmentEnd < fromIndex) {
         return 0;
     }
