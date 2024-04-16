@@ -2,22 +2,26 @@
 	{
 		"id": 698,
 		"name": "Partition to K Equal Sum Subsets",
-		"tags": ["combinations"]
+		"tags": ["combinations"],
+		"pattern": "Subsets of Array Elements"
 	},
 
 	{
 		"id": 1531,
 		"name": "String Compression II",
-		"tags": ["combinations"]
+		"tags": ["combinations"],
+		"pattern": "Subsets of Array Elements"
 	},
 	{
 		"id": 1621,
 		"name": "Number of Sets of K Non-Overlapping Line Segments",
-		"tags": ["combinations"]
+		"tags": ["combinations"],
+		"pattern": "Subsets of Array Elements"
 	},
 	{
 		"id": 1681,
 		"name": "Minimum Incompatibility",
-		"tags": ["combinations"]
+		"tags": ["combinations"],
+		"pattern": "Subsets of Array Elements"
 	}
 ]

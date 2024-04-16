@@ -247,14 +247,13 @@ class Solution {
 </details>
 
 :::info[]
-Notice how We use $\text{mid} = (\text{lo} + \text{hi} + 1) / 2$ in our solution because once $\text{mid}$ satisfies the condition, \
+Notice how we use $\text{mid} = (\text{lo} + \text{hi} + 1) / 2$ in our solution because once $\text{mid}$ satisfies the condition, \
 we set $\text{lo} = \text{mid}$ to keep $\text{mid}$ within the search range. This matters if we ever reach a scenario where \
 $\text{hi} - \text{lo} = 1$.
 
 For example,
-lets say we have $\text{lo} = 2$ and $\text{hi} = 3$ we get $\text{mid} = 2$ initially if we use $\text{mid} = (\text{lo} + \text{hi}) / 2$. 
-
-Now if $2$ satisfies the condition and we assign $\text{lo} = \text{mid}$, which keeps all the values same for the next iteration, causing the logic to run endlessly.
+lets say we have $\text{lo} = 2$ and $\text{hi} = 3$ we get $\text{mid} = 2$, if we use $\text{mid} = (\text{lo} + \text{hi}) / 2$.
+Now if $2$ satisfies the condition and we assign $\text{lo} = \text{mid}$, binary search keeps all the values same for the next iteration, causing the logic to run endlessly.
 :::
 
 

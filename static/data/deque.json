@@ -2,11 +2,13 @@
 	{
 		"id": 1687,
 		"name": "Delivering Boxes from Storage to Ports",
-		"tags": ["deque"]
+		"tags": ["deque"],
+		"pattern": "Deque"
 	},
 	{
 		"id": 1696,
 		"name": "Jump Game VI",
-		"tags": ["deque"]
+		"tags": ["deque"],
+		"pattern": "Deque"
 	}
 ]

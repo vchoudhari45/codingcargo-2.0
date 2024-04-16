@@ -2,6 +2,7 @@
 	{
 		"id": 76,
 		"name": "Minimum Window Substring",
-		"tags": ["sliding-window"]
+		"tags": ["sliding window"],
+		"pattern": "Sliding Window"
 	}
 ]

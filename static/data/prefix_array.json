@@ -2,11 +2,13 @@
 	{
 		"id": 548,
 		"name": "Split Array with Equal Sum",
-		"tags": ["prefix-array"]
+		"tags": ["prefix array"],
+		"pattern": "Split Array Into Subarray With Equal Sum"
 	},
 	{
 		"id": 1714,
 		"name": "Sum Of Special Evenly-Spaced Elements In Array",
-		"tags": ["prefix-array"]
+		"tags": ["prefix array"],
+		"pattern": "Split Array Into Subarray With Equal Sum"
 	}
 ]

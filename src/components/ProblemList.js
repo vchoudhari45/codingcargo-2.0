@@ -10,17 +10,15 @@ import slidingWindow from '@site/static/data/sliding_window.json';
 import deque from '@site/static/data/deque.json';
 
 const ProblemList = () => {
-  const allData = [backtracking, binarySearch, greedy, permutations, combinations, prefixArray,
-		dynamicProgramming, slidingWindow, deque];
-
-	const totalCount = allData.reduce((total, data) => total + data.length, 0);
-
-  // Merge all JSON data into a single array
+  const allData = [backtracking, binarySearch, greedy, permutations, combinations, prefixArray, dynamicProgramming, slidingWindow, deque];
   const mergedData = allData.reduce((acc, data) => [...acc, ...data], []);
 
-  const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
+  const [sortConfig, setSortConfig] = useState({ 
+    key: 'id', 
+    direction: 'ascending' 
+  });
 
-  // Sort the merged data based on the provided key and direction
+  // Custom sorting function based on sortConfig
   const sortedData = mergedData.sort((a, b) => {
     if (a[sortConfig.key] < b[sortConfig.key]) {
       return sortConfig.direction === 'ascending' ? -1 : 1;
@@ -39,52 +37,58 @@ const ProblemList = () => {
   const renderTableHeader = () => {
     if (sortedData.length === 0) return null;
 
-    const header = Object.keys(sortedData[0]).filter((key) => key !== 'link'); // Exclude 'link' column
-			return (
-				<thead>
-					<tr>
-						{header.map((key) => (
-							<th key={key} onClick={() => onSort(key)} style={{ cursor: 'pointer' }}>
-								{key === 'id' ? '#' : key.charAt(0).toUpperCase() + key.slice(1)}
-								{sortConfig.key === key && (
-									<span>{sortConfig.direction === 'ascending' ? ' ▲' : ' ▼'}</span>
-								)}
-							</th>
-						))}
-					</tr>
-				</thead>
-			);
-		};
+    const header = Object.keys(sortedData[0]).filter((key) => key !== 'link');
 
-		const renderTableData = () => {
-			return (
-				<tbody>
-					{sortedData.map((item, index) => (
-						<tr key={index}>
-							{Object.entries(item).map(([key, value]) => (
-								key !== 'link' && (
-									<td key={key}>
-										{key === 'name' ? (
-											<span className="problem-name">
-												{item.name}
-											</span>
-										) : key === 'tags' ? (
-											<span className="oval-tag">
-												{value[0].replace(/-/g, ' ')}
-											</span>
-										) : (
-											<span className="problem-name">
-												{value}
-											</span>
-										)}
-									</td>
-								)
-							))}
-						</tr>
-					))}
-				</tbody>
-			);
-		};				
+    return (
+      <thead>
+        <tr>
+          {header.map((key) => (
+            <th key={key} onClick={() => onSort(key)} style={{ cursor: 'pointer' }}>
+              {key === 'id' ? '#' : key.charAt(0).toUpperCase() + key.slice(1)}
+              {sortConfig.key === key && (
+                <span>{sortConfig.direction === 'ascending' ? ' ▲' : ' ▼'}</span>
+              )}
+            </th>
+          ))}
+        </tr>
+      </thead>
+    );
+  };
+
+  const renderTableData = () => {
+    const getHref = (firstTag, patternValue) => {
+      const normalizedPattern = patternValue.replace(/ /g, '-').toLowerCase();
+      if (firstTag && firstTag !== patternValue.toLowerCase()) {
+        return `${firstTag.replace(/ /g, '-')}/${normalizedPattern}`;
+      } else {
+        return normalizedPattern;
+      }
+    };
+
+    return (
+      <tbody>
+        {sortedData.map((item, index) => (
+          <tr key={index}>
+            {Object.entries(item).map(([key, value]) => (
+              <td key={key}>
+                {key === 'pattern' ? (
+                  <span className="pattern-name">
+                    <a href={getHref(item.tags[0], value)}>{value}</a>
+                  </span>
+                ) : key === 'name' ? (
+                  <span className="problem-name">{item.name}</span>
+                ) : key === 'tags' ? (
+                  <span className="oval-tag">{value[0]}</span>
+                ) : (
+                  <span className="default-value">{value}</span>
+                )}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    );
+  };
 
   return (
     <div>
@@ -93,7 +97,7 @@ const ProblemList = () => {
         {renderTableHeader()}
         {renderTableData()}
       </table>
-			<b>Total Solved: {totalCount} </b>
+      <b>Total Solved: {mergedData.length}</b>
     </div>
   );
 };
