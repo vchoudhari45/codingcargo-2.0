@@ -1,0 +1,159 @@
+---
+slug: /redis
+---
+
+# Redis
+
+Redis can be used as a database, cache, streaming engine, message broker, and more
+
+
+## Redis Key 
+	- Unique 
+	- Binary Safe - Can be anything like simple string, number to binary value
+	- Key names can be up $512\text{mb}$
+	- Case Sensitive
+
+
+### Redis SET Command 
+	- Checks non-existence with NX 
+	- Checks existence with XX 
+	- Set expiration in miliseconds using PX 
+	- Set expiration in seconds using EX
+
+```java
+SET key value [EX seconds] [PX miliseconds] [NX|XX]
+
+SET customer:1000 fred
+OK
+```
+
+
+### Redis GET Command 
+
+```java 
+GET key 
+
+GET customer:1000
+"fred"
+```
+
+
+### Redis KEYS Command 
+	- Blocks database until it iterates through all keys
+	- Never use in Production
+	- Useful for debugging
+
+
+```java 
+KEYS customer:1*
+1) "customer:1000"
+```
+
+
+### Redis SCAN Command 
+	- Blocks database but iterate over handful of keys at a time
+	- Return the slot reference which you can use for subsequent call
+	- May return 0 or more keys per call
+
+
+```java 
+SCAN slot [MATCH Pattern][COUNT count]
+
+SCAN 0 MATCH customer:1*
+1) "0"
+2) 1) "customer:1000"
+```
+
+Scan will return cursor value of $0$, when it has no more keys to iterate over
+
+
+### Redis DEL Command 
+	- Deletes the key, and memeory associated with it
+	- Blocking Command
+
+
+
+### Redis UNLINK Command 
+	- Unlinks the key, and memory associated with it is reclaimed by asynchronous process
+	- Non Blocking Command 
+
+
+
+### Redis EXISTS Command 
+	- Return $1$ if key exists or else returns $0$
+
+
+### Redis EXPIRE Commands
+Sets/Chages expiration on key
+
+```java
+EXPIRE key seconds
+
+EXPIRE key timestamp 
+
+PEXPIRE key milliseconds 
+
+PEXPIREAT key milliseconds-timestamp
+```
+
+
+### Redis TTL Commands 
+Examines TTL for a key
+
+```java 
+TTL key 
+
+PTTL Key 
+```
+
+
+### Redis PERSIST Command
+TTL can be removed using PERSIST command. PERSIST will set the TTL to $-1$
+```java
+PERSIST key 
+```
+
+### Redis TYPE Command 
+Return the type of the key
+```java
+TYPE customer:1000
+string
+```
+
+
+### Redis OBJECT ENCODING Command 
+Return the object encoding of the key
+```java
+OBJECT ENCODING user:23:visit-count
+"int"
+```
+
+
+## Redis String 
+	- Binary safe sequence of bytes 
+	- String can store numerical values, serialized JSON
+	- String can even store images, videos, documents and sounds
+	- API response Caching is most common usecase
+
+```java 
+SET usage:63 '{"balance": 699.99, "currency": "USD", "tier": "Premium"}' EX 7200
+```
+
+
+### Redis INCR Command 
+If key doesn't exist it will create a new key with value $1$
+```java
+INCR user:23:visit-count 
+```
+
+### Redis INCRBY Command
+```java
+INCRBY user:23:credit-balance 30
+
+INCRBY user:23:credit-balance -20
+```
+
+### Redis INCRYBYFLOAT Command
+```java
+
+```

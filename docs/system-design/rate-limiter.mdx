@@ -1,0 +1,38 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+#  Rate Limiter
+
+This page offers detailed explanations for rate limiter system design problems.
+
+## Functional Requirement
+	
+	1. Rate limiting is done on the server side(Talk about server side and client side rate limiting)
+	2. User's request will be rate limited by IP address, UserId etc.
+	3. User should be able to configure granularity of rate limiting(Day/Hour/Minute/Second)
+	4. System should drop rate limited request and not enqueue them.
+
+
+## Non Functional Requirement
+
+	1. System should be highly scalable 
+	2. System should have low latency
+	3. System should priorties high availability over consistency meaning config rule should be consistent across the system over time.
+
+## Back of the Envelop Calculations
+
+Let's say our system have to handle $10\text{k}$ services,
+
+#### QPS 
+	Let's say each service has $100$ write QPS and $1\text{k}$ read QPS \
+	Total write QPS will be $10\text{k}$ Services $ * \ 100$ Write QPS per service $\approx 1\text{M}$ QPS
+
+#### Config Storages 
+	Let's say each service has $100$ config and each config is of $1\text{kb}$. \
+	Total config storage required will be $10\text{k}$ Services $ * \ 100$ Config per service $* \ 1\text{kb}$ Storage for each config $\approx 1\text{gb}$
+
+#### Rate Limiting Stats Storages 
+	Let's say each service has $100\text{k}$ users \
+	Total stats storage required will be $10\text{k}$ Services $ * \ 100\text{k}$ Users $* \ 8\text{bytes}$ of Storage for each stat $\approx 8\text{gb}$
+
