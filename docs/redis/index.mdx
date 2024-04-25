@@ -6,8 +6,11 @@ slug: /redis
 
 Redis can be used as a database, cache, streaming engine, message broker, and more
 
-## Running Redis In Docker Container
+## Redis In Docker Container
 
+Redis within a Docker container, provides a portable and isolated environment for deploying Redis-based applications
+
+### Start Redis Docker Container 
 To start Redis Stack server using the redis-stack-server image, run the following command in your terminal
 
 ```java
@@ -32,19 +35,21 @@ docker run -d --name redis-stack-server -p 6379:6379 \
 redis/redis-stack-server:latest
 ```
 
+### Connect to Redis CLI 
+
 You can then connect to the server using redis-cli, just as you connect to any Redis instance
 ```java
 docker exec -it redis-stack-server redis-cli
 ```
 
-## Redis Key 
+## Key 
 	- Unique 
 	- Binary Safe - Can be anything like simple string, number to binary value
 	- Key names can be up $512\text{mb}$
 	- Case Sensitive
 
 
-### Redis SET Command 
+### SET Command 
 	- Checks non-existence with NX 
 	- Checks existence with XX 
 	- Set expiration in miliseconds using PX 
@@ -58,7 +63,7 @@ OK
 ```
 
 
-### Redis GET Command 
+### GET Command 
 
 ```java 
 GET key 
@@ -68,7 +73,7 @@ GET customer:1000
 ```
 
 
-### Redis KEYS Command 
+### KEYS Command 
 	- Blocks database until it iterates through all keys
 	- Never use in Production
 	- Useful for debugging
@@ -80,7 +85,7 @@ KEYS customer:1*
 ```
 
 
-### Redis SCAN Command 
+### SCAN Command 
 	- Blocks database but iterate over handful of keys at a time
 	- Return the slot reference which you can use for subsequent call
 	- May return 0 or more keys per call
@@ -97,23 +102,23 @@ SCAN 0 MATCH customer:1*
 Scan will return cursor value of $0$, when it has no more keys to iterate over
 
 
-### Redis DEL Command 
+### DEL Command 
 	- Deletes the key, and memeory associated with it
 	- Blocking Command
 
 
 
-### Redis UNLINK Command 
+### UNLINK Command 
 	- Unlinks the key, and memory associated with it is reclaimed by asynchronous process
 	- Non Blocking Command 
 
 
 
-### Redis EXISTS Command 
+### EXISTS Command 
 	- Return $1$ if key exists or else returns $0$
 
 
-### Redis EXPIRE Commands
+### EXPIRE Commands
 Sets/Chages expiration on key
 
 ```java
@@ -127,7 +132,7 @@ PEXPIREAT key milliseconds-timestamp
 ```
 
 
-### Redis TTL Commands 
+### TTL Commands 
 Examines TTL for a key
 
 ```java 
@@ -137,13 +142,13 @@ PTTL Key
 ```
 
 
-### Redis PERSIST Command
+### PERSIST Command
 TTL can be removed using PERSIST command. PERSIST will set the TTL to $-1$
 ```java
 PERSIST key 
 ```
 
-### Redis TYPE Command 
+### TYPE Command 
 Return the type of the key
 ```java
 TYPE customer:1000
@@ -151,7 +156,7 @@ string
 ```
 
 
-### Redis OBJECT ENCODING Command 
+### OBJECT ENCODING Command 
 Return the object encoding of the key
 ```java
 OBJECT ENCODING user:23:visit-count
@@ -159,7 +164,7 @@ OBJECT ENCODING user:23:visit-count
 ```
 
 
-## Redis String 
+## String 
 	- Binary safe sequence of bytes 
 	- String can store numerical values, serialized JSON
 	- String can even store images, videos, documents and sounds
@@ -170,57 +175,57 @@ SET usage:63 '{"balance": 699.99, "currency": "USD", "tier": "Premium"}' EX 7200
 ```
 
 
-### Redis INCR Command 
+### INCR Command 
 If key doesn't exist it will create a new key with value $1$
 ```java
 INCR user:23:visit-count 
 ```
 
-### Redis INCRBY Command
+### INCRBY Command
 ```java
 INCRBY user:23:credit-balance 30
 
 INCRBY user:23:credit-balance -20
 ```
 
-### Redis INCRBYFLOAT Command
+### INCRBYFLOAT Command
 ```java
 INCRBYFLOAT user:23:visit-count 0.1
 ```
 
 
-## Redis Hashes
+## Hashes
 	- It is collection of field value pair
 	- Hashes are mutable
 	- Stores field value as string, which means values will not have nested array or objects
 	- All hashes commands takes $O(1)$ time, except `HGETALL` which takes $O(N)$ time where $N$ is number of fields in hash
 	- Typical usecases are Rate Limiting, Session Cache
 
-### Redis HSET Command 
+### HSET Command 
 ```java
 HSET player:42 name abc level 4 hp 4 gold 20
 
 HSET player:42 status 0
 ```
 
-### Redis HEXISTS Command 
+### HEXISTS Command 
 Returns $0$ if field doesn't exists else return $1$
 ```java
 HEXISTS player:42 status
 ```
 
-### Redis HDEL Command
+### HDEL Command
 ```java
 HDEL player:42 status
 ```
 
-### Redis HGET Command
+### HGET Command
 ```java
 HGET player:42 name
 "abc"
 ```
 
-### Redis HGETALL Command 
+### HGETALL Command 
 ```java
 HGETALL player:42
 1) "name"
@@ -233,12 +238,13 @@ HGETALL player:42
 8) "20"
 ```
 
-### Redis HINCRBY Command 
+### HINCRBY Command 
 ```java
 HINCRBY player:42 gold 120
 ```
 
-## Redis List
+
+## List
 	- Ordered collection of Strings
 	- Duplicates are allowed 
 	- Elements can be added and removed at Left or Right
@@ -246,7 +252,7 @@ HINCRBY player:42 gold 120
 	- Used to implement stack and queue
 	- Usecases are activity stream, interprocess communication
 
-### Redis RPUSH/LPUSH Command 
+###  RPUSH/LPUSH Command 
 ```java
 RPUSH playlist:user2 25
 (integer) 1
@@ -255,25 +261,25 @@ RPUSH playlist:user2 71
 (integer) 2
 ```
 
-### Redis RPOP/LPOP Command 
+### RPOP/LPOP Command 
 ```java
 LPOP playlist:user2
 "25"
 ```
 
-### Redis LRANGE Command 
+### LRANGE Command 
 ```java
 LRANGE playlist:user2 0 4
 1) "71"
 ```
 
-### Redis LLEN Command 
+### LLEN Command 
 ```java
 LLEN playlist:user2 
 (integer) 1
 ```
 
-## Redis Set
+## Set
 	- Unordered collection of string 
 	- Duplicates are not allowed 
 	- Allows for difference, intersection and union set operations
@@ -281,7 +287,7 @@ LLEN playlist:user2
 	- Usescase are Unique Visitor
 
 
-### Redis SADD Command 
+### SADD Command 
 ```java
 SADD player:online 42
 (integer) 1
@@ -293,32 +299,62 @@ SADD player:31:friends 43
 (integer) 1
 ```
 
-### Redis SCARD Command 
+### SCARD Command 
 ```java
 SCARD player:online
 (integer) 1
 ```
 
-### Redis SISMEMBER Command 
+### SISMEMBER Command 
 ```java
 SISMEMBER player:online 42
 (integer) 1
 ```
 
-### Redis SINTER Command 
+### SINTER Command 
 ```java
 SINTER player:31:friends player:online
 1) "42"
 ```
 
-### Redis SDIFF Command 
+### SDIFF Command 
 ```java
 SDIFF player:31:friends player:online
 1) "43"
 ```
 
-### Redis SREM Command 
+### SREM Command 
 ```java
 SREM player:31:friends 43
 (integer) 1
 ```
+
+
+## Sorted Set 
+	- Ordered collection of unique members 
+	- Each memeber has associated score
+	- Support set operations like intersection, union and difference
+	- Usecase are Priority Queue, Low Latency Leaderboards, Secondary Indexing
+
+
+### ZADD Command 
+```java
+ZADD key score memberId
+
+ZADD leaders:exp 0 42 
+(integer) 1
+```
+
+### ZINCRBY Command 
+```java
+ZINCRBY leaders:exp 10 42
+"10"
+```
+
+### ZRANGE Command
+```java
+ZRANGE leaders:exp 0 9 WITHSCORES
+1) "42"
+2) "10"
+```
+
