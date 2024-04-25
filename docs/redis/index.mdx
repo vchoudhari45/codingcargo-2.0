@@ -6,6 +6,36 @@ slug: /redis
 
 Redis can be used as a database, cache, streaming engine, message broker, and more
 
+## Running Redis In Docker Container
+
+To start Redis Stack server using the redis-stack-server image, run the following command in your terminal
+
+```java
+docker run -d --name redis-stack-server -p 6379:6379 \
+redis/redis-stack-server:latest
+```
+
+:::info
+You can also download sample data from the Redis University `.rdb` file as below and start a Redis server with sample data
+:::
+
+```java
+# download the sample data file
+wget https://storage.googleapis.com/redis-university-assets/ru101/ru101.rdb.gz
+
+# gunzip the file
+gunzip ru101.rdb.gz
+
+# start docker container
+docker run -d --name redis-stack-server -p 6379:6379 \
+-v "./ru101.rdb:/data/dump.rdb" \
+redis/redis-stack-server:latest
+```
+
+You can then connect to the server using redis-cli, just as you connect to any Redis instance
+```java
+docker exec -it redis-stack-server redis-cli
+```
 
 ## Redis Key 
 	- Unique 
@@ -153,7 +183,142 @@ INCRBY user:23:credit-balance 30
 INCRBY user:23:credit-balance -20
 ```
 
-### Redis INCRYBYFLOAT Command
+### Redis INCRBYFLOAT Command
 ```java
+INCRBYFLOAT user:23:visit-count 0.1
+```
 
+
+## Redis Hashes
+	- It is collection of field value pair
+	- Hashes are mutable
+	- Stores field value as string, which means values will not have nested array or objects
+	- All hashes commands takes $O(1)$ time, except `HGETALL` which takes $O(N)$ time where $N$ is number of fields in hash
+	- Typical usecases are Rate Limiting, Session Cache
+
+### Redis HSET Command 
+```java
+HSET player:42 name abc level 4 hp 4 gold 20
+
+HSET player:42 status 0
+```
+
+### Redis HEXISTS Command 
+Returns $0$ if field doesn't exists else return $1$
+```java
+HEXISTS player:42 status
+```
+
+### Redis HDEL Command
+```java
+HDEL player:42 status
+```
+
+### Redis HGET Command
+```java
+HGET player:42 name
+"abc"
+```
+
+### Redis HGETALL Command 
+```java
+HGETALL player:42
+1) "name"
+2) "abc"
+3) "level"
+4) "4"
+5) "hp"
+6) "4"
+7) "gold"
+8) "20"
+```
+
+### Redis HINCRBY Command 
+```java
+HINCRBY player:42 gold 120
+```
+
+## Redis List
+	- Ordered collection of Strings
+	- Duplicates are allowed 
+	- Elements can be added and removed at Left or Right
+	- Elements can be inserted relative to another
+	- Used to implement stack and queue
+	- Usecases are activity stream, interprocess communication
+
+### Redis RPUSH/LPUSH Command 
+```java
+RPUSH playlist:user2 25
+(integer) 1
+
+RPUSH playlist:user2 71
+(integer) 2
+```
+
+### Redis RPOP/LPOP Command 
+```java
+LPOP playlist:user2
+"25"
+```
+
+### Redis LRANGE Command 
+```java
+LRANGE playlist:user2 0 4
+1) "71"
+```
+
+### Redis LLEN Command 
+```java
+LLEN playlist:user2 
+(integer) 1
+```
+
+## Redis Set
+	- Unordered collection of string 
+	- Duplicates are not allowed 
+	- Allows for difference, intersection and union set operations
+	- Are not nested
+	- Usescase are Unique Visitor
+
+
+### Redis SADD Command 
+```java
+SADD player:online 42
+(integer) 1
+
+SADD player:31:friends 42
+(integer) 1
+
+SADD player:31:friends 43
+(integer) 1
+```
+
+### Redis SCARD Command 
+```java
+SCARD player:online
+(integer) 1
+```
+
+### Redis SISMEMBER Command 
+```java
+SISMEMBER player:online 42
+(integer) 1
+```
+
+### Redis SINTER Command 
+```java
+SINTER player:31:friends player:online
+1) "42"
+```
+
+### Redis SDIFF Command 
+```java
+SDIFF player:31:friends player:online
+1) "43"
+```
+
+### Redis SREM Command 
+```java
+SREM player:31:friends 43
+(integer) 1
 ```
