@@ -358,3 +358,23 @@ ZRANGE leaders:exp 0 9 WITHSCORES
 2) "10"
 ```
 
+## Set Operations With Set And Sorted Set
+
+```java
+ZADD sales:judo 1500 june 2000 bill 200 mary
+(integer) 3
+
+ZADD sales:wrestling 1800 bill 1000 bob 800 mary
+(integer) 3
+
+ZINTERSTORE promo:taekwondo 2 sales:wrestling sales:judo aggregate sum
+(integer) 2
+
+ZRANGE promo:taekwondo 0 -1 WITHSCORES
+1) "mary"
+2) "1000"
+3) "bill"
+4) "3800"
+```
+
+
