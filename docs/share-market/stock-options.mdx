@@ -27,14 +27,51 @@ There are two main types of options
 
 ### Call Option
 
-- Price of call option moves with stock price.
 - Give the owner of call options the ability to buy $100$ shares of stock at the strike price upto expiration date.
+- Call option intrinsic value $\text{abs}(\text{Stock Price} - \text{Strike Price})$.
+- Each call option have extrinsic value which is associated with time left tor the expiration.
+
+### Put Option 
+
+- Give the owner of put options the ability to sell $100$ shares of stock at the strike price upto expiration date.
+- Put option intrinsic value $\text{abs}(\text{Strike Price} - \text{Stock Price})$.
+- Each call option have extrinsic value which is associated with time left tor the expiration.
 
 
-## Option Pricing Law
+## Option Premium Value
 
-The price of an option will always reflect the potential profit it can provide to the owner if they were to exercise the option.
+The option premium derives its value from intrinsic and extrinsic value.
 
-### Example
-Let's say I have a TSLA call option with a strike price of \$$800$, and the current TSLA stock price is \$$1000$, because I can use the call option to make a \$$200$ profit per share, the call option price must be worth \$$200$ or more.
+### Intrinsic Value
+
+The price of an option will always reflect the potential profit it can provide to the owner if they were to exercise the option. This price is called the intrinsic value.	
+
+### Extrinsic Value
+
+The extrinsic value of an option, also known as time value, is the portion of the option's premium that exceeds its intrinsic value.
+
+Let's say I have a $\text{TSLA}$ call option with a strike price of \$$800$, and the current $\text{TSLA}$ stock price is \$$1000$. Because I can use the call option to make a \$$200$ profit per share, the call option price must be worth \$$200$ or more. Let's say the call option price is \$$250$. The extra \$$50$ is the extrinsic value or time value of the option.
+
+
+## Options Types Based on Intrinsic and Extrinsic Value
+
+There are three option types 
+
+### In the Money
+
+An option that has intrinsic value is called an in-the-money option.
+
+### Out of the Money
+
+An option with no intrinsic value and 100% extrinsic value is called an out-of-the-money option.
+
+### At the Money
+
+An option with a strike price very close to the current stock price is called an at-the-money option.
+
+
+## Shorting Option
+
+Shorting an option means selling a contract for an option that you do not own. It is very risky, but shorting can be used to capitalize on the extrinsic (time) value of the stock.
+
 
