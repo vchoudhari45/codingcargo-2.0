@@ -42,6 +42,18 @@ You can then connect to the server using redis-cli, just as you connect to any R
 docker exec -it redis-stack-server redis-cli
 ```
 
+
+### To Stop Redis Container 
+
+```java
+# list all docker container running the redis/redis-stack-server image
+docker ps -a | grep redis/redis-stack-server
+
+# stop & remove container using containerId returned from above command 
+docker stop <container_id>
+docker rm <container_id>
+```
+
 ## Key 
 	- Unique 
 	- Binary Safe - Can be anything like simple string, number to binary value
@@ -358,23 +370,103 @@ ZRANGE leaders:exp 0 9 WITHSCORES
 2) "10"
 ```
 
-## Set Operations With Set And Sorted Set
 
+## Attribute Search
+
+Let's consider a scenario where we have events with specific attributes that we want to search based on certain criteria:
+
+- Disabled access available: Yes/No
+- Medal Event: Yes/No
+- Event Venue: String
+
+Example events
 ```java
-ZADD sales:judo 1500 june 2000 bill 200 mary
-(integer) 3
-
-ZADD sales:wrestling 1800 bill 1000 bob 800 mary
-(integer) 3
-
-ZINTERSTORE promo:taekwondo 2 sales:wrestling sales:judo aggregate sum
-(integer) 2
-
-ZRANGE promo:taekwondo 0 -1 WITHSCORES
-1) "mary"
-2) "1000"
-3) "bill"
-4) "3800"
+{
+	"sku": "123",
+	"name": "Men's 100 m final",
+	"disabled_access": True,
+	"medal_event": True,
+	"venue": "Olympic Stadium",
+	"category": "Track & Field"
+},
+{
+	"sku": "456",
+	"name": "Women's 100 m final",
+	"disabled_access": True,
+	"medal_event": False,
+	"venue": "Olympic Stadium",
+	"category": "Track & Field"
+},
+{
+	"sku": "789",
+	"name": "Women's Judo final",
+	"disabled_access": False,
+	"medal_event": False,
+	"venue": "Nippon Budokan",
+	"category": "Track & Field"
+}
 ```
 
+Typical approach is to use secondary indexes or full text search like Solr and Lucene. Unlike many other databases, Redis does not support secondary indexes.
 
+### Object Inspection
+
+Here is an approach:
+
+- Create a key for each event using the domain name `event` and a unique identifier called `sku`.
+
+```java
+
+SET "event:123" "{\"sku\": \"123\", \"name\": \"Men's 100 m final\", \"disabled_access\": True, \"medal_event\": True, \"venue\": \"Olympic Stadium\", \"category\": \"Track & Field\"}"
+OK 
+
+SET "event:456" "{\"sku\": \"456\", \"name\": \"Women's 100 m final\", \"disabled_access\": True, \"medal_event\": False, \"venue\": \"Olympic Stadium\", \"category\": \"Track & Field\"}"
+OK 
+
+SET "event:789" "{\"sku\": \"789\", \"name\": \"Women's Judo final\", \"disabled_access\": False, \"medal_event\": False, \"venue\": \"Olympic Stadium\", \"category\": \"Track & Field\"}"
+OK 
+```
+
+- Use SCAN to find all matching domain objects, retrieve each object using GET in our application code, and inspect them individually to verify if they meet the criteria.
+
+
+:::info
+This approach is not ideal because it involves iterating over all the objects.
+:::
+
+
+### Faceted Search
+
+Here is an approach
+- Maintain a set for each attribute and value combination.
+```java
+SADD fs:disabled_access:True 123, 456
+(integer) 2
+
+SADD fs:disabled_access:False 789
+(integer) 1
+
+SADD fs:medal_event:True 123
+(integer) 1
+
+SADD fs:medal_event:False 456 789
+(integer) 2
+
+SADD fs:venue:"Olympic Stadium" 123 456
+(integer) 2
+
+SADD fs:venue:"Nippon Budokan" 789
+(integer) 1
+```
+- Next use SINTER to find matching SKU 
+```java
+SINTER fs:disabled_access:True fs:medal_event:False
+1) 456
+```
+
+### Hashed Index
+
+
+
+## Todo 
+https://university.redis.com/
