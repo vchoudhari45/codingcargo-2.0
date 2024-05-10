@@ -1,12 +1,14 @@
 ---
-slug: /stock-options
+slug: /share-market/stock-options-basics
 ---
 
-# Stock Options
+# Stock Options Basics
+
+Stocks with active options markets typically have high open interest and trading volume, along with narrow bid/ask spreads.
 
 ## Option Characteristics
 
-All options have the following three main characteristics
+All options have the following three main characteristics, 
 
 ### Expiration date
 
@@ -23,7 +25,7 @@ If an option is valued at \$$5$, it can't be bought for \$$5$, you will need \$$
 
 ## Option Types
 
-There are two main types of options
+There are two main types of options, 
 
 ### Call Option
 
@@ -50,12 +52,12 @@ The price of an option will always reflect the potential profit it can provide t
 
 The extrinsic value of an option, also known as time value, is the portion of the option's premium that exceeds its intrinsic value.
 
-Let's say I have a $\text{TSLA}$ call option with a strike price of \$$800$, and the current $\text{TSLA}$ stock price is \$$1000$. Because I can use the call option to make a \$$200$ profit per share, the call option price must be worth \$$200$ or more. Let's say the call option price is \$$250$. The extra \$$50$ is the extrinsic value or time value of the option.
+Let's say I have a TSLA call option with a strike price of \$$800$, and the current TSLA stock price is \$$1000$. Because I can use the call option to make a \$$200$ profit per share, the call option price must be worth \$$200$ or more. Let's say the call option price is \$$250$. The extra \$$50$ is the extrinsic value or time value of the option.
 
 
 ## Options Types Based on Intrinsic and Extrinsic Value
 
-There are three option types 
+There are three option types, 
 
 ### In the Money
 
@@ -77,13 +79,30 @@ Shorting an option means selling a contract for an option that you do not own. I
 
 ## Implied Volatility 
 
-It represents the expected magnitude of a stock price change. For example, consider two stocks with the same stock price of \$$180$
+Implied volatility represents the market's expectation of how much a stock's price will change in the future.
 
-- Stock A: A call option expiring in $36$ days has \$$7$ of extrinsic value.
-- Stock B: A call option expiring in $36$ days has \$$15$ of extrinsic value.
+It is derived from a stock's option prices and represents the expected one standard deviation of stock price movement over a one-year period.
 
-Stock B has higher implied volatility.
+In statistics, one standard deviation represents a range that encompasses approximately $68$% of the outcomes around the mean or average. Formula for calculating expected stock price after 1 year $ = $ stock price $\pm$ (stock price $*$ Implied Volatility)
 
-## How to Select Stocks for Option Trading
+:::info
+More Buying Pressure than Selling Pressure = Increase in option prices = Higher Implied volatility \
+More Selling Pressure than Buying Pressure = Decrease in option price = Lower Implied Volatility
+:::
 
-Stocks with active options markets typically have high open interest and trading volume, along with narrow bid/ask spreads.
+## Breakeven Price
+
+The breakeven price of an options position is the specific stock price that results in neither profit nor loss at expiration.
+
+### Call Option
+
+The expiration breakeven price of any call option, whether you are buying or shorting, will be equal to the call option's strike price plus the trade entry price.
+
+For example, if I am buying a call option with a strike price of \$$250$ and a premium of \$$10$, the breakeven price of the call option will be \$$260$.
+
+### Put Option
+
+The expiration breakeven price of any call option, whether you are buying or shorting, will be equal to the call option's strike price minus the trade entry price.
+
+For example, if I am buying a call option with a strike price of \$$250$ and a premium of \$$10$, the breakeven price of the call option will be \$$240$.
+

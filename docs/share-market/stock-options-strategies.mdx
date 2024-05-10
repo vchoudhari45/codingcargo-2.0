@@ -1,0 +1,113 @@
+---
+slug: /stock-options/strategies
+---
+
+# Stock Options Strategies
+
+## Vertical Spread 
+
+A vertical spread involves buying and selling two options with different strike prices but the same expiration date. Since strike prices are listed vertically on the option chain, you are essentially creating a spread vertically.
+
+### Bull Call Spread
+
+It is a bullish option strategy constructed with call options.
+	-	It is also known as a call debit spread.
+	-	Buy a call option at one strike price.
+	-	Short another call option at a higher strike price.
+
+#### For Example 
+Suppose stock $\text{A}$ is trading at \$$140$. I buy a $130$ call option expiring in $100$ days for \$$10$ and, at the same time, short a $150$ call option expiring in $100$ days and collect \$$2$. The total cost of setting up this bull call spread strategy is \$$8$.
+
+The table below shows different scenarios and the resulting profits or losses at expiration.
+
+| Stock Price | $\textbf{130}$ Call Option            | $\textbf{150}$ Call Option          | Bull Call Spread  |
+|-------------|---------------------------------------|-------------------------------------|-------------------|
+| \$$125$     | Intrinsic value: \$$ 0$, Loss: \$$10$ | Intrinsic value: \$$0$, Gain: \$$2$ | Net loss: \$$8$   |
+| \$$130$     | Intrinsic value: \$$ 0$, Loss: \$$10$ | Intrinsic value: \$$0$, Gain: \$$2$ | Net loss: \$$8$   |
+| \$$138$     | Intrinsic value: \$$ 8$, Loss: \$$2$  | Intrinsic value: \$$0$, Gain: \$$2$ | Breakeven         |
+| \$$140$     | Intrinsic value: \$$10$, Gain: \$$0$  | Intrinsic value: \$$0$, Gain: \$$2$ | Net profit: \$$2$ |
+| \$$150$     | Intrinsic value: \$$20$, Gain: \$$10$ | Intrinsic value: \$$0$, Gain: \$$2$ | Net profit: \$$12$|
+| \$$155$     | Intrinsic value: \$$25$, Gain: \$$15$ | Intrinsic value: \$$5$, Loss: \$$3$ | Net profit: \$$12$  |
+
+The maximum profit that a spread can achieve is equal to the difference between the two strike prices minus the initial cost of the trade, while the maximum loss that a spread can incur is equal to the initial cost of the trade.
+
+For example, for all prices below \$$130$, this strategy will incur a maximum loss of \$$8$, and for all prices above \$$150$, this strategy will yield a maximum profit of \$$12$.
+
+
+### Bull Put Spread
+
+It is a bullish option strategy constructed with put options.
+	- It is also know as a put credit spread.
+	- Short a put option at one strike price.
+	- Buy another put option at a lower strike price.
+
+#### For Example
+Suppose stock $\text{A}$ is trading at \$$140$. I buy a $130$ put option expiring in $100$ days for \$$2$ and, at the same time, short a $150$ put option expiring in $100$ days and collect \$$10$. The total gain after setting up this bull put spread strategy is \$$8$.
+
+The table below shows different scenarios and the resulting profits or losses at expiration.
+
+| Stock Price | $\textbf{130}$ Put Option             | $\textbf{150}$ Put Option             | Bull Put Spread   |
+|-------------|---------------------------------------|---------------------------------------|-------------------|
+| \$$125$     | Intrinsic value: \$$ 5$, Gain: \$$3$  | Intrinsic value: \$$25$, Loss: \$$15$ | Net loss: \$$12$  |
+| \$$130$     | Intrinsic value: \$$ 0$, Loss: \$$2$  | Intrinsic value: \$$20$, Loss: \$$10$ | Net loss: \$$12$  |
+| \$$140$     | Intrinsic value: \$$ 0$, Loss: \$$2$  | Intrinsic value: \$$10$, Gain: \$$0$  | Net loss: \$$2$   |
+| \$$142$     | Intrinsic value: \$$ 0$, Loss: \$$2$  | Intrinsic value: \$$ 8$, Gain: \$$2$  | Breakeven         |
+| \$$150$     | Intrinsic value: \$$ 0$, Loss: \$$2$  | Intrinsic value: \$$ 0$, Gain: \$$10$ | Net profit: \$$ 8$|
+| \$$155$     | Intrinsic value: \$$ 0$, Loss: \$$2$  | Intrinsic value: \$$ 0$, Gain: \$$10$ | Net profit: \$$ 8$|
+
+
+### Bear Call Spread
+
+It is bearish option strategy constructed with call options.
+
+	- It is also know as a call credit spread.
+	- Short a call option at one strike price.
+	- Buy another call option at a higher strike price.
+
+#### For Example 
+Suppose stock $\text{A}$ is trading at \$$140$. I short a $130$ call option expiring in $100$ days and collect \$$10$ and, at the same time, buy a $150$ call option expiring in $100$ days for \$$2$. The total gain after setting up this bear call spread strategy is \$$8$.
+
+The table below shows different scenarios and the resulting profits or losses at expiration.
+
+| Stock Price | $\textbf{130}$ Call Option            | $\textbf{150}$ Call Option            | Bull Put Spread   |
+|-------------|---------------------------------------|---------------------------------------|-------------------|
+| \$$125$     | Intrinsic value: \$$ 0$, Gain: \$$10$ | Intrinsic value: \$$ 0$, Loss: \$$2$  | Net profit: \$$8$ |
+| \$$130$     | Intrinsic value: \$$ 0$, Gain: \$$10$ | Intrinsic value: \$$ 0$, Loss: \$$2$  | Net profit: \$$8$ |
+| \$$138$     | Intrinsic value: \$$ 8$, Gain: \$$2$  | Intrinsic value: \$$ 0$, Loss: \$$2$  | Breakeven         |
+| \$$140$     | Intrinsic value: \$$10$, Gain: \$$0$  | Intrinsic value: \$$ 0$, Loss: \$$2$  | Net loss: \$$2$   |
+| \$$150$     | Intrinsic value: \$$20$, Loss: \$$10$ | Intrinsic value: \$$ 0$, Gain: \$$0$  | Net loss: \$$10$  |
+| \$$155$     | Intrinsic value: \$$25$, Loss: \$$15$ | Intrinsic value: \$$ 5$, Gain: \$$5$  | Net loss: \$$10$  |
+
+
+### Bear Put Spread
+
+It is bearish option strategy constructed with put options.
+	- It is also know as a put debit spread.
+	- Buy a put option at one strike price.
+	- Short another put option at lower strike price.
+
+
+#### For Example 
+Suppose stock $\text{A}$ is trading at \$$140$. I short a $130$ put option expiring in $100$ days and collect \$$2$ and, at the same time, buy a $150$ put option expiring in $100$ days for \$$10$. The total cost for setting up this bear put spread strategy is \$$8$.
+
+The table below shows different scenarios and the resulting profits or losses at expiration.
+
+| Stock Price | $\textbf{130}$ Put Option             | $\textbf{150}$ Put  Option            | Bull Put Spread    |
+|-------------|---------------------------------------|---------------------------------------|--------------------|
+| \$$125$     | Intrinsic value: \$$ 5$, Loss: \$$3$  | Intrinsic value: \$$25$, Gain: \$$15$ | Net profit: \$$12$ |
+| \$$130$     | Intrinsic value: \$$ 0$, Gain: \$$2$  | Intrinsic value: \$$20$, Gain: \$$10$ | Net profit: \$$12$ |
+| \$$140$     | Intrinsic value: \$$ 0$, Gain: \$$2$  | Intrinsic value: \$$10$, Gain: \$$ 0$ | Net profit: \$$2$  |
+| \$$142$     | Intrinsic value: \$$ 0$, Gain: \$$2$  | Intrinsic value: \$$ 8$, Loss: \$$ 2$ | Breakeven          |
+| \$$150$     | Intrinsic value: \$$ 0$, Gain: \$$2$  | Intrinsic value: \$$ 0$, Loss: \$$10$ | Net loss: \$$ 8$   |
+| \$$155$     | Intrinsic value: \$$ 0$, Loss: \$$2$  | Intrinsic value: \$$ 0$, Gain: \$$10$ | Net loss: \$$ 8$   |
+
+
+## Vertical Spread Law
+
+To achieve the maximum profit potential, a vertical spread requires the options within the spread to be trading with minimal or zero extrinsic value.
+
+Options generally have little to no extrinsic value under the following conditions:
+	- At expiration.
+	- When significantly in the money or out of the money prior to expiration.
+
+
