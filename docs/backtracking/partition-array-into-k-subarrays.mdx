@@ -18,7 +18,7 @@ The problem description can be found at [Leetcode 2305. Fair Distribution of Coo
 
 
 ### Explanation 
-Some problems simply call for a basic backtracking method to solve them. You can spot these by considering \
+Some problems simply call for a basic backtracking method to solve them. You can spot these by looking at the \
 the size of the input. Another clue is that the problem requires checking all possible outcomes before arriving \
 at the expected solution.
 
@@ -52,27 +52,34 @@ assigning the first bag of cookies to each child one by one, then proceed to the
 
 
 
-Let's visualize the distribution of cookie bags $P$, $Q$, and $R$ among $2$ children.
+Let's visualize the distribution of cookie bags $P$, $Q$, and $R$ among $2$ children, $C1$ & $C2$.
 
 <br />
 <div style={{textAlign:"center"}}>
 
 ```mermaid
 graph TD
-    A((&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Root &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)) --Assign bag P--> B((&nbsp; Child 1: P &nbsp;))
-    A((&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Root &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)) --Assign bag P--> C((&nbsp; Child 2: P &nbsp;))
+    A([Start]) -->|Bag P to C1| B([C1: P])
+    A -->|Bag P to C2| C([C2: P])
+	
+    B -->|Bag Q to C1| D([C1: P, Q])
+    B -->|Bag Q to C2| E([C1: P<br/>C2: Q])
 
-		B --Assign bag Q--> D((&nbsp; Child 1: P, Q &nbsp;))
-    B --Assign bag Q--> E((&nbsp;&nbsp;&nbsp; Child 1: P  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \n Child 2: Q &nbsp))
-		
-		C --Assign bag Q--> F((&nbsp; Child 2: P, Q &nbsp;))
-		C --Assign bag Q--> G((&nbsp;&nbsp;&nbsp; Child 1: Q  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \n Child 2: P &nbsp))
+    C -->|Bag Q to C1| F([C1: Q<br/>C2: P])
+    C -->|Bag Q to C2| G([C2: P, Q])
 
-	  D --Assign bag R--> H((&nbsp; Child 1: P, Q, R &nbsp;))
-    E --Assign bag R--> I((&nbsp;&nbsp;&nbsp; Child 1: P  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \n Child 2: Q, R &nbsp))
-		F --Assign bag R--> J((&nbsp; Child 2: P, Q, R &nbsp;))
-		G --Assign bag R--> K((&nbsp;&nbsp;&nbsp;&nbsp; Child 1: Q, R &nbsp;&nbsp; \n Child 2: P &nbsp))
-```
+    D -->|Bag R to C1| H([C1: P, Q, R])
+		D -->|Bag R to C2| I([C1: P, Q<br/> C2: R])
+
+    E -->|Bag R to C1| J([C1: P, R<br/>C2: Q])
+		E -->|Bag R to C2| K([C1: P<br/>C2: Q, R])
+
+    F -->|Bag R to C1| N([C1: Q, R<br/>C2: P])
+		F -->|Bag R to C2| O([C1: Q<br/>C2: P, R])
+
+		G -->|Bag R to C1| L([C1: R<br/>C2: P, Q])
+		G -->|Bag R to C2| M([C2: P, Q, R])
+``` 
 </div>
 <br />
 
@@ -100,20 +107,22 @@ class Solution {
         if (index == cookies.length) {
             min = Math.min(min, max(dist));
         } else {
-            // Try distributing the current cookie to each child 
-            // and find the minimum value
+            /* 
+             * Try distributing the current cookie to each child and find 
+             * the minimum value
+             */
             for (int i = 0; i < dist.length; i++) {
-                // If the current distribution is the same as the previous 
-                // distribution then discard this distribution
-                if (i > 0 && dist[i] == dist[i - 1]) continue;
-
-                // If the distribution already exceeds the previously found min, 
-                // then discard this distribution
+                /* 
+                 * If the distribution already exceeds the previously found min, 
+                 * then discard this distribution
+                 */
                 if (dist[i] + cookies[index] >= min) continue;
 
-                dist[i] += cookies[index]; // Distribute cookie to child i
+                // Distribute cookie to child i
+                dist[i] += cookies[index]; 
                 backtrack(cookies, index + 1, dist);
-                dist[i] -= cookies[index]; // Backtrack: remove the distributed cookie
+                // Backtrack: remove the distributed cookie
+                dist[i] -= cookies[index];
             }
         }
     }
@@ -145,14 +154,21 @@ class Solution {
 Let's say there are $N$ bags of cookies to distribute among $K$ children.
 
 #### Time complexity 
+
 $
 O(K ^ N)
 $
 
+Each of the $N$ bag has $K$ options to choose from.
+
+
 #### Space complexity
+
 $
-O(K + N)
+O(N + K)
 $
+
+Since there are $N$ bags to assign to each child, the stack size for the backtracking will be $N$. Additionally, an array of size $K$ is needed to hold the distribution of bags among the $K$ children.
 
 
 
@@ -175,6 +191,35 @@ Here are some more questions that can be solved using the same technique.
 The problem description can be found at [Leetcode 1467. Probability of a Two Boxes Having The Same Number of Distinct Balls](https://leetcode.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/description/).
 
 
+Let's visualize the problem for input array $\text{balls} = [2,1]$. Input array has $2$ balls of color $C1$, $1$ ball of color $C2$. The backtracking method starts with $\text{index} = 0$ and begins dividing the balls at that index into $2$ boxes.
+
+<br />
+<div style={{textAlign:"center"}}>
+
+```mermaid
+graph TD
+    A([Start]) --> |0 C1 Ball to Box1 <br /> 2 C1 Ball to Box2| B[Box2: 2 Ball C1]
+    A --> |1 C1 Ball to Box1<br>1 C1 Ball to Box2| C[Box1: <br /> 1 Ball C1 <br /><br /> Box2: <br /> 1 Ball C1]
+    A --> |2 C1 Ball to Box1<br>0 C1 Ball to Box2| D[Box1: <br /> 2 Ball C1]
+
+		B --> |0 C2 Ball to Box1<br>1 C2 Ball to Box2| E[Box2: <br /> 2 Ball C1 <br /> 1 Ball C2]
+		B --> |1 C2 Ball to Box1<br>0 C2 Ball to Box2| F[Box1: <br /> 1 Ball C2 <br /><br /> Box2: <br /> 2 Ball C1]
+		
+    C --> |0 C2 Ball to Box1<br>1 C2 Ball to Box2| G[Box1: <br /> 1 Ball C1 <br /><br /> Box2: <br /> 1 Ball C1 <br /> 1 Ball C2]
+    C --> |1 C2 Ball to Box1<br>0 C2 Ball to Box2| H[Box1: <br /> 1 Ball C1 <br /> 1 Ball C2 <br /><br /> Box2: <br /> 1 Ball C1]
+
+		D --> |0 C2 Ball to Box1<br>1 C2 Ball to Box2| I[Box1: <br /> 2 Ball C1 <br /> <br /> Box2: <br /> 1 Ball C2]
+		D --> |1 C2 Ball to Box1<br>0 C2 Ball to Box2| J[Box1: <br /> 2 Ball C1 <br /> 1 Ball C2]
+``` 
+</div>
+
+<br />
+
+Once we have all the possibilities ready, we mark the ones that satisfy the given condition and calculate the probability. 
+
+In this question, we also calculate the combinations to determine how many different ways we can achieve the current configuration. For example, we calculate the number of ways to distribute $0$ balls of color $C1$ to Box$1$ and $2$ balls of color $C1$ to Box$2$.
+
+
 <details>
   <summary>Solution</summary>
 
@@ -183,7 +228,8 @@ The problem description can be found at [Leetcode 1467. Probability of a Two Box
 
 ```java
 class Solution {
-    double[] factorial = new double[49]; // Array to store factorials
+    // Array to store factorials
+    double[] factorial = new double[49]; 
 
     // Main method to calculate probability
     public double getProbability(int[] balls) {
@@ -199,29 +245,37 @@ class Solution {
             factorial[i] = factorial[i - 1] * i;
         }
 
-        double valid = backtrack(balls, 0, 0, 0, 0, 0); // Calculate valid cases
-        double total = combinations(sum, sum / 2); // Calculate total combinations
+        // Calculate valid cases
+        double valid = backtrack(balls, 0, 0, 0, 0, 0); 
+        // Calculate total combinations
+        double total = combinations(sum, sum / 2); 
 
-        return valid / total; // Return probability
+        // Return probability
+        return valid / total; 
     }
 
     // Backtracking method to calculate valid cases
     private double backtrack(int[] balls, int index, int box1Color, int box2Color,
-                             int box1Count, int box2Count) {
+      int box1Count, int box2Count) {
+
         if (index == balls.length) {
             // Check if counts and colors match for both boxes
             return box1Count == box2Count && box1Color == box2Color ? 1 : 0;
         } else {
             double res = 0;
+            /*
+             * Assign i balls from balls[index] to first box and 
+             * balls[index] - i to second box
+             */
             for (int i = 0; i <= balls[index]; i++) {
                 double combinations = combinations(balls[index], i);
-                res += combinations * backtrack(
-                        balls, index + 1,
-                        i > 0 ? box1Color + 1 : box1Color,
-                        i < balls[index] ? box2Color + 1 : box2Color,
-                        box1Count + i,
-                        box2Count + (balls[index] - i)
-                );
+                res += backtrack(
+                  balls, index + 1,
+                  i > 0 ? box1Color + 1 : box1Color,
+                  i < balls[index] ? box2Color + 1 : box2Color,
+                  box1Count + i,
+                  box2Count + (balls[index] - i)
+                ) * combinations;
             }
             return res;
         }

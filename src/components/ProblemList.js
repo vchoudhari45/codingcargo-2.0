@@ -92,7 +92,7 @@ const ProblemList = () => {
 
   return (
     <div>
-      <h2>Leetcode Problems</h2>
+      <h2>Problem Set</h2>
       <table>
         {renderTableHeader()}
         {renderTableData()}
