@@ -191,25 +191,25 @@ Here are some more questions that can be solved using the same technique.
 The problem description can be found at [Leetcode 1467. Probability of a Two Boxes Having The Same Number of Distinct Balls](https://leetcode.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/description/).
 
 
-Let's visualize the problem for input array $\text{balls} = [2,1]$. Input array has $2$ balls of color $C1$, $1$ ball of color $C2$. The backtracking method starts with $\text{index} = 0$ and begins dividing the balls at that index into $2$ boxes.
+Let's visualize the problem for input array $\text{balls} = [2,1]$. Input array has $2$ balls of color 🔵, $1$ ball of color 🔴. The backtracking method starts with $\text{index} = 0$ and begins dividing the balls at that index into $2$ boxes.
 
 <br />
 <div style={{textAlign:"center"}}>
 
 ```mermaid
 graph TD
-    A([Start]) --> |0 C1 Ball to Box1 <br /> 2 C1 Ball to Box2| B[Box2: 2 Ball C1]
-    A --> |1 C1 Ball to Box1<br>1 C1 Ball to Box2| C[Box1: <br /> 1 Ball C1 <br /><br /> Box2: <br /> 1 Ball C1]
-    A --> |2 C1 Ball to Box1<br>0 C1 Ball to Box2| D[Box1: <br /> 2 Ball C1]
+    A([Start]) --> |0 Blue Ball to Box1 <br /> 2 Blue Ball to Box2| B([Box2: 🔵 🔵])
+    A --> |1 Blue Ball to Box1<br>1 Blue Ball to Box2| C([Box1: 🔵 <br /> Box2: 🔵])
+    A --> |2 Blue Ball to Box1<br>0 Blue Ball to Box2| D([Box1: 🔵 🔵])
 
-		B --> |0 C2 Ball to Box1<br>1 C2 Ball to Box2| E[Box2: <br /> 2 Ball C1 <br /> 1 Ball C2]
-		B --> |1 C2 Ball to Box1<br>0 C2 Ball to Box2| F[Box1: <br /> 1 Ball C2 <br /><br /> Box2: <br /> 2 Ball C1]
-		
-    C --> |0 C2 Ball to Box1<br>1 C2 Ball to Box2| G[Box1: <br /> 1 Ball C1 <br /><br /> Box2: <br /> 1 Ball C1 <br /> 1 Ball C2]
-    C --> |1 C2 Ball to Box1<br>0 C2 Ball to Box2| H[Box1: <br /> 1 Ball C1 <br /> 1 Ball C2 <br /><br /> Box2: <br /> 1 Ball C1]
+    B --> |0 Red Ball to Box1<br>1 Red Ball to Box2| E([Box2: 🔵 🔵 🔴])
+    B --> |1 Red Ball to Box1<br>0 Red Ball to Box2| F([Box1: 🔴 <br /> Box2: 🔵 🔵])
+    
+    C --> |0 Red Ball to Box1<br>1 Red Ball to Box2| G([Box1: 🔵 <br /> Box2: 🔵 🔴])
+    C --> |1 Red Ball to Box1<br>0 Red Ball to Box2| H([Box1: 🔵 🔴 <br /> Box2: 🔵])
 
-		D --> |0 C2 Ball to Box1<br>1 C2 Ball to Box2| I[Box1: <br /> 2 Ball C1 <br /> <br /> Box2: <br /> 1 Ball C2]
-		D --> |1 C2 Ball to Box1<br>0 C2 Ball to Box2| J[Box1: <br /> 2 Ball C1 <br /> 1 Ball C2]
+    D --> |0 Red Ball to Box1<br>1 Red Ball to Box2| I([Box1: 🔵 🔵 <br /> Box2: 🔴])
+    D --> |1 Red Ball to Box1<br>0 Red Ball to Box2| J([Box1: 🔵 🔵 🔴])
 ``` 
 </div>
 
