@@ -1,0 +1,116 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 1723. Find Minimum Time to Fini...
+
+The problem description can be found at [Leetcode 1723. Find Minimum Time to Finish All Jobs](https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs/description/).
+
+
+## Explanation
+
+Let's visualize the problem for input $\text{jobs} = [3,2,4], \text{k} = 2$.
+
+Here we also assume job which takes $3$ units of time is called $P$, job which takes $2$ units of time is called $Q$ and job which takes $4$ units of time is called $R$.
+
+<div style={{textAlign:"center"}}>
+
+```mermaid
+graph TD
+    A([Start]) -->|Job P = 3 to W1| B([W1: 3])
+    A -->|Job P = 3 to W2| C([W2: 3])
+	
+    B -->|Job Q = 2 to W1| D([W1: 3, 2])
+    B -->|Job Q = 2 to W2| E([W1: 3 <br /> W2: 2])
+
+    C -->|Job Q = 2 to W1| F([W1: 2 <br /> W2: 3])
+    C -->|Job Q = 2 to W2| G([W2: 3, 2])
+
+		D -->|Job R = 4 to W1| H([W1: 3, 2, 4])
+    D -->|Job R = 4 to W2| I([W1: 3, 2 <br /> W2: 4])
+
+		E -->|Job R = 4 to W1| J([W1: 3, 4 <br /> W2: 2])
+		E -->|Job R = 4 to W2| K([W1: 3 <br /> W2: 2, 4])
+
+		F -->|Job R = 4 to W1| L([W1: 2, 4 <br /> W2: 3])
+		F -->|Job R = 4 to W2| M([W1: 2 <br /> W2: 3, 4])
+
+		G -->|Job R = 4 to W1| N([W1: 4 <br /> W2: 3, 2])
+		G -->|Job R = 4 to W2| O([W2: 3, 2, 4])
+``` 
+</div>
+
+
+Once we have all the distribution possibilities ready, we calculate the required answer.
+
+
+## Implementation
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    private int min = Integer.MAX_VALUE;
+
+    // Main method to calculate minimum time required
+    public int minimumTimeRequired(int[] jobs, int k) {
+        backtrack(jobs, 0, new int[k]);
+        return min;
+    }
+
+    // Backtracking method to find the minimum of maximum value
+    private void backtrack(int[] jobs, int index, int[] workers) {
+        // Base case: all jobs are assigned
+        if (index == jobs.length) {
+            min = Math.min(min, max(workers));
+        } else {
+            // Try assigning the current job to each worker and find the minimum value
+            for (int i = 0; i < workers.length; i++) {
+                // If the current assignment is the same as the previous one, skip
+                if (i > 0 && workers[i] == workers[i - 1]) continue;
+
+                // If the current assignment exceeds the previously found min, then discard
+                if (workers[i] + jobs[index] > min) continue;
+
+                workers[i] += jobs[index]; // Assign job to worker i
+                backtrack(jobs, index + 1, workers);
+                workers[i] -= jobs[index]; // Backtrack: remove the assigned job
+            }
+        }
+    }
+
+    // Method to find the maximum value in an array
+    private int max(int[] array) {
+        int maxValue = Integer.MIN_VALUE;
+        // Find the maximum value in the array
+        for (int i = 0; i < array.length; i++) {
+            maxValue = Math.max(maxValue, array[i]);
+        }
+        return maxValue;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+
+## Complexity
+
+Let $N$ be the length of the input array $\text{jobs}$ and $K$ be the number of workers.
+
+### Time complexity 
+
+$
+O(K ^ N)
+$
+
+Each of the $N$ job has $K$ workers to choose from.
+
+
+### Space complexity
+
+$
+O(N)
+$
+
+Since there are $N$ jobs to assign to each worker, the stack size for the backtracking will go upto $N$.

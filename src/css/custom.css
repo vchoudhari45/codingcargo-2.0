@@ -117,3 +117,12 @@ td {
 	padding-bottom: 0 !important;
   border: none !important;
 }
+
+.docusaurus-mermaid-container {
+	margin-top: 60px;
+	margin-bottom: 60px;
+}
+
+.margin-top--md {
+	margin-bottom: 60px;
+}
