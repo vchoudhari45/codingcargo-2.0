@@ -8,7 +8,13 @@ The problem description can be found at [Leetcode 2305. Fair Distribution of Coo
 
 ## Explanation 
 
-Let's visualize the problem for input $\text{cookies} = [8,15,10], \text{k} = 2$.
+This problem can be solved using the Backtracking technique to partition an array into $K$ subarrays. More such questions can be found [here](/backtracking/partition-array-into-k-subarrays).
+
+Let's take the sample input below,
+
+$$
+\text{cookies} = [8,15,10], \ \text{k} = 2
+$$
 
 Here we also assume bag which takes $8$ cookies is called $P$, bag which takes $15$ cookies is called $Q$ and bag which has $10$ cookies is called $R$.
 
@@ -100,17 +106,19 @@ Let's say there are $N$ bags of cookies to distribute among $K$ children.
 
 ### Time complexity 
 
-$
-O(K ^ N)
-$
-
 Each of the $N$ bag has $K$ options to choose from.
+
+$$
+O(K ^ N)
+$$
+
 
 
 ### Space complexity
 
-$
-O(N + K)
-$
-
 Since there are $N$ bags to assign to each child, the stack size for the backtracking will go upto $N$. Additionally, an array of size $K$ is needed to hold the distribution of bags among the $K$ children.
+
+$$
+O(N + K)
+$$
+

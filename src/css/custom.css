@@ -126,3 +126,12 @@ td {
 .margin-top--md {
 	margin-bottom: 60px;
 }
+
+.katex-html {
+	margin-bottom: 40px;
+	margin-top: 40px;
+}
+
+.theme-admonition {
+	margin-bottom: 40px !important;
+}

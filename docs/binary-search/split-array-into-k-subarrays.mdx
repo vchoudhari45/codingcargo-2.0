@@ -5,170 +5,19 @@ import TabItem from '@theme/TabItem';
 
 #  Split Array Into K Subarrays
 
-This page offers detailed explanations and Java solutions for problems that involve splitting an array into $K$ subarrays, using the Binary Search technique.
+This page features a list of links to explanations and Java solutions for problems that involve splitting an array into $K$ subarrays, using the Binary Search technique.
 
 
-## Split Array Largest Sum
+## How to Spot These Problems
 
-The problem description can be found at [LeetCode 410. Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/).
-
-
-
-### Explanation 
-Often, split array into sub-arrays questions can be solved by repeatedly applying binary search to meet the specified conditions.
+You can identify such problems if the it asks you to split the array into $K$ subarrays to satisfy a specific condition.
 
 
-Let's take the sample input below,
+## Leetcode Problem Set
 
-<br />
-$$
-\text{nums} = \begin{bmatrix}
-7, 2, 5, 10, 8
-\end{bmatrix}, 
-\  \text{k} = 2
-$$
-<br />
+[LeetCode 410. Split Array Largest Sum](/leetcode/split-array-largest-sum/)
 
-Initiate the binary search using the largest array value $10$ as the low threshold and the total sum of the array \
-$32$ as the high threshold.
-
-<br />
-$$
-\text{lo} = 10, \ \text{hi} = 32, \ \text{mid} = 21
-$$
-<br />
-
-With maximum sum as $21$, the first subarray will have $\begin{bmatrix}7, 2, 5\end{bmatrix}$, and the second subarray will have
-$\begin{bmatrix}10, 8\end{bmatrix}$. \
-Since none of the subarray sums exceed value of $21$, let's lower the upper threshold to minimize search value further.
-
-<br />
-$$
-\text{lo} = 10, \ \text{hi} = 21, \ \text{mid} = 15
-$$
-<br />
-
-:::info[]
-Observe that we're setting $\text{hi} = \text{mid}$ instead of $\text{mid} - 1$. This maintains the value of $21$(which satisfies given condition) within the search range.
-:::
-
-<br />
-With a maximum sum as $15$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, 2, 5\end{bmatrix}$ is fine, but the 
-second subarray $\begin{bmatrix}10, 8\end{bmatrix}$ exceeds the max sum of $15$. Let's increase the lower threshold.
-
-<br />
-$$
-\text{lo} = 16, \ \text{hi} = 21, \ \text{mid} = 18
-$$
-<br />
-
-With a maximum sum of $18$, we made two subarrays the first with numbers $\begin{bmatrix}7, 2, 5\end{bmatrix}$ and the second
-with numbers $\begin{bmatrix}10, 8\end{bmatrix}$. Since none of the subarray sums exceed value of $18$ let's lower the upper threshold to minimize search value further.
-
-<br />
-$$
-\text{lo} = 16, \ \text{hi} = 18, \ \text{mid} = 17
-$$
-<br />
-
-With a maximum sum of $17$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, 2, 5\end{bmatrix}$ is fine, but the 
-second subarray $\begin{bmatrix}10, 8\end{bmatrix}$ exceeds the max sum of $17$. Let's increase the lower threshold.
-
-<br />
-$$
-\text{lo} = 18, \ \text{hi} = 18, \ \text{mid} = 18
-$$
-<br />
-
-
-Since the lower limit equals the upper limit, we exit the binary search, finding the answer as $18$.
-
-
-
-
-
-
-
-### Implementation
-<Tabs>
-  <TabItem value="Java" label="Java" default>
-
-```java
-class Solution {
-    public int splitArray(int[] nums, int k) {
-        // Initialize the lower and upper bounds for binary search
-        int lo = Integer.MIN_VALUE;
-        int hi = 0;
-        
-        // Determine the bounds for the binary search
-        for (int num : nums) {
-            lo = Math.max(lo, num); 
-            hi += num; 
-        }
-
-        // Perform binary search
-        while (lo < hi) {
-            int mid = lo + (hi - lo) / 2; 
-            // Check if more partitions are needed
-            boolean isMore = isMorePartition(nums, mid, k); 
-            if (isMore)
-                lo = mid + 1; 
-            else
-                hi = mid; 
-        }
-        return lo; 
-    }
-
-    // Helper function to check if more partitions are required
-    private boolean isMorePartition(int[] nums, int required, int k) {
-        int index = 0, sum = 0, partition = 1;
-
-        // Iterate through the array to check for partitions
-        while (index < nums.length) {
-            sum += nums[index]; // Accumulate the sum
-            if (sum > required) {
-                sum = nums[index]; // Reset the sum for a new partition
-                partition++; // Increment the partition count
-            }
-            index++; // Move to the next element
-
-            if (partition > k)
-                return true; // If partitions exceed the given count, return true
-        }
-        return false; // Return false if partitions are within the given count
-    }
-}
-```
-</TabItem>
-</Tabs>
-
-
-
-
-
-
-
-
-### Complexity 
-
-Let's say there are $N$ elements in an array, and total sum of all elements in an array is $S$.
-
-#### Time complexity 
-$
-O(N \ \text{log} \ S)
-$
-
-#### Space complexity
-$
-O(1)
-$
-
-
-
-
-
-
-<br />
+[Leetcode 1231. Divide Chocolate](/leetcode/divide-chocolate/)
 
 ## Similar questions
 

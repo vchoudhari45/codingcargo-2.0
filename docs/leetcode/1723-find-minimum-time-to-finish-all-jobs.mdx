@@ -8,7 +8,13 @@ The problem description can be found at [Leetcode 1723. Find Minimum Time to Fin
 
 ## Explanation
 
-Let's visualize the problem for input $\text{jobs} = [3,2,4], \text{k} = 2$.
+This problem can be solved using the Backtracking technique to partition an array into $K$ subarrays. More such questions can be found [here](/backtracking/partition-array-into-k-subarrays).
+
+Let's take the sample input below,
+
+$$
+\text{jobs} = [3,2,4], \ \text{k} = 2
+$$
 
 Here we also assume job which takes $3$ units of time is called $P$, job which takes $2$ units of time is called $Q$ and job which takes $4$ units of time is called $R$.
 
@@ -100,17 +106,18 @@ Let $N$ be the length of the input array $\text{jobs}$ and $K$ be the number of 
 
 ### Time complexity 
 
-$
-O(K ^ N)
-$
-
 Each of the $N$ job has $K$ workers to choose from.
+
+$$
+O(K ^ N)
+$$
+
 
 
 ### Space complexity
 
-$
-O(N)
-$
-
 Since there are $N$ jobs to assign to each worker, the stack size for the backtracking will go upto $N$.
+
+$$
+O(N)
+$$

@@ -7,32 +7,38 @@ The problem description can be found at [Leetcode 1467. Probability of a Two Box
 
 ## Explanation
 
-Let's visualize the problem for input array $\text{balls} = [2,1]$. 
+This problem can be solved using the Backtracking technique to partition an array into $K$ subarrays. More such questions can be found [here](/backtracking/partition-array-into-k-subarrays).
 
-Here we also assume $2$ balls have Blue color, whereas $1$ ball has Red color.
+Let's take the sample input below,
+
+$$
+\text{balls} = [2,1]
+$$
+
+Here we also assume $2$ balls have Black(B) color, whereas $1$ ball has White(W) color.
 
 <div style={{textAlign:"center"}}>
 
 ```mermaid
 graph TD
-    A([Start]) --> |0 Blue Ball to Box1 <br /> 2 Blue Ball to Box2| B([Box2: 🔵 🔵])
-    A --> |1 Blue Ball to Box1 <br /> 1 Blue Ball to Box2| C([Box1: 🔵 <br /> Box2: 🔵])
-    A --> |2 Blue Ball to Box1 <br /> 0 Blue Ball to Box2| D([Box1: 🔵 🔵])
+    A([Start]) --> |0B to Box1 <br />  2B to Box2| B([Box2: ⚫ ⚫])
+    A --> |1B to Box1 <br />  1B to Box2| C([Box1: ⚫ <br /> Box2: ⚫])
+    A --> |2B to Box1 <br />  0B to Box2| D([Box1: ⚫ ⚫])
 
-    B --> |0 Red Ball to Box1 <br /> 1 Red Ball to Box2| E([Box2: 🔵 🔵 🔴])
-    B --> |1 Red Ball to Box1 <br /> 0 Red Ball to Box2| F([Box1: 🔴 <br /> Box2: 🔵 🔵])
+    B --> |0W to Box1 <br /> 1W to Box2| E([Box2: ⚫ ⚫ ⚪])
+    B --> |1W to Box1 <br /> 0W to Box2| F([Box1: ⚪ <br /> Box2: ⚫ ⚫])
     
-    C --> |0 Red Ball to Box1 <br /> 1 Red Ball to Box2| G([Box1: 🔵 <br /> Box2: 🔵 🔴])
-    C --> |1 Red Ball to Box1 <br /> 0 Red Ball to Box2| H([Box1: 🔵 🔴 <br /> Box2: 🔵])
+    C --> |0W to Box1 <br /> 1W to Box2| G([Box1: ⚫ <br /> Box2: ⚫ ⚪])
+    C --> |1W to Box1 <br /> 0W to Box2| H([Box1: ⚫ ⚪ <br /> Box2: ⚫])
 
-    D --> |0 Red Ball to Box1 <br /> 1 Red Ball to Box2| I([Box1: 🔵 🔵 <br /> Box2: 🔴])
-    D --> |1 Red Ball to Box1 <br /> 0 Red Ball to Box2| J([Box1: 🔵 🔵 🔴])
+    D --> |0W to Box1 <br /> 1W to Box2| I([Box1: ⚫ ⚫ <br /> Box2: ⚪])
+    D --> |1W to Box1 <br /> 0W to Box2| J([Box1: ⚫ ⚫ ⚪])
 ``` 
 </div>
 
 Once we have all the distribution possibilities ready, we count the ones that satisfy the given condition and calculate the probability.
 
-In this question, we also calculate the combinations to determine how many different ways we can choose $1$ Blue ball from a bag containing $2$ Blue balls. For example in one combination we can choose $1^{\text{st}}$ Blue vs in another combination we can choose $2^{\text{nd}}$ Blue.
+Here, we also calculate the combinations to determine how many different ways we can choose $1$ Black(B) ball from a bag containing $2$ Black(B) balls. For e.g. in one combination we can choose $1^{\text{st}}$ Black(B) ball vs in another combination we can choose $2^{\text{nd}}$ Black(B) ball.
 
 
 ## Implementation
@@ -110,11 +116,12 @@ Let $N$ be the length of the input array $\text{balls}$
 
 ### Time complexity 
 
-$
-O(2 ^ N)
-$
-
 Each of the $N$ indices in the input array has $2$ boxes to choose from. 
+
+$$
+O(2 ^ N)
+$$
+
 
 :::info
 This is not the exact time complexity, as it does not account for the time required to distribute elements at any of the $N$ indices into $2$ boxes.
@@ -122,8 +129,9 @@ This is not the exact time complexity, as it does not account for the time requi
 
 ### Space complexity
 
-$
-O(N)
-$
-
 Since there are $N$ indices to assign to each box, the stack size for the backtracking will be $N$.
+
+$$
+O(N)
+$$
+
