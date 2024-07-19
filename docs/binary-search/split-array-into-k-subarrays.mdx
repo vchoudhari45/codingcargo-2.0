@@ -5,13 +5,12 @@ import TabItem from '@theme/TabItem';
 
 #  Split Array Into K Subarrays
 
-This page features a list of links to explanations and Java solutions for problems that involve splitting an array into $K$ subarrays, using the Binary Search technique.
+This page provides links to solutions for problems that involve splitting an array into $K$ subarrays using the Binary Search technique.
 
 
 ## How to Spot These Problems
 
-You can identify such problems if the it asks you to split the array into $K$ subarrays to satisfy a specific condition.
-
+You can identify such problems if they ask you to split an array into $K$ subarrays to satisfy a specific condition.
 
 ## Leetcode Problem Set
 
@@ -19,100 +18,8 @@ You can identify such problems if the it asks you to split the array into $K$ su
 
 [Leetcode 1231. Divide Chocolate](/leetcode/divide-chocolate/)
 
-## Similar questions
+[Leetcode 1891. Cutting Ribbons](/leetcode/cutting-ribbons/)
 
-Here are some more questions that can be solved using the same technique.
-
-### Divide Chocolate
-
-The problem description can be found at [Leetcode 1231. Divide Chocolate](https://leetcode.com/problems/divide-chocolate/).
-
-
-<details>
-  <summary>Solution</summary>
-
-<Tabs>
-  <TabItem value="Java" label="Java" default>
-
-```java
-class Solution {
-    public int maximizeSweetness(int[] sweetness, int k) {
-        // Initialize the lower bound `lo` and the upper bound `hi`
-        int lo = Integer.MAX_VALUE;
-        int hi = 0;
-
-        // Determine the bounds for the binary search
-        for (int i = 0; i < sweetness.length; i++) {
-            lo = Math.min(lo, sweetness[i]);
-            hi += sweetness[i];
-        }
-
-        // Increment `k` by 1 (because questions say excluding you there k members)
-        k++;
-
-        // Binary search to find the maximum sweetness value
-        while (lo < hi) {
-            int mid = (lo + hi + 1) / 2; // Calculate the middle value
-
-            // Get the number of partitions
-            int partitions = getPartitions(sweetness, mid); 
-
-            // Adjust bounds based on the number of partitions
-            if (partitions < k)
-                hi = mid - 1;
-            else
-                lo = mid;
-        }
-
-        return lo; 
-    }
-
-    /**
-     * Method to calculate the number of partitions achievable 
-     * based on a sweetness threshold
-     */
-    private int getPartitions(int[] nums, int required) {
-        int index = 0, sum = 0, partitions = 0;
-
-        // Iterate through the sweetness array and count the partitions
-        while (index < nums.length) {
-            sum += nums[index];
-
-            // Check if the current sum meets the required sweetness threshold
-            if (sum >= required) {
-                sum = 0; // Reset sum for the next partition
-                partitions++; // Increment partitions count
-            }
-
-            index++; // Move to the next sweetness value
-        }
-
-        return partitions; 
-    }
-}
-```
-</TabItem>
-</Tabs>
-</details>
-
-:::info[]
-Notice how we use $\text{mid} = (\text{lo} + \text{hi} + 1) / 2$ in our solution because once $\text{mid}$ satisfies the condition, \
-we set $\text{lo} = \text{mid}$ to keep $\text{mid}$ within the search range. This matters if we ever reach a scenario where \
-$\text{hi} - \text{lo} = 1$.
-
-For example,
-lets say we have $\text{lo} = 2$ and $\text{hi} = 3$ we get $\text{mid} = 2$, if we use $\text{mid} = (\text{lo} + \text{hi}) / 2$.
-Now if $2$ satisfies the condition and we assign $\text{lo} = \text{mid}$, binary search keeps all the values same for the next iteration, causing the logic to run endlessly.
-:::
-
-
-
-
-
-
-
-
-<br />
 
 ### Cutting Ribbons
 

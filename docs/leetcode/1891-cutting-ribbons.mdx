@@ -1,27 +1,25 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 1231. Divide Chocolate
+# 1891. Cutting Ribbons
 
-This page provides solutions for the leetcode problem [1231. Divide Chocolate](https://leetcode.com/problems/divide-chocolate/).
+This page provides explanations and Java solutions for the leetcode problem [Leetcode 1891. Cutting Ribbons](https://leetcode.com/problems/cutting-ribbons/).
 
 ## Problem Explanation
 
-The problem is asking us to divide a chocolate into $K + 1$ pieces such that you maximize the minimum total sweetness. Total sweetness here refers to the sum of elements of a subarray.
+The problem is asking us to cut the ribbons into one or more parts, such that each of the $K$ parts will have an equal maximum length. The problem also allows us to discard any extra parts of the ribbons if required.
 
 ## Solution
 
-This problem can be solved using the Binary Search technique to split an array into $K$ subarrays. [More such questions can be found here](/binary-search/split-array-into-k-subarrays).
+This problem can be solved using the Binary Search technique. More such questions can be found [here](/binary-search/split-array-into-k-subarrays).
 
-Using binary search, we first assume a candidate value($\text{mid}$), and attempt to split the array(Chocolate in this case) into $K$ subarrays with sums greater than or equal to this candidate value.
+Using binary search, we first assume a candidate value($\text{mid}$), and attempt to cut the ribbon at $\text{i}^{th}$ place so that at least one of the part has length equals to candidate value. 
 
-Also, when we find a candidate value that allows the array to be split into $K$ subarrays such that each subarray sum is greater than or equal to the candidate value, we will set $\text{lo} = \text{mid}$ instead of the typical binary search approach of $\text{lo} = \text{mid} + 1$ to keep the candidate value in the search range.
+Also, when we find a candidate value that allows the ribbon array to be divided into $K$ parts such that each ribbon part has an equal length, we will set $\text{lo} = \text{mid}$ instead of the typical binary search approach of $\text{lo} = \text{mid} + 1$ to keep the candidate value in the search range.
 
-Now, because we are setting $\text{lo} = \text{mid}$, imagine a scenario where we have $\text{lo} = 2$, $\text{hi} = 3$, and the value $2$ allows the array to be split into $K$ subarrays such that the sum of all the subarrays is greater than or equal to $2$. In this case for next iteration of binary search all the values will remain same and will run infinitely. 
+Now, because we are setting $\text{lo} = \text{mid}$, imagine a scenario where we have $\text{lo} = 2$, $\text{hi} = 3$, and the value $2$ allows the ribbon array to be split into $K$ ribbons, each with a maximum length of $2$. In this case, for next iteration of binary search all the values will remain same and will run infinitely.
 
 To avoid this problem, we set $\text{mid}$ to $(\text{lo} + \text{hi} + 1) / 2$ instead of the typical binary search logic of $\text{mid}$ as $(\text{lo} + \text{hi}) / 2$.
-
-There is one more thing to notice here, the question asks us to share the chocolate among $K$ friends and also take the one piece for yourself, meaning the question is asking us to divide the chocolate among $K + 1$ people.
 
 
 Let's take the sample input below,

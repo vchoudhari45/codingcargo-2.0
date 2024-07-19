@@ -3,42 +3,82 @@ import TabItem from '@theme/TabItem';
 
 # 1467. Probability of a Two Boxes...
 
-The problem description can be found at [Leetcode 1467. Probability of a Two Boxes Having The Same Number of Distinct Balls](https://leetcode.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/description/).
+This page provides solutions for the leetcode problem [1467. Probability of a Two Boxes Having The Same Number of Distinct Balls](https://leetcode.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/description/).
 
-## Explanation
+## Problem Explanation
 
-This problem can be solved using the Backtracking technique to partition an array into $K$ subarrays. More such questions can be found [here](/backtracking/partition-array-into-k-subarrays).
+The problem requires us to calculate the probability that two boxes will have the same number of distinct balls after shuffling $2N$ balls into two boxes, such that each box containing $N$ balls.
+
+For example, let's say box $1$ has $4$ balls of $2$ colors, Red and Black, and box $2$ has $4$ balls of $2$ colors, Black and Blue. It does not matter which specific colors each box contains, but rather how many distinct colors each box contains.
+
+
+## Solution
+
+For this problem, we need to consider all possible distribution possibilities. Therefore, we use the backtracking technique to partition an array into $K$ subarrays. [More such problem can be found here](/backtracking/partition-array-into-k-subarrays).
+
 
 Let's take the sample input below,
 
 $$
-\text{balls} = [2,1]
+\text{balls} = [2,2]
 $$
 
-Here we also assume $2$ balls have Black(B) color, whereas $1$ ball has White(W) color.
+:::info[Assumption]
+Assume $2$ balls at $0^{th}$ index have Black(B) color, whereas $2$ balls at $1^{st}$ index has White(W) color. 
+:::
+
+We start by distributing $2$ Black balls into $2$ boxes. 
+
+There are $3$ ways to distribute $2$ indistinguishable Black balls among $2$ boxes: 
+
+- $0$ Black Balls to Box$1$ and $2$ Black Balls to Box$2$.
+- $1$ Black Ball to Box$1$ and $1$ Black Ball to Box$2$.
+- $2$ Black Balls to Box$1$ and $0$ Black Balls to Box$2$.
+
+Since each Black Ball is considered distinct, there are actually $4$ ways to distribute them, as there are $2$ ways to choose $1$ black ball from the $2$ black balls. 
+
+The total distribution possibilities are as follows:
+
+- $0$ Black Balls to Box$1$ and $2$ Black Balls to Box$2$.
+- First Black Ball to Box$1$ and the Second Black Ball to Box$2$.
+- Second Black Ball to Box$1$ and the First Black Ball to Box$2$.
+- $2$ Black Balls to Box$1$ and $0$ Black Balls to Box$2$.
+
+Similarly, we will distribute $2$ distinct White balls into $2$ boxes.
+
+Below is a graphical representation of the distribution of $2$ Black balls and $2$ White balls: 
 
 <div style={{textAlign:"center"}}>
 
 ```mermaid
 graph TD
-    A([Start]) --> |0B to Box1 <br />  2B to Box2| B([Box2: ⚫ ⚫])
-    A --> |1B to Box1 <br />  1B to Box2| C([Box1: ⚫ <br /> Box2: ⚫])
-    A --> |2B to Box1 <br />  0B to Box2| D([Box1: ⚫ ⚫])
+    A([Start]) --> B([Box2: BB])
+    A --> C([Box1: B <br /> Box2: B])
+    A -->  D([Box1: BB])
 
-    B --> |0W to Box1 <br /> 1W to Box2| E([Box2: ⚫ ⚫ ⚪])
-    B --> |1W to Box1 <br /> 0W to Box2| F([Box1: ⚪ <br /> Box2: ⚫ ⚫])
-    
-    C --> |0W to Box1 <br /> 1W to Box2| G([Box1: ⚫ <br /> Box2: ⚫ ⚪])
-    C --> |1W to Box1 <br /> 0W to Box2| H([Box1: ⚫ ⚪ <br /> Box2: ⚫])
+		B -->  E([Box2: BBWW])
+		B -->  F([Box1: W <br /> Box2: BBW])
+		B -->  G([Box1: WW <br /> Box2: BB])
 
-    D --> |0W to Box1 <br /> 1W to Box2| I([Box1: ⚫ ⚫ <br /> Box2: ⚪])
-    D --> |1W to Box1 <br /> 0W to Box2| J([Box1: ⚫ ⚫ ⚪])
+		C -->  H([Box1: B <br /> Box2: BWW])
+		C -->  I([Box1: BW <br /> Box2: BW])
+		C -->  J([Box1: BWW <br /> Box2: B])
+
+		D -->  K([Box1: BB <br /> Box2: WW])
+		D -->  L([Box1: BBW <br /> Box2: W])
+		D -->  M([Box1: BBWW])
 ``` 
 </div>
 
-Once we have all the distribution possibilities ready, we count the ones that satisfy the given condition and calculate the probability.
+:::info[]
+Notice that in the above graphical representation, we do not consider the 2 black balls as distinct. We account for this by calculating the combination values in the code.
+:::
 
-Here, we also calculate the combinations to determine how many different ways we can choose $1$ Black(B) ball from a bag containing $2$ Black(B) balls. For e.g. in one combination we can choose $1^{\text{st}}$ Black(B) ball vs in another combination we can choose $2^{\text{nd}}$ Black(B) ball.
+Once we have all the distribution possibilities ready, we count the ones that satisfy the given condition and calculate the probability using the formula:
+
+$$
+\text{Valid distributions} \div \text{Total distributions}
+$$
 
 
 ## Implementation
@@ -48,7 +88,7 @@ Here, we also calculate the combinations to determine how many different ways we
 
 ```java
 class Solution {
-    // Array to store factorials
+    // Array to store pre-calculated factorials
     double[] factorial = new double[49]; 
 
     // Main method to calculate probability
@@ -67,7 +107,8 @@ class Solution {
 
         // Calculate valid cases
         double valid = backtrack(balls, 0, 0, 0, 0, 0); 
-        // Calculate total combinations
+
+        // Calculate total distributions
         double total = combinations(sum, sum / 2); 
 
         // Return probability
@@ -79,7 +120,11 @@ class Solution {
       int box1Count, int box2Count) {
 
         if (index == balls.length) {
-            // Check if counts and colors match for both boxes
+            /**
+             * Check box1Count == box2Count to determine if the distribution is valid, 
+             * and box1Color == box2Color to verify if the number of distinct colors 
+             * in each box is the same.
+             */
             return box1Count == box2Count && box1Color == box2Color ? 1 : 0;
         } else {
             double res = 0;
@@ -88,6 +133,10 @@ class Solution {
              * balls[index] - i to second box
              */
             for (int i = 0; i <= balls[index]; i++) {
+                /**
+                 * This combinations accounts for number of ways i balls can choosen 
+                 * from balls[index] balls. 
+                 */
                 double combinations = combinations(balls[index], i);
                 res += backtrack(
                   balls, index + 1,
@@ -123,8 +172,8 @@ O(2 ^ N)
 $$
 
 
-:::info
-This is not the exact time complexity, as it does not account for the time required to distribute elements at any of the $N$ indices into $2$ boxes.
+:::info[]
+Here, we ignore time complexity required to distribute elements at each of the $N$ indices into $2$ boxes, because the input constraint $1 \leq \text{balls}[\text{i}] \leq 6$ ensures that this number will be very small.
 :::
 
 ### Space complexity

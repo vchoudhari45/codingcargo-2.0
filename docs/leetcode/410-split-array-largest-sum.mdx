@@ -3,11 +3,15 @@ import TabItem from '@theme/TabItem';
 
 # 410. Split Array Largest Sum
 
-The problem description can be found at [LeetCode 410. Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/).
+This page provides solutions for the leetcode problem [410. Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/).
 
-## Explanation
+## Problem Explaination 
 
-This problem can be solved using the Binary Search technique to split the array into $K$ subarrays. More such questions can be found [here](/binary-search/split-array-into-k-subarrays).
+The problem is asking us to split an array into $K$ subarrays in such a way that the largest sum of any subarray is minimized.
+
+## Solution
+
+This problem can be solved using the Binary Search technique to split an array into $K$ subarrays. [More such questions can be found here](/binary-search/split-array-into-k-subarrays).
 
 Using binary search, we first assume a candidate value($\text{mid}$), and attempt to split the array into $K$ subarrays with sums less than or equal to this candidate value.
 
