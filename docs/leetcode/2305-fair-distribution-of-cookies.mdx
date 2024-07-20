@@ -32,26 +32,26 @@ Below is a graphical representation of the distribution of $3$ cookie bags $P, Q
 
 ```mermaid
 graph TD
-    A([Start]) -->|Bag P to C1| B([C1: P])
-    A -->|Bag P to C2| C([C2: P])
+    A([Start]) -->|Bag P = 8 to C1| B([C1: 8])
+    A -->|Bag P = 8 to C2| C([C2: 8])
 	
-    B -->|Bag Q to C1| D([C1: P, Q])
-    B -->|Bag Q to C2| E([C1: P <br /> C2: Q])
+    B -->|Bag Q = 15 to C1| D([C1: 8, 15])
+    B -->|Bag Q = 15 to C2| E([C1: 8 <br /> C2: 15])
 
-    C -->|Bag Q to C1| F([C1: Q <br /> C2: P])
-    C -->|Bag Q to C2| G([C2: P, Q])
+    C -->|Bag Q = 15 to C1| F([C1: 15 <br /> C2: 8])
+    C -->|Bag Q = 15 to C2| G([C2: 8, 15])
 
-    D -->|Bag R to C1| H([C1: P, Q, R])
-		D -->|Bag R to C2| I([C1: P, Q <br /> C2: R])
+    D -->|Bag R = 10 to C1| H([C1: 8, 15, 10])
+		D -->|Bag R = 10 to C2| I([C1: 8, 15 <br /> C2: 10])
 
-    E -->|Bag R to C1| J([C1: P, R <br /> C2: Q])
-		E -->|Bag R to C2| K([C1: P <br /> C2: Q, R])
+    E -->|Bag R = 10 to C1| J([C1: 8, 10 <br /> C2: 15])
+		E -->|Bag R = 10 to C2| K([C1: 8 <br /> C2: 15, 10])
 
-    F -->|Bag R to C1| N([C1: Q, R <br /> C2: P])
-		F -->|Bag R to C2| O([C1: Q <br /> C2: P, R])
+    F -->|Bag R = 10 to C1| N([C1: 15, 10 <br /> C2: 8])
+		F -->|Bag R = 10 to C2| O([C1: 15 <br /> C2: 8, 10])
 
-		G -->|Bag R to C1| L([C1: R <br /> C2: P, Q])
-		G -->|Bag R to C2| M([C2: P, Q, R])
+		G -->|Bag R = 10 to C1| L([C1: 10 <br /> C2: 8, 15])
+		G -->|Bag R = 10 to C2| M([C2: 8, 15, 10])
 ``` 
 </div>
 
