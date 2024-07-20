@@ -74,26 +74,18 @@ class Solution {
         return min;
     }
 
-    // Backtracking method to find the minimum of maximum value
     private void backtrack(int[] jobs, int index, int[] workers) {
-        // Base case: all jobs are assigned
         if (index == jobs.length) {
             min = Math.min(min, max(workers));
         } else {
-            // Try assigning the current job to each worker and find the minimum value
             for (int i = 0; i < workers.length; i++) {
-                // If the current assignment is the same as the previous one, skip
                 if (i > 0 && workers[i] == workers[i - 1]) continue;
 
-                /**
-                 * If the current assignment exceeds the previously found min, 
-                 * then discard
-                 */
                 if (workers[i] + jobs[index] > min) continue;
 
-                workers[i] += jobs[index]; // Assign job to worker i
+                workers[i] += jobs[index];
                 backtrack(jobs, index + 1, workers);
-                workers[i] -= jobs[index]; // Backtrack: remove the assigned job
+                workers[i] -= jobs[index];
             }
         }
     }

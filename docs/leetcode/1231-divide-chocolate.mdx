@@ -51,7 +51,7 @@ $$
 :::info[]
 Observe that we're setting $\text{lo} = \text{mid}$ instead of $\text{lo} = \text{mid} + 1$ because we want to maintain the candidate value of $12$ within the search space.
 
-This is because, in the next iteration of binary search, we might find a candidate value (let's call it $X$) that is greater than $12$, and if $X$ does not allow splitting the array into $K$ subarrays with all subarray sums greater than or equal to $X$, then $12$ should be our answer.
+This is because, in the next iteration of binary search, we have a candidate value as $17$. If candiate value of $17$ does not allow splitting the array into $K$ subarrays with all subarray sums greater than or equal to $17$, then $12$ should be our answer.
 :::
 
 
@@ -86,55 +86,43 @@ Because the lower limit equals the upper limit, we exit the binary search, findi
 ```java
 class Solution {
     public int maximizeSweetness(int[] sweetness, int k) {
-        // Initialize the lower bound `lo` and the upper bound `hi`
         int lo = Integer.MAX_VALUE;
         int hi = 0;
 
-        // Loop through the sweetness array to calculate the minimum and maximum sweetness
         for (int i = 0; i < sweetness.length; i++) {
             lo = Math.min(lo, sweetness[i]);
             hi += sweetness[i];
         }
 
-        // Increment `k` by 1, including you total people will become k + 1
         k++;
 
-        // Binary search to find the maximum sweetness value
         while (lo < hi) {
-            int mid = (lo + hi + 1) / 2; // Calculate the middle value
+            int mid = (lo + hi + 1) / 2; 
 
-            // Get the number of partitions
             int partitions = getPartitions(sweetness, mid); 
 
-            // Adjust bounds based on the number of partitions
             if (partitions < k) hi = mid - 1;
             else lo = mid;
         }
 
-        return lo; // Return the maximum sweetness value found
+        return lo;
     }
 
-    /**
-     * Method to calculate the number of partitions achievable 
-     * based on a sweetness threshold
-     */
     private int getPartitions(int[] nums, int required) {
         int index = 0, sum = 0, partitions = 0;
 
-        // Iterate through the sweetness array and count the partitions
         while (index < nums.length) {
             sum += nums[index];
 
-            // Check if the current sum meets the required sweetness threshold
             if (sum >= required) {
-                sum = 0; // Reset sum for the next partition
-                partitions++; // Increment partitions count
+                sum = 0;
+                partitions++;
             }
 
-            index++; // Move to the next sweetness value
+            index++;
         }
 
-        return partitions; // Return the total partitions achieved
+        return partitions;
     }
 }
 ```

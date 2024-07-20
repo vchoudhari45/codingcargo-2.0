@@ -59,36 +59,22 @@ class Solution {
         return min;
     }
 
-    // Backtracking method to find the minimum of maximum value
     private void backtrack(int[] cookies, int index, int[] dist) {
-        // Base case: all cookies are distributed
         if (index == cookies.length) {
             min = Math.min(min, max(dist));
         } else {
-            /* 
-             * Try distributing the current cookie to each child and find 
-             * the minimum value
-             */
             for (int i = 0; i < dist.length; i++) {
-                /* 
-                 * If the distribution already exceeds the previously found min, 
-                 * then discard this distribution
-                 */
                 if (dist[i] + cookies[index] >= min) continue;
 
-                // Distribute cookie to child i
                 dist[i] += cookies[index]; 
                 backtrack(cookies, index + 1, dist);
-                // Backtrack: remove the distributed cookie
                 dist[i] -= cookies[index];
             }
         }
     }
 
-    // Method to find the maximum value in a distribution
     private int max(int[] dist) {
         int maxValue = Integer.MIN_VALUE;
-        // Find the maximum value in the distribution
         for (int i = 0; i < dist.length; i++) {
             maxValue = Math.max(maxValue, dist[i]);
         }

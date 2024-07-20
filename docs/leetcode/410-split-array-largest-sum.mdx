@@ -38,7 +38,7 @@ $$
 :::info[]
 Observe that we're setting $\text{hi} = \text{mid}$ instead of $\text{hi} = \text{mid} - 1$ because we want to maintain the candidate value of $21$ within the search space.
 
-This is because, in the next iteration of binary search, we might find a candidate value (let's call it $X$) that is less than $21$, and if $X$ does not allow splitting the array into $K$ subarrays with all subarray sums less than or equal to $X$, then $21$ should be our answer.
+This is because, in the next iteration of binary search, we have a candidate value of $15$. If $15$ does not allow splitting the array into $K$ subarrays with all subarray sums less than or equal to $15$, then $21$ should be our answer.
 :::
 
 With a maximum sum as $15$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, 2, 5\end{bmatrix}$ is fine, but the second subarray $\begin{bmatrix}10, 8\end{bmatrix}$ exceeds the max sum of $15$. Because array can't be split into $K=2$ subarrays with each subarray having a sum less than or equal to $15$, let's increase the lower threshold.
@@ -71,21 +71,17 @@ Because the lower limit equals the upper limit, we exit the binary search, findi
 ```java
 class Solution {
     public int splitArray(int[] nums, int k) {
-        // Initialize the lower and upper bounds for binary search
         int lo = Integer.MIN_VALUE;
         int hi = 0;
         
-        // Determine the bounds for the binary search
         for (int num : nums) {
             lo = Math.max(lo, num); 
             hi += num; 
         }
 
-        // Perform binary search
         while (lo < hi) {
             int mid = lo + (hi - lo) / 2; 
             
-            // Get the number of partitions
             int partitions = getPartitions(nums, mid); 
 
             if (partitions > k) lo = mid + 1; 
@@ -94,18 +90,16 @@ class Solution {
         return lo; 
     }
 
-    // Helper function to calculate number of partitions given maximum subarray sum
     private int getPartitions(int[] nums, int required) {
         int index = 0, sum = 0, partition = 1;
 
-        // Iterate through the array to check for partitions
         while (index < nums.length) {
-            sum += nums[index]; // Accumulate the sum
+            sum += nums[index]; 
             if (sum > required) {
-                sum = nums[index]; // Reset the sum for a new partition
-                partition++; // Increment the partition count
+                sum = nums[index]; 
+                partition++; 
             }
-            index++; // Move to the next element
+            index++;
         }
         return partition;
     }

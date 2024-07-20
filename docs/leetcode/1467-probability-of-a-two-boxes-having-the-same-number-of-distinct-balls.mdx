@@ -88,55 +88,34 @@ $$
 
 ```java
 class Solution {
-    // Array to store pre-calculated factorials
     double[] factorial = new double[49]; 
 
-    // Main method to calculate probability
     public double getProbability(int[] balls) {
         int sum = 0;
-        // Calculate total number of balls
         for (int i = 0; i < balls.length; i++) {
             sum += balls[i];
         }
 
-        // Calculate factorials for later use
         factorial[0] = 1;
         for (int i = 1; i < 49; i++) {
             factorial[i] = factorial[i - 1] * i;
         }
 
-        // Calculate valid cases
         double valid = backtrack(balls, 0, 0, 0, 0, 0); 
 
-        // Calculate total distributions
         double total = combinations(sum, sum / 2); 
 
-        // Return probability
         return valid / total; 
     }
 
-    // Backtracking method to calculate valid cases
     private double backtrack(int[] balls, int index, int box1Color, int box2Color,
       int box1Count, int box2Count) {
 
         if (index == balls.length) {
-            /**
-             * Check box1Count == box2Count to determine if the distribution is valid, 
-             * and box1Color == box2Color to verify if the number of distinct colors 
-             * in each box is the same.
-             */
             return box1Count == box2Count && box1Color == box2Color ? 1 : 0;
         } else {
             double res = 0;
-            /*
-             * Assign i balls from balls[index] to first box and 
-             * balls[index] - i to second box
-             */
             for (int i = 0; i <= balls[index]; i++) {
-                /**
-                 * This combinations accounts for number of ways i balls can choosen 
-                 * from balls[index] balls. 
-                 */
                 double combinations = combinations(balls[index], i);
                 res += backtrack(
                   balls, index + 1,
@@ -150,7 +129,6 @@ class Solution {
         }
     }
 
-    // Method to calculate combinations using factorials
     private double combinations(int n, int r) {
         return factorial[n] / factorial[n - r] / factorial[r];
     }
