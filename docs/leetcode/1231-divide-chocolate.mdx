@@ -13,7 +13,7 @@ The problem is asking us to divide a chocolate into $K + 1$ pieces such that you
 
 This problem can be solved using the Binary Search technique to split an array into $K$ subarrays. [More such questions can be found here](/binary-search/split-array-into-k-subarrays).
 
-Using binary search, we first assume a candidate value($\text{mid}$), and attempt to split the array(Chocolate in this case) into $K$ subarrays with sums greater than or equal to this candidate value.
+Using binary search, we first assume a candidate value($\text{mid}$), and attempt to split the array(Chocolate in this case) into $K$ subarrays with sums greater than or equal to candidate value.
 
 Also, when we find a candidate value that allows the array to be split into $K$ subarrays such that each subarray sum is greater than or equal to the candidate value, we will set $\text{lo} = \text{mid}$ instead of the typical binary search approach of $\text{lo} = \text{mid} + 1$ to keep the candidate value in the search range.
 

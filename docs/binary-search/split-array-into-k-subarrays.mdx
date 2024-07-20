@@ -2,7 +2,6 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 
-
 #  Split Array Into K Subarrays
 
 This page provides links to solutions for problems that involve splitting an array into $K$ subarrays using the Binary Search technique.
@@ -20,58 +19,11 @@ You can identify such problems if they ask you to split an array into $K$ subarr
 
 [Leetcode 1891. Cutting Ribbons](/leetcode/cutting-ribbons/)
 
-
-### Cutting Ribbons
-
-The problem description can be found at [LeetCode 1891. Cutting Ribbons](https://leetcode.com/problems/cutting-ribbons/).
-
-
-<details>
-  <summary>Solution</summary>
-
-<Tabs>
-  <TabItem value="Java" label="Java" default>
-
-```java
-class Solution {
-    public int maxLength(int[] ribbons, int k) {
-        int lo = 0;
-        int hi = Integer.MIN_VALUE;
-        for(int i = 0; i < ribbons.length; i++) {
-            hi = Math.max(ribbons[i], hi);
-        }
-
-        while(lo < hi) {
-            int mid = (lo + hi + 1) / 2;
-            int partitions = getPartitions(ribbons, mid);
-            if(partitions >= k) lo = mid;
-            else hi = mid - 1;
-        }
-        return lo;
-    }
-
-    private int getPartitions(int[] ribbons, int required) {
-        int partitions = 0;
-        for(int i = 0; i < ribbons.length; i++) {
-            partitions += ribbons[i] / required;
-        }
-        return partitions;
-    }
-}
-```
-</TabItem>
-</Tabs>
-</details>
+[LeetCode 1011. Capacity To Ship Packages Within D Days](/leetcode/capacity-to-ship-packages-within-d-days/)
 
 
 
 
-
-
-
-
-
-<br />
 
 ### Capacity To Ship Packages Within D Days
 
@@ -85,49 +37,7 @@ The problem description can be found at [LeetCode 1011. Capacity To Ship Package
   <TabItem value="Java" label="Java" default>
 
 ```java
-class Solution {
-    public int shipWithinDays(int[] weights, int days) {
-        int lo = Integer.MIN_VALUE;
-        int hi = 0;
-
-        // Determine the bounds for the binary search
-        for (int weight : weights) {
-            lo = Math.max(lo, weight); d
-            hi += weight; 
-        }
-
-        // Perform binary search to find the minimum capacity
-        while (lo < hi) {
-            int mid = lo + (hi - lo) / 2;
-            // Check if more days are required
-            boolean isMoreDays = daysRequired(weights, mid, days); 
-            if (isMoreDays)
-                lo = mid + 1; 
-            else
-                hi = mid; 
-        }
-        return lo; // Return the minimum capacity
-    }
-
-    // Helper function to check if more days are required based on the capacity
-    private boolean daysRequired(int[] weights, int capacity, int days) {
-        int requiredDays = 1, index = 0, sum = 0;
-
-        // Iterate through the weights to determine the required days
-        while (index < weights.length) {
-            sum += weights[index]; // Accumulate the sum of weights
-            if (sum > capacity) {
-                sum = weights[index]; // Reset the sum for a new day
-                requiredDays++; // Increment the required days
-            }
-            index++; // Move to the next weight
-
-            if (requiredDays > days)
-                return true; // If required days exceed the given limit
-        }
-        return false; // If required days are within the given limit
-    }
-}	
+	
 ```
 </TabItem>
 </Tabs>

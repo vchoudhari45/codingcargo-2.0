@@ -13,7 +13,7 @@ The problem is asking us to split an array into $K$ subarrays in such a way that
 
 This problem can be solved using the Binary Search technique to split an array into $K$ subarrays. [More such questions can be found here](/binary-search/split-array-into-k-subarrays).
 
-Using binary search, we first assume a candidate value($\text{mid}$), and attempt to split the array into $K$ subarrays with sums less than or equal to this candidate value.
+Using binary search, we first assume a candidate value($\text{mid}$), and attempt to split the array into $K$ subarrays with sums less than or equal to candidate value.
 
 Also, when we find a candidate value that allows the array to be split into $K$ subarrays such that each subarray sum is less than or equal to the candidate value, we will set $\text{hi} = \text{mid}$ instead of the typical binary search approach of $\text{hi} = \text{mid} - 1$ to keep the candidate value in the search range.
 

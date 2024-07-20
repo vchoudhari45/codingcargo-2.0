@@ -1,0 +1,121 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 1011. Capacity To Ship Packages...
+
+This page provides solutions for the leetcode problem [LeetCode 1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/).
+
+## Problem Explaination 
+
+The problem is asking us to calculate the least weight capacity of the ship that will allow all the packages on the conveyor belt to be shipped within a $d$ days.
+
+## Solution
+
+This problem can be solved using the Binary Search technique to split an array into $K$ subarrays. [More such questions can be found here](/binary-search/split-array-into-k-subarrays).
+
+Using binary search, we first assume a candidate value($\text{mid}$), and attempt to split the array into $d$ subarrays with sums less than or equal to candidate value(weight capacity of ship in this case).
+
+Also, when we find a candidate value that allows the array to be split into $d$ subarrays such that each subarray sum is less than or equal to the candidate value, we will set $\text{hi} = \text{mid}$ instead of the typical binary search approach of $\text{hi} = \text{mid} - 1$ to keep the candidate value in the search range.
+
+Let's take the sample input below,
+
+$$
+\text{nums} = \begin{bmatrix} 1,2,3,1,1\end{bmatrix},  \ \text{d} = 2
+$$
+
+Initiate the binary search using the largest array value $3$ as the low threshold and the total sum of the array $8$ as the high threshold.
+
+$$
+\text{lo} = 3, \ \text{hi} = 8, \ \text{mid} = 5
+$$
+
+With a maximum sum as $5$, the first subarray will have $\begin{bmatrix}1, 2\end{bmatrix}$, and the second subarray will have $\begin{bmatrix}3, 1, 1\end{bmatrix}$. Because none of the subarray sums exceed the value of $5$, let's minimize the candidate value further, by decreasing the higher threshold.
+
+$$
+\text{lo} = 3, \ \text{hi} = 5, \ \text{mid} = 4
+$$
+
+:::info[]
+Observe that we're setting $\text{hi} = \text{mid}$ instead of $\text{hi} = \text{mid} - 1$ because we want to maintain the candidate value of $5$ within the search space.
+
+This is because, in the next iteration of binary search, we have a candidate value of $4$. If $4$ does not allow splitting the array into $d$ subarrays with all subarray sums less than or equal to $4$, then $5$ should be our answer.
+:::
+
+With a maximum sum as $4$, we can't form two subarrays. The first subarray $\begin{bmatrix}1, 2\end{bmatrix}$ is fine, but the second subarray $\begin{bmatrix}3, 1, 1\end{bmatrix}$ exceeds the max sum of $4$. Because array can't be split into $d=2$ subarrays with each subarray having a sum less than or equal to $4$, let's increase the lower threshold.
+
+$$
+\text{lo} = 5, \ \text{hi} = 5, \ \text{mid} = 4
+$$
+
+Because the lower limit equals the upper limit, we exit the binary search, finding the answer as $5$.
+
+
+## Implementation
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    public int splitArray(int[] nums, int k) {
+        int lo = Integer.MIN_VALUE;
+        int hi = 0;
+        
+        for (int num : nums) {
+            lo = Math.max(lo, num); 
+            hi += num; 
+        }
+
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2; 
+            
+            int partitions = getPartitions(nums, mid); 
+
+            if (partitions > k) lo = mid + 1; 
+            else hi = mid; 
+        }
+        return lo; 
+    }
+
+    private int getPartitions(int[] nums, int required) {
+        int index = 0, sum = 0, partition = 1;
+
+        while (index < nums.length) {
+            sum += nums[index]; 
+            if (sum > required) {
+                sum = nums[index]; 
+                partition++; 
+            }
+            index++;
+        }
+        return partition;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+## Complexity 
+
+Let's say there are $N$ elements in an array, and total sum of all elements in an array is $S$.
+
+### Time complexity 
+
+The time complexity is $O(\log S)$ for searching the optimal solution using binary search, and $O(N)$ for checking if the array can be split into $K$ subarrays. 
+
+Total time complexity will be, 
+
+$$
+O(N \ \text{log} \ S)
+$$
+
+
+
+### Space complexity
+
+The solution uses constant space for storing binary search variables.
+
+$$
+O(1)
+$$
+
