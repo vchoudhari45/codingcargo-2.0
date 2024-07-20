@@ -3,12 +3,16 @@ import TabItem from '@theme/TabItem';
 
 # 2305. Fair Distribution of Cookies
 
-The problem description can be found at [Leetcode 2305. Fair Distribution of Cookies](https://leetcode.com/problems/fair-distribution-of-cookies/description/).
+This page provides solutions for the leetcode problem [Leetcode 2305. Fair Distribution of Cookies](https://leetcode.com/problems/fair-distribution-of-cookies/description/).
 
+## Problem Explanation 
 
-## Explanation 
+The problem is asking us to divide the cookies among $K$ children in such a way that the maximum number of cookies a single child gets is minimized.
 
-This problem can be solved using the Backtracking technique to partition an array into $K$ subarrays. More such questions can be found [here](/backtracking/partition-array-into-k-subarrays).
+## Solution
+
+For this problem, we need to consider all possible distribution possibilities. Therefore, we use the backtracking technique to partition an array into $K$ subarrays. [More such problem can be found here](/backtracking/partition-array-into-k-subarrays).
+
 
 Let's take the sample input below,
 
@@ -16,7 +20,13 @@ $$
 \text{cookies} = [8,15,10], \ \text{k} = 2
 $$
 
-Here we also assume bag which takes $8$ cookies is called $P$, bag which takes $15$ cookies is called $Q$ and bag which has $10$ cookies is called $R$.
+:::info[Assumption]
+Assume bag which has $8$ cookies is called $P$, bag which has $15$ cookies is called $Q$ and bag which has $10$ cookies is called $R$.
+:::
+
+We start by assigning $P$ bag among $2$ children, which gives us $2$ possibilities. Next we assign $Q$ and $R$ bags in the next iterations, which gives us total of $8$ possibilities.
+
+Below is a graphical representation of the distribution of $3$ cookie bags $P, Q, R$ among $2$ childrens: 
 
 <div style={{textAlign:"center"}}>
 
@@ -44,6 +54,10 @@ graph TD
 		G -->|Bag R to C2| M([C2: P, Q, R])
 ``` 
 </div>
+
+We calculate maximum number of cookies for each distribution. For example, in the distribution $\text{C1}: 8, 15$ and $\text{C2}:10$ maximum number of cookies is for the worker $\text{C1}$ with the value of $23$. 
+
+Finally, we compare maximum number of cookies for each distribution and find minimum among all distributions.
 
 
 ## Implementation
