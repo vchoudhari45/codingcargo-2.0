@@ -7,11 +7,11 @@ This page provides solutions for the leetcode problem [Leetcode 2305. Fair Distr
 
 ## Problem Explanation 
 
-The problem is asking us to divide the cookies among $K$ children in such a way that the maximum number of cookies a single child gets is minimized.
+The problem is asking us to divide the cookies among $\text{K}$ children in such a way that the maximum number of cookies a single child gets is minimized.
 
 ## Solution
 
-For this problem, we need to consider all possible distribution possibilities. Therefore, we use the backtracking technique to partition an array into $K$ subarrays. [More such problem can be found here](/backtracking/partition-array-into-k-subarrays).
+For this problem, we need to consider all possible distribution possibilities. Therefore, we use the backtracking technique to partition an array into $\text{K}$ subarrays. [More such problem can be found here](/backtracking/partition-array-into-k-subarrays).
 
 
 Let's take the sample input below,
@@ -21,12 +21,12 @@ $$
 $$
 
 :::info[Assumption]
-Assume bag which has $8$ cookies is called $P$, bag which has $15$ cookies is called $Q$ and bag which has $10$ cookies is called $R$.
+Assume bag which has $8$ cookies is called $\text{P}$, bag which has $15$ cookies is called $\text{Q}$ and bag which has $10$ cookies is called $\text{R}$.
 :::
 
-We start by assigning $P$ bag among $2$ children, which gives us $2$ possibilities. Next we assign $Q$ and $R$ bags in the next iterations, which gives us total of $8$ possibilities.
+We start by assigning $\text{P}$ bag among $2$ children, which gives us $2$ possibilities. Next we assign $\text{Q}$ and $\text{R}$ bags in the next iterations, which gives us total of $8$ possibilities.
 
-Below is a graphical representation of the distribution of $3$ cookie bags $P, Q, R$ among $2$ childrens: 
+Below is a graphical representation of the distribution of $3$ cookie bags $\text{P}, \text{Q}, \text{R}$ among $2$ childrens: 
 
 <div style={{textAlign:"center"}}>
 
@@ -102,23 +102,23 @@ class Solution {
 
 ## Complexity
 
-Let's say there are $N$ bags of cookies to distribute among $K$ children.
+Let's say there are $\text{N}$ bags of cookies to distribute among $\text{K}$ children.
 
 ### Time complexity 
 
-Each of the $N$ bag has $K$ options to choose from.
+Each of the $\text{N}$ bag has $\text{K}$ options to choose from.
 
 $$
-O(K ^ N)
+\text{O}(\text{K} ^ \text{N})
 $$
 
 
 
 ### Space complexity
 
-Since there are $N$ bags to assign to each child, the stack size for the backtracking will go upto $N$. Additionally, an array of size $K$ is needed to hold the distribution of bags among the $K$ children.
+Since there are $\text{N}$ bags to assign to each child, the stack size for the backtracking will go upto $\text{N}$. Additionally, an array of size $\text{K}$ is needed to hold the distribution of bags among the $\text{K}$ children.
 
 $$
-O(N + K)
+O(\text{N} + \text{K})
 $$
 
