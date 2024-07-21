@@ -7,25 +7,25 @@ This page provides solutions for the leetcode problem [Leetcode 1723. Find Minim
 
 ## Problem Explanation
 
-The problem is asking us to divide the jobs among $K$ workers in such a way the maximum working time of any worker is minimized.
+The problem is asking us to divide the jobs among $\text{K}$ workers in such a way the maximum working time of any worker is minimized.
 
 ## Solution
 
-For this problem, we need to consider all possible distribution possibilities. Therefore, we use the backtracking technique to partition an array into $K$ subarrays. [More such problem can be found here](/backtracking/partition-array-into-k-subarrays).
+For this problem, we need to consider all possible distribution possibilities. Therefore, we use the backtracking technique to partition an array into $\text{K}$ subarrays. [More such problem can be found here](/backtracking/partition-array-into-k-subarrays).
 
 Let's take the sample input below,
 
 $$
-\text{jobs} = [3,2,4], \ \text{k} = 2
+\text{jobs} = [3,2,4], \ \text{K} = 2
 $$
 
 :::info[Assumption]
-Assume job which takes $3$ units of time is called $P$, job which takes $2$ units of time is called $Q$ and job which takes $4$ units of time is called $R$.
+Assume job which takes $3$ units of time is called $\text{P}$, job which takes $2$ units of time is called $\text{Q}$ and job which takes $4$ units of time is called $\text{R}$.
 :::
 
-We start by assigning $P$ jobs among $2$ workers, which gives us $2$ possibilities. Next we assign $Q$ and $R$ jobs in the next iterations, which gives us total of $8$ possibilities.
+We start by assigning $\text{P}$ jobs among $2$ workers, which gives us $2$ possibilities. Next we assign $\text{Q}$ and $\text{R}$ jobs in the next iterations, which gives us total of $8$ possibilities.
 
-Below is a graphical representation of the distribution of $3$ jobs $P, Q, R$ among $2$ workers: 
+Below is a graphical representation of the distribution of $3$ jobs $\text{P}, \text{Q}, \text{R}$ among $2$ workers: 
 
 <div style={{textAlign:"center"}}>
 
@@ -107,22 +107,22 @@ class Solution {
 
 ## Complexity
 
-Let $N$ be the length of the input array $\text{jobs}$ and $K$ be the number of workers.
+Let $\text{N}$ be the length of the input array $\text{jobs}$ and $\text{K}$ be the number of workers.
 
 ### Time complexity 
 
-Each of the $N$ job has $K$ workers to choose from.
+Each of the $\text{N}$ job has $K$ workers to choose from.
 
 $$
-O(K ^ N)
+\text{O}(\text{K} ^ \text{N})
 $$
 
 
 
 ### Space complexity
 
-Since there are $N$ jobs to assign to each worker, the stack size for the backtracking will go upto $N$.
+Since there are $\text{N}$ jobs to assign to each worker, the stack size for the backtracking will go upto $\text{N}$.
 
 $$
-O(N)
+\text{O}(\text{N})
 $$

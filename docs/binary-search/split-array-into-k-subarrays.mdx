@@ -21,81 +21,14 @@ You can identify such problems if they ask you to split an array into $K$ subarr
 
 [LeetCode 1011. Capacity To Ship Packages Within D Days](/leetcode/capacity-to-ship-packages-within-d-days/)
 
+[LeetCode 2064. Minimized Maximum of Products Distributed to Any Store](/leetcode/minimized-maximum-of-products-distributed-to-any-store/)
 
 
-
-
-### Capacity To Ship Packages Within D Days
-
-The problem description can be found at [LeetCode 1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)
-
-
-<details>
-  <summary>Solution</summary>
-
-<Tabs>
-  <TabItem value="Java" label="Java" default>
-
-```java
-	
-```
-</TabItem>
-</Tabs>
-</details>
-
-
-
-
-
-
-
-
-
-
-<br />
 
 ### Minimized Maximum of Products Distributed to Any Store
 
 The problem description can be found at [LeetCode 2064. Minimized Maximum of Products Distributed to Any Store](https://leetcode.com/problems/minimized-maximum-of-products-distributed-to-any-store)
 
-<details>
-  <summary>Solution</summary>
-
-<Tabs>
-  <TabItem value="Java" label="Java" default>
-
-```java
-class Solution {
-    public int minimizedMaximum(int n, int[] quantities) {
-        int lo = 1;
-        int hi = Integer.MIN_VALUE;
-        for(int i = 0; i < quantities.length; i++) {
-            hi = Math.max(hi, quantities[i]);
-        }
-
-        while(lo < hi) {
-            int mid = (lo + hi) / 2;
-            int partitions = getPartitions(quantities, mid);
-            if(partitions > n) lo = mid + 1;
-            else hi = mid;
-        }
-        return lo;
-    }
-
-    private int getPartitions(int[] quantities, int required) {
-        int partitions = 0;
-        for(int i = 0; i < quantities.length; i++) {
-            partitions += quantities[i] / required;
-            if(quantities[i] % required != 0) 
-                partitions++;           
-        }
-        return partitions;
-    }
-}
-```
-</TabItem>
-</Tabs>
-</details>
 
 
 

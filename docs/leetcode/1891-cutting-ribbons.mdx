@@ -7,17 +7,17 @@ This page provides solutions for the leetcode problem [Leetcode 1891. Cutting Ri
 
 ## Problem Explanation
 
-The problem is asking us to cut the ribbons into one or more parts, such that each of the $K$ parts will have an equal maximum length. We are also allowed to discard any extra parts of the ribbons if required.
+The problem is asking us to cut the ribbons into one or more parts, such that each of the $\text{K}$ parts will have an equal maximum length. We are also allowed to discard any extra parts of the ribbons if required.
 
 ## Solution
 
 This problem can be solved using the Binary Search technique. More such questions can be found [here](/binary-search/split-array-into-k-subarrays).
 
-Using binary search, we first assume a candidate value($\text{mid}$), and attempt to cut the ribbon at $\text{i}^{th}$ place so that at least one of the part has length equals to the candidate value. 
+Using binary search, we first assume a candidate value($\text{mid}$), and attempt to cut the ribbon at $\text{i}^{\text{th}}$ place so that at least one of the part has length equals to the candidate value. 
 
-Also, when we find a candidate value that allows the ribbon array to be divided into $K$ parts such that each ribbon part has an equal length, we will set $\text{lo} = \text{mid}$ instead of the typical binary search approach of $\text{lo} = \text{mid} + 1$ to keep the candidate value in the search range.
+Also, when we find a candidate value that allows the ribbon array to be divided into $\text{K}$ parts such that each ribbon part has an equal length, we will set $\text{lo} = \text{mid}$ instead of the typical binary search approach of $\text{lo} = \text{mid} + 1$ to keep the candidate value in the search range.
 
-Now, because we are setting $\text{lo} = \text{mid}$, imagine a scenario where we have $\text{lo} = 2$, $\text{hi} = 3$, and the value $2$ allows the ribbon array to be split into $K$ ribbons, each with a maximum length of $2$. In this case, for next iteration of binary search all the values will remain same and will run infinitely.
+Now, because we are setting $\text{lo} = \text{mid}$, imagine a scenario where we have $\text{lo} = 2$, $\text{hi} = 3$, and the value $2$ allows the ribbon array to be split into $\text{K}$ ribbons, each with a maximum length of $2$. In this case, for next iteration of binary search all the values will remain same and will run infinitely.
 
 To avoid this problem, we set $\text{mid}$ to $(\text{lo} + \text{hi} + 1) / 2$ instead of the typical binary search logic of $\text{mid}$ as $(\text{lo} + \text{hi}) / 2$.
 
@@ -43,7 +43,7 @@ $$
 :::info[]
 Observe that we're setting $\text{lo} = \text{mid}$ instead of $\text{lo} = \text{mid} + 1$ because we want to maintain the candidate value of $5$ within the search space.
 
-This is because, in the next iteration of binary search, we have candidate value of $7$. If we can't have $3$ ribbons of length $7$, then $5$ should be answer.
+This is because, in the next iteration of binary search, we get a candidate value of $7$. If we can't have $3$ ribbons of length $7$, then $5$ should be answer.
 :::
 
 With a maximum length of $7$, we can't make $3$ ribbons each having length of $7$. Since a maximum length of $7$ doesn't work, let's decrease the higher threshold.
@@ -99,16 +99,16 @@ class Solution {
 
 ## Complexity 
 
-Let's say there are $N$ elements in an array, and $S$ is the length of the longest ribbon.
+Let's say there are $\text{N}$ elements in an array, and $\text{S}$ is the length of the longest ribbon.
 
 ### Time complexity 
 
-The time complexity is $O(\log S)$ for searching the optimal solution using binary search, and $O(N)$ for checking if the array can be split into $K$ subarrays. 
+The time complexity is $\text{O}(\log \text{S})$ for searching the optimal solution using binary search, and $\text{O}(\text{N})$ for checking if the array can be split into $\text{K}$ subarrays. 
 
 Total time complexity will be, 
 
 $$
-O(N \ \text{log} \ S)
+\text{O}(\text{N} \log \text{S})
 $$
 
 
@@ -118,6 +118,6 @@ $$
 The solution uses constant space for storing binary search variables.
 
 $$
-O(1)
+\text{O}(1)
 $$
 

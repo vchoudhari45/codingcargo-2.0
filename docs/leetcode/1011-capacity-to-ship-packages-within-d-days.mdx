@@ -7,15 +7,15 @@ This page provides solutions for the leetcode problem [LeetCode 1011. Capacity T
 
 ## Problem Explaination 
 
-The problem is asking us to calculate the least weight capacity of the ship that will allow all the packages on the conveyor belt to be shipped within a $d$ days.
+The problem is asking us to calculate the least weight capacity of the ship that will allow all the packages on the conveyor belt to be shipped within a $\text{d}$ days.
 
 ## Solution
 
-This problem can be solved using the Binary Search technique to split an array into $K$ subarrays. [More such questions can be found here](/binary-search/split-array-into-k-subarrays).
+This problem can be solved using the Binary Search technique to split an array into $\text{K}$ subarrays. [More such questions can be found here](/binary-search/split-array-into-k-subarrays).
 
-Using binary search, we first assume a candidate value($\text{mid}$), and attempt to split the array into $d$ subarrays with sums less than or equal to candidate value(weight capacity of ship in this case).
+Using binary search, we first assume a candidate value($\text{mid}$), and attempt to split the array into $\text{d}$ subarrays with sums less than or equal to candidate value(weight capacity of ship in this case).
 
-Also, when we find a candidate value that allows the array to be split into $d$ subarrays such that each subarray sum is less than or equal to the candidate value, we will set $\text{hi} = \text{mid}$ instead of the typical binary search approach of $\text{hi} = \text{mid} - 1$ to keep the candidate value in the search range.
+Also, when we find a candidate value that allows the array to be split into $\text{d}$ subarrays such that each subarray sum is less than or equal to the candidate value, we will set $\text{hi} = \text{mid}$ instead of the typical binary search approach of $\text{hi} = \text{mid} - 1$ to keep the candidate value in the search range.
 
 Let's take the sample input below,
 
@@ -38,10 +38,10 @@ $$
 :::info[]
 Observe that we're setting $\text{hi} = \text{mid}$ instead of $\text{hi} = \text{mid} - 1$ because we want to maintain the candidate value of $5$ within the search space.
 
-This is because, in the next iteration of binary search, we have a candidate value of $4$. If $4$ does not allow splitting the array into $d$ subarrays with all subarray sums less than or equal to $4$, then $5$ should be our answer.
+This is because, in the next iteration of binary search, we have a candidate value of $4$. If $4$ does not allow splitting the array into $\text{d}$ subarrays with all subarray sums less than or equal to $4$, then $5$ should be our answer.
 :::
 
-With a maximum sum as $4$, we can't form two subarrays. The first subarray $\begin{bmatrix}1, 2\end{bmatrix}$ is fine, but the second subarray $\begin{bmatrix}3, 1, 1\end{bmatrix}$ exceeds the max sum of $4$. Because array can't be split into $d=2$ subarrays with each subarray having a sum less than or equal to $4$, let's increase the lower threshold.
+With a maximum sum as $4$, we can't form two subarrays. The first subarray $\begin{bmatrix}1, 2\end{bmatrix}$ is fine, but the second subarray $\begin{bmatrix}3, 1, 1\end{bmatrix}$ exceeds the max sum of $4$. Because array can't be split into $\text{d}=2$ subarrays with each subarray having a sum less than or equal to $4$, let's increase the lower threshold.
 
 $$
 \text{lo} = 5, \ \text{hi} = 5, \ \text{mid} = 4
@@ -57,38 +57,35 @@ Because the lower limit equals the upper limit, we exit the binary search, findi
 
 ```java
 class Solution {
-    public int splitArray(int[] nums, int k) {
+    public int shipWithinDays(int[] weights, int days) {
         int lo = Integer.MIN_VALUE;
         int hi = 0;
-        
-        for (int num : nums) {
-            lo = Math.max(lo, num); 
-            hi += num; 
+        for(int i = 0; i < weights.length; i++) {
+            lo = Math.max(lo, weights[i]);
+            hi += weights[i];
         }
 
-        while (lo < hi) {
-            int mid = lo + (hi - lo) / 2; 
-            
-            int partitions = getPartitions(nums, mid); 
-
-            if (partitions > k) lo = mid + 1; 
-            else hi = mid; 
+        while(lo < hi) {
+            int mid = lo + (hi - lo) / 2;
+            boolean isMoreDays = daysRequired(weights, mid, days);
+            if(isMoreDays) lo = mid + 1;
+            else hi = mid;
         }
-        return lo; 
+        return lo;
     }
 
-    private int getPartitions(int[] nums, int required) {
-        int index = 0, sum = 0, partition = 1;
-
-        while (index < nums.length) {
-            sum += nums[index]; 
-            if (sum > required) {
-                sum = nums[index]; 
-                partition++; 
+    private boolean daysRequired(int[] weights, int capacity, int days) {
+        int required = 0, index = 0, sum = 0, requiredDays = 1;
+        while(index < weights.length) {
+            sum += weights[index];
+            if(sum > capacity) {
+                sum = weights[index];
+                requiredDays++;
             }
             index++;
+            if(requiredDays > days) return true;
         }
-        return partition;
+        return false;
     }
 }
 ```
@@ -97,16 +94,16 @@ class Solution {
 
 ## Complexity 
 
-Let's say there are $N$ elements in an array, and total sum of all elements in an array is $S$.
+Let's say there are $\text{N}$ elements in an array, and total sum of all elements in an array is $\text{S}$.
 
 ### Time complexity 
 
-The time complexity is $O(\log S)$ for searching the optimal solution using binary search, and $O(N)$ for checking if the array can be split into $K$ subarrays. 
+The time complexity is $\text{O}(\log \text{S})$ for searching the optimal solution using binary search, and $\text{O}(\text{N})$ for checking if the array can be split into $\text{K}$ subarrays. 
 
 Total time complexity will be, 
 
 $$
-O(N \ \text{log} \ S)
+\text{O}(\text{N} \log \text{S})
 $$
 
 
@@ -116,6 +113,6 @@ $$
 The solution uses constant space for storing binary search variables.
 
 $$
-O(1)
+\text{O}(1)
 $$
 

@@ -7,14 +7,14 @@ This page provides solutions for the leetcode problem [1467. Probability of a Tw
 
 ## Problem Explanation
 
-The problem requires us to calculate the probability that two boxes will have the same number of distinct balls after shuffling $2N$ balls into two boxes, such that each box containing $N$ balls.
+The problem requires us to calculate the probability that two boxes will have the same number of distinct balls after shuffling $2\text{N}$ balls into two boxes, such that each box containing $\text{N}$ balls.
 
 For example, let's say box $1$ has $4$ balls of $2$ colors, Red and Black, and box $2$ has $4$ balls of $2$ colors, Black and Blue. It does not matter which specific colors each box contains, but rather how many distinct colors each box contains.
 
 
 ## Solution
 
-For this problem, we need to consider all possible distribution possibilities. Therefore, we use the backtracking technique to partition an array into $K$ subarrays. [More such problem can be found here](/backtracking/partition-array-into-k-subarrays).
+For this problem, we need to consider all possible distribution possibilities. Therefore, we use the backtracking technique to partition an array into $\text{K}$ subarrays. [More such problem can be found here](/backtracking/partition-array-into-k-subarrays).
 
 
 Let's take the sample input below,
@@ -139,26 +139,26 @@ class Solution {
 
 ## Complexity
 
-Let $N$ be the length of the input array $\text{balls}$
+Let $\text{N}$ be the length of the input array $\text{balls}$
 
 ### Time complexity 
 
-Each of the $N$ indices in the input array has $2$ boxes to choose from. 
+Each of the $\text{N}$ indices in the input array has $2$ boxes to choose from. 
 
 $$
-O(2 ^ N)
+\text{O}(2 ^ \text{N})
 $$
 
 
 :::info[]
-Here, we ignore time complexity required to distribute elements at each of the $N$ indices into $2$ boxes, because the input constraint $1 \leq \text{balls}[\text{i}] \leq 6$ ensures that this number will be very small.
+Here, we ignore time complexity required to distribute elements at each of the $\text{N}$ indices into $2$ boxes, because the input constraint $1 \leq \text{balls}[\text{i}] \leq 6$ ensures that this number will be very small.
 :::
 
 ### Space complexity
 
-Since there are $N$ indices to assign to each box, the stack size for the backtracking will be $N$.
+Since there are $\text{N}$ indices to assign to each box, the stack size for the backtracking will be $\text{N}$.
 
 $$
-O(N)
+\text{O}(\text{N})
 $$
 
