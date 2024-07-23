@@ -19,7 +19,8 @@ Also, when we find a candidate value that allows the array to be split into $\te
 
 Now, because we are setting $\text{lo} = \text{mid}$, imagine a scenario where we have $\text{lo} = 2$, $\text{hi} = 3$, and the value $2$ allows the array to be split into $\text{K}$ subarrays such that the sum of all the subarrays is greater than or equal to $2$. In this case for next iteration of binary search all the values will remain same and will run infinitely. 
 
-To avoid this problem, we set $\text{mid}$ to $(\text{lo} + \text{hi} + 1) / 2$ instead of the typical binary search logic of $\text{mid}$ as $(\text{lo} + \text{hi}) / 2$.
+To avoid this problem, we set $\text{mid}$ to $\Large  \frac{(\text{lo} \ + \ \text{hi} \ + \ 1)}{2}$ instead of typical binary search logic of $\text{mid}$ as $\Large \frac{(\text{lo} \ + \ \text{hi})}{2}$.
+
 
 There is one more thing to notice here, the question asks us to share the chocolate among $\text{K}$ friends and also take the one piece for yourself, meaning the question is asking us to divide the chocolate among $\text{K} + 1$ people.
 
