@@ -88,14 +88,6 @@ details div {
 	cursor: pointer;
 }
 
-.problem-name {
-  font-size: 14px; 
-}
-
-.pattern-name {
-  font-size: 14px; 
-}
-
 table {
   border-collapse: collapse !important;
   border-spacing: 0 !important;

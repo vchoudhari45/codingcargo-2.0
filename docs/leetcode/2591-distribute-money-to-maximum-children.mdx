@@ -3,7 +3,7 @@ import TabItem from '@theme/TabItem';
 
 # 1231. Divide Chocolate
 
-This page provides solutions for the leetcode problem [1231. Divide Chocolate](https://leetcode.com/problems/divide-chocolate/).
+This page provides solutions for the leetcode problem [LeetCode 2591. Distribute Money to Maximum Children](https://leetcode.com/problems/distribute-money-to-maximum-children/).
 
 ## Problem Explanation
 
@@ -11,7 +11,7 @@ The problem is asking us to divide a chocolate into $\text{K} + 1$ pieces such t
 
 ## Solution
 
-This problem can be solved using the Binary Search technique. [More such questions can be found here](/binary-search/split-array-into-k-subarrays).
+This problem can be solved using the Binary Search technique to split an array into $\text{K}$ subarrays. [More such questions can be found here](/binary-search/split-array-into-k-subarrays).
 
 Using binary search, we first assume a candidate value($\text{mid}$), and attempt to split the array(Chocolate in this case) into $\text{K}$ subarrays with sums greater than or equal to candidate value.
 
@@ -85,44 +85,24 @@ Because the lower limit equals the upper limit, we exit the binary search, findi
 
 ```java
 class Solution {
-    public int maximizeSweetness(int[] sweetness, int k) {
-        int lo = Integer.MAX_VALUE;
-        int hi = 0;
-
-        for (int i = 0; i < sweetness.length; i++) {
-            lo = Math.min(lo, sweetness[i]);
-            hi += sweetness[i];
+    public int distMoney(int money, int children) {
+        int lo = -1;
+        int hi = children;
+        while(lo < hi) {
+            int mid = (lo + hi + 1) / 2;
+            if(isValid(money, mid, children)) lo = mid;
+            else hi = mid - 1;
         }
-
-        k++;
-
-        while (lo < hi) {
-            int mid = (lo + hi + 1) / 2; 
-
-            int partitions = getPartitions(sweetness, mid); 
-
-            if (partitions < k) hi = mid - 1;
-            else lo = mid;
-        }
-
         return lo;
     }
 
-    private int getPartitions(int[] nums, int required) {
-        int index = 0, sum = 0, partitions = 0;
-
-        while (index < nums.length) {
-            sum += nums[index];
-
-            if (sum >= required) {
-                sum = 0;
-                partitions++;
-            }
-
-            index++;
-        }
-
-        return partitions;
+    private boolean isValid(int money, int maxChlidren, int children) {
+        int remainingMoney = money - 8 * maxChlidren;
+        int remainingChildren = children - maxChlidren;
+        if(remainingMoney == 4 && remainingChildren == 1) return false;
+        else if(remainingMoney < remainingChildren) return false;
+        else if(remainingMoney > 0 && remainingChildren == 0) return false;
+        else return true;
     }
 }
 ```
