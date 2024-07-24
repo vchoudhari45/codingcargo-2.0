@@ -1,0 +1,124 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 2305. Fair Distribution of Cookies
+
+This page provides solutions for the leetcode problem [2305. Fair Distribution of Cookies](https://leetcode.com/problems/fair-distribution-of-cookies/description/).
+
+## Problem Explanation 
+
+The problem is asking us to divide the cookies among $\text{K}$ children in such a way that the maximum number of cookies a single child gets is minimized.
+
+## Solution
+
+For this problem, we need to consider all possible distribution possibilities. Therefore, we use the backtracking technique. [More such problem can be found here](/data-structures-and-algorithms/backtracking).
+
+
+Let's take the sample input below,
+
+$$
+\text{cookies} = [8,15,10], \ \text{k} = 2
+$$
+
+:::info[Assumption]
+Assume bag which has $8$ cookies is called $\text{P}$, bag which has $15$ cookies is called $\text{Q}$ and bag which has $10$ cookies is called $\text{R}$.
+:::
+
+We start by assigning $\text{P}$ bag among $2$ children, which gives us $2$ possibilities. Next we assign $\text{Q}$ and $\text{R}$ bags in the next iterations, which gives us total of $8$ possibilities.
+
+Below is a graphical representation of the distribution of $3$ cookie bags $\text{P}, \text{Q}, \text{R}$ among $2$ childrens: 
+
+<div style={{textAlign:"center"}}>
+
+```mermaid
+graph TD
+    A([Start]) -->|Bag P = 8 to C1| B([C1: 8])
+    A -->|Bag P = 8 to C2| C([C2: 8])
+	
+    B -->|Bag Q = 15 to C1| D([C1: 8, 15])
+    B -->|Bag Q = 15 to C2| E([C1: 8 <br /> C2: 15])
+
+    C -->|Bag Q = 15 to C1| F([C1: 15 <br /> C2: 8])
+    C -->|Bag Q = 15 to C2| G([C2: 8, 15])
+
+    D -->|Bag R = 10 to C1| H([C1: 8, 15, 10])
+		D -->|Bag R = 10 to C2| I([C1: 8, 15 <br /> C2: 10])
+
+    E -->|Bag R = 10 to C1| J([C1: 8, 10 <br /> C2: 15])
+		E -->|Bag R = 10 to C2| K([C1: 8 <br /> C2: 15, 10])
+
+    F -->|Bag R = 10 to C1| N([C1: 15, 10 <br /> C2: 8])
+		F -->|Bag R = 10 to C2| O([C1: 15 <br /> C2: 8, 10])
+
+		G -->|Bag R = 10 to C1| L([C1: 10 <br /> C2: 8, 15])
+		G -->|Bag R = 10 to C2| M([C2: 8, 15, 10])
+``` 
+</div>
+
+We calculate maximum number of cookies for each distribution. For example, in the distribution $\text{C1}: 8, 15$ and $\text{C2}:10$ maximum number of cookies is for the worker $\text{C1}$ with the value of $23$. 
+
+Finally, we compare maximum number of cookies for each distribution and find minimum among all distributions.
+
+
+## Implementation
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    private int min = Integer.MAX_VALUE;
+
+    public int distributeCookies(int[] cookies, int k) {
+        backtrack(cookies, 0, new int[k]);
+        return min;
+    }
+
+    private void backtrack(int[] cookies, int index, int[] dist) {
+        if (index == cookies.length) {
+            min = Math.min(min, max(dist));
+        } else {
+            for (int i = 0; i < dist.length; i++) {
+                if (dist[i] + cookies[index] >= min) continue;
+
+                dist[i] += cookies[index]; 
+                backtrack(cookies, index + 1, dist);
+                dist[i] -= cookies[index];
+            }
+        }
+    }
+
+    private int max(int[] dist) {
+        int maxValue = Integer.MIN_VALUE;
+        for (int i = 0; i < dist.length; i++) {
+            maxValue = Math.max(maxValue, dist[i]);
+        }
+        return maxValue;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+
+## Complexity
+
+Let's say there are $\text{N}$ bags of cookies to distribute among $\text{K}$ children.
+
+### Time complexity 
+
+Each of the $\text{N}$ bag has $\text{K}$ options to choose from.
+
+$$
+\text{O}(\text{K} ^ \text{N})
+$$
+
+
+
+### Space complexity
+
+Since there are $\text{N}$ bags to assign to each child, the stack size for the backtracking will go upto $\text{N}$. Additionally, an array of size $\text{K}$ is needed to hold the distribution of bags among the $\text{K}$ children.
+
+$$
+O(\text{N} + \text{K})
+$$
+

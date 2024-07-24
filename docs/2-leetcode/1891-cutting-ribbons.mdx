@@ -1,0 +1,124 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 1891. Cutting Ribbons
+
+This page provides solutions for the leetcode problem [1891. Cutting Ribbons](https://leetcode.com/problems/cutting-ribbons/).
+
+## Problem Explanation
+
+The problem is asking us to cut the ribbons into one or more parts, such that each of the $\text{K}$ parts will have an equal maximum length. We are also allowed to discard any extra parts of the ribbons if required.
+
+## Solution
+
+This problem can be solved using the Binary Search technique. [More such questions can be found here](/data-structures-and-algorithms/binary-search).
+
+Using binary search, we first assume a candidate value($\text{mid}$), and attempt to cut the ribbon at $\text{i}^{\text{th}}$ place so that at least one of the part has length equals to the candidate value. 
+
+Also, when we find a candidate value that allows the ribbon array to be divided into $\text{K}$ parts such that each ribbon part has an equal length, we will set $\text{lo} = \text{mid}$ instead of the typical binary search approach of $\text{lo} = \text{mid} + 1$ to keep the candidate value in the search range.
+
+Now, because we are setting $\text{lo} = \text{mid}$, imagine a scenario where we have $\text{lo} = 2$, $\text{hi} = 3$, and the value $2$ allows the ribbon array to be split into $\text{K}$ ribbons, each with a maximum length of $2$. In this case, for next iteration of binary search all the values will remain same and will run infinitely.
+
+To avoid this problem, we set $\text{mid}$ to $\Large  \frac{(\text{lo} \ + \ \text{hi} \ + \ 1)}{2}$ instead of typical binary search logic of $\text{mid}$ as $\Large \frac{(\text{lo} \ + \ \text{hi})}{2}$.
+
+
+
+Let's take the sample input below,
+
+$$
+\text{ribbons} = \begin{bmatrix} 9, 7, 5 \end{bmatrix},  \ \text{K} = 3
+$$
+
+Initiate the binary search using the $0$ as the low threshold and largest array value $9$ as the high threshold.
+
+$$
+\text{lo} = 0, \ \text{hi} = 9, \ \text{mid} = 5
+$$
+
+With maximum length of $5$, we can make $3$ ribbons each having length of $5$. Because maximum length of $5$ works, let's maximize the candidate value further, by increasing the lower threshold.
+
+$$
+\text{lo} = 5, \ \text{hi} = 9, \ \text{mid} = 7
+$$
+
+:::info[]
+Observe that we're setting $\text{lo} = \text{mid}$ instead of $\text{lo} = \text{mid} + 1$ because we want to maintain the candidate value of $5$ within the search space.
+
+This is because, in the next iteration of binary search, we get a candidate value of $7$. If we can't have $3$ ribbons of length $7$, then $5$ should be answer.
+:::
+
+With a maximum length of $7$, we can't make $3$ ribbons each having length of $7$. Since a maximum length of $7$ doesn't work, let's decrease the higher threshold.
+
+$$
+\text{lo} = 5, \ \text{hi} = 6, \ \text{mid} = 6
+$$
+
+With a maximum length of $6$, we can't make $3$ ribbons each having length of $6$. Since a maximum length of $6$ doesn't work, let's decrease the higher threshold further.
+
+
+$$
+\text{lo} = 5, \ \text{hi} = 5, \ \text{mid} = 5
+$$
+
+Because the lower limit equals the upper limit, we exit the binary search, finding the answer as $5$.
+
+
+## Implementation
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    public int maxLength(int[] ribbons, int k) {
+        int lo = 0;
+        int hi = Integer.MIN_VALUE;
+        for(int i = 0; i < ribbons.length; i++) {
+            hi = Math.max(ribbons[i], hi);
+        }
+
+        while(lo < hi) {
+            int mid = (lo + hi + 1) / 2;
+            int partitions = getPartitions(ribbons, mid);
+            if(partitions >= k) lo = mid;
+            else hi = mid - 1;
+        }
+        return lo;
+    }
+
+    private int getPartitions(int[] ribbons, int required) {
+        int partitions = 0;
+        for(int i = 0; i < ribbons.length; i++) {
+            partitions += ribbons[i] / required;
+        }
+        return partitions;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+## Complexity 
+
+Let's say there are $\text{N}$ elements in an array, and $\text{S}$ is the length of the longest ribbon.
+
+### Time complexity 
+
+The time complexity is $\text{O}(\log \text{S})$ for searching the optimal solution using binary search, and $\text{O}(\text{N})$ for checking if the array can be split into $\text{K}$ subarrays. 
+
+Total time complexity will be, 
+
+$$
+\text{O}(\text{N} \log \text{S})
+$$
+
+
+
+### Space complexity
+
+The solution uses constant space for storing binary search variables.
+
+$$
+\text{O}(1)
+$$
+

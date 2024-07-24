@@ -1,0 +1,156 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Segment Tree
+
+A Segment Tree is a type of data structure that allows for range operations, such as finding the total, minimum, maximum, distinct value within a range, in $O(log N)$ time complexity.
+
+Additionally, it can perform point updates and range updates in $O(log N)$ time as well. Despite its name, a segment tree is actually stored as an array of elements.
+
+
+## How to Build Segment Tree
+
+We will recursively build the segment tree by splitting the current input segment in half and generating the left and right subtrees. 
+
+When the current segment consists of a single element, the value of the input segment is assigned to the segment tree array.
+
+
+Let's build a range sum segment tree for following array. To build a segment tree for an input array with $5$ elements, we considering the initial segment range as $0−4$. 
+
+<br />
+
+$$
+\text{arr} = \begin{bmatrix}
+14, 71, 37, 93, -1
+\end{bmatrix}
+$$
+
+<br />
+
+The resulting segment tree is stored as an array, Here is how segment tree will look like.
+
+<br />
+
+<div style={{textAlign:"center"}}>
+
+```mermaid
+graph TD
+    A((0&nbsp;-&nbsp;4 \n &nbsp;tree#91;0#93; = 214&nbsp;)) --> B((0&nbsp;-&nbsp;2 \n &nbsp;tree#91;1#93; = 122&nbsp;))
+		A((0&nbsp;-&nbsp;4 \n &nbsp;tree#91;0#93; = 214&nbsp;)) --> C((3&nbsp;-&nbsp;4 \n &nbsp;tree#91;2#93; = 92&nbsp;))
+    
+    B --> D((0&nbsp;-&nbsp;1 \n &nbsp;tree#91;3#93; = 85&nbsp;))
+		B --> E((2&nbsp;-&nbsp;2 \n &nbsp;tree#91;4#93; = 37&nbsp;))
+
+		C --> F((3&nbsp;-&nbsp;3 \n &nbsp;tree#91;5#93; = 93&nbsp;))
+		C --> G((4&nbsp;-&nbsp;4 \n &nbsp;tree#91;6#93; = -1&nbsp;))
+
+		D --> H((0&nbsp;-&nbsp;0 \n &nbsp;tree#91;7#93; = 14&nbsp;))
+		D --> I((0&nbsp;-&nbsp;1 \n &nbsp;tree#91;8#93; = 71&nbsp;))
+```
+
+</div>
+
+<br />
+
+
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+public int[] buildSegmentTree(int[] arr) {
+    // Create a segment tree array
+    int[] segmentTree = new int[4 * arr.length];
+    build(arr, segmentTree, 0, 0, arr.length - 1);
+}
+
+// Recursive method to build the segment tree
+private void build(int[] arr, int[] segmentTree, int treeIndex, int lo, int hi) {
+    if (lo == hi) {
+        // Base case: if the segment consists of a single element
+        segmentTree[treeIndex] = arr[lo];
+    } else {
+        int mid = lo + (hi - lo) / 2;
+        // Recursive calls to build left and right subtrees
+        build(arr, segmentTree, 2 * treeIndex + 1, lo, mid);
+        build(arr, segmentTree, 2 * treeIndex + 2, mid + 1, hi);
+        // Combine values of left and right subtrees
+        segmentTree[treeIndex] = segmentTree[2 * treeIndex + 1] 
+          + segmentTree[2 * treeIndex + 2];
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+
+
+
+## How to Use Segment Tree
+
+There are $3$ main conditions to consider when calculating range sum using segment tree.
+
+1. Return $0$ if current segment range falls completely outside the input range.
+
+2. Return precomputed sum from segment tree if current segment range falls entirely with the input range. 
+
+3. If current segment range partially overlaps with input range recursively calculate values from left and right subtree and return the result.
+
+
+<br />
+Let's calculate range sum for range $2$ to $3$. 
+
+1. We will start from the root of the segment tree, which is at index 0, as the segment tree is stored as an array.
+
+2. The current range $0-4$ partially overlaps with the input range $2-3$, so we will calculate the value from the left and right subtrees recursively.
+
+3. Let's calculate the left subtree first. Now the current range is $0-2$, which again partially overlaps with the input range $2-3$. Let's recursively enter the left subtree again.
+
+4. Entering the left subtree again, we now have the current range as $0-1$, which does not overlap with the input range $2-3$, so the return value is $0$.
+
+5. Backtracking to range $0-2$ and traversing into the right subtree, we find the current range as $2-2$, which entirely falls within the input range $2-3$. Therefore, we return the pre-computed value from node $2-2$, which is $37$.
+
+6. Backtracking to range $0-4$ and traversing into the right subtree, we find current range as $3-4$, which entirely falls within the input range $2-3$. Therefore, we return the pre-computed value from node $3-4$, which is $92$.
+
+There final value for the range sum from $2$ to $3$ is $37 + 92 = 129$.
+
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+public int rangeSum(int fromIndex, int toIndex) {
+    return rangeSumInternal(0, 0, arr.length - 1, fromIndex, toIndex);
+}
+
+private int rangeSumInternal(int treeIndex, int segmentStart, int segmentEnd, 
+  int fromIndex, int toIndex) {
+    // If the segment falls completely outside the input range fromIndex toIndex
+    // fromIndex < toIndex < segmentStart < segmentEnd
+    // segmentStart < segmentEnd < fromIndex < toIndex
+    if (toIndex < segmentStart || segmentEnd < fromIndex) {
+        return 0;
+    }
+
+    // If the segment falls completely within the range specified by 
+    // fromIndex and toIndex
+    // fromIndex <= segmentStart <= segmentEnd <= toIndex
+    else if (fromIndex <= segmentStart && segmentEnd <= toIndex) {
+        return tree[treeIndex];
+    }
+
+    // It is partial overlap, calculate value in each subtree
+    else {
+        int mid = segmentStart + (segmentEnd - segmentStart) / 2;
+        int leftValue = rangeSumInternal(2 * treeIndex + 1, segmentStart, 
+          mid, fromIndex, toIndex);
+        int rightValue = rangeSumInternal(2 * treeIndex + 2, mid + 1, segmentEnd, 
+          fromIndex, toIndex);
+        return leftValue + rightValue;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+

@@ -1,0 +1,250 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Fenwick Tree
+
+The Fenwick Tree, also known as the Binary Indexed Tree, is a data structure that can perform range operations such as finding the total, minimum, or maximum value in  $O(log N)$ time. 
+
+It can also perform point updates in  $O(log N)$  time. However, it does not support range updates; in such cases, a segment tree should be used instead. 
+
+Despite being called a tree, the Fenwick tree is actually stored as an array of elements.
+
+## Fenwick Tree Function
+
+To create a Fenwick tree, you need two functions called Get Parent and Get Child. These functions help you determine which index to update next when you add or change an element in the Fenwick tree.
+
+
+### Get Parent Function
+
+Get Parent function generates the parent index by adding $1$ to the last set bit from the right.
+
+Let's calculate parent of $6$ which is represented as $0110$ in binary format. The first set bit from right is in $2^{nd}$ position, so we add $1$ to that position
+
+$$
+0110 + 0010 = 1000
+$$ 
+
+Therefore, the parent of $6$ is $8$.
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+public int getParent(int index) {
+  return index + (i & -i);
+}
+```
+</TabItem>
+</Tabs>
+
+
+### Get Child Function
+
+Similarly, Get Child function generates the child index by substracting $1$ from the last set bit from the right.
+
+Let's calculate child of $6$ which is represented as $0110$ in binary format. The first set bit from right is in $2^{nd}$ position, so we substract $1$ from that position
+
+$$
+0110 - 0010 = 0100
+$$ 
+
+Therefore, the child of $6$ is $4$.
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+public int getChild(int index) {
+  return index - (i & -i);
+}
+```
+</TabItem>
+</Tabs>
+
+
+## How to Build Fenwick Tree
+
+Let's create a fenwick tree for input array
+
+$$
+\begin{bmatrix}
+1, 3, 4, 13, -4, 44, -3
+\end{bmatrix}
+$$
+
+<br />
+
+Generate a new array with a length one greater than the input array, initializing all elements to 0. Fenwick tree array after adding $1^{st}$ element
+
+<center>
+<img src="/img/fenwick-tree-1.svg" alt="fenwick-tree-1.svg" style={{ width: '350px', height: 'auto' }}/>
+</center>
+
+<br />
+Fenwick tree array after adding $2^{nd}$ element
+
+<center>
+<img src="/img/fenwick-tree-2.svg" alt="fenwick-tree-2.svg" style={{ width: '350px', height: 'auto' }}/>
+</center>
+
+
+<br />
+Fenwick tree array after adding $3^{rd}$ element
+
+<center>
+<img src="/img/fenwick-tree-3.svg" alt="fenwick-tree-3.svg" style={{ width: '350px', height: 'auto' }}/>
+</center>
+
+
+<br />
+Fenwick tree array after adding $4^{th}$ element
+
+<center>
+<img src="/img/fenwick-tree-4.svg" alt="fenwick-tree-4.svg" style={{ width: '350px', height: 'auto' }}/>
+</center>
+
+
+<br />
+Fenwick tree array after adding $5^{th}$ element
+
+<center>
+<img src="/img/fenwick-tree-5.svg" alt="fenwick-tree-5.svg" style={{ width: '350px', height: 'auto' }}/>
+</center>
+
+
+<br />
+Fenwick tree array after adding $6^{th}$ element
+
+<center>
+<img src="/img/fenwick-tree-6.svg" alt="fenwick-tree-6.svg" style={{ width: '350px', height: 'auto' }}/>
+</center>
+
+
+<br />
+Fenwick tree array after adding $7^{th}$ element
+
+<center>
+<img src="/img/fenwick-tree-7.svg" alt="fenwick-tree-7.svg" style={{ width: '350px', height: 'auto' }}/>
+</center>
+
+
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+public int[] buildFenwickTree(int[] arr) {
+  // create a fenwickTree array
+  int[] fenwickTree = new int[arr.length + 1];
+
+  // add element to fenwick tree starting from index i
+  for(int i = 1; i < fenwickTree.length; i++) {
+    add(arr[i - 1], i);
+  }
+
+  // return fenwick tree
+  return fenwickTree;
+}
+
+private void add(int element, int index) {
+  // adding element until end of fenwick tree is reached
+  while(index < fenwickTree.length) {
+    // add element at current index
+    fenwickTree[index] += element;
+
+    // get parent index of current index
+    index = getParent(index);
+  }
+}
+```
+</TabItem>
+</Tabs>
+
+
+## How to Use Fenwick Tree
+
+The Fenwick tree we generated earlier enables range operations, particularly range sum calculations in $O(log N)$ time. 
+
+Let's calculate range sum from $4$ to $6$. 
+
+First we will start with calculate the prefix sum from $3$. Starting with index $4$ in the Fenwick Tree, we will add elements at each step, and move towards $0$.
+
+<center>
+<img src="/img/fenwick-tree-8.svg" alt="fenwick-tree-8.svg" style={{ width: '320px', height: 'auto' }}/>
+</center>
+
+Therefore prefix sum from $3$ will be $21$.
+
+:::info
+Notice how we are starting with index $4$ for calculating prefix sum from $3$ as fenwick tree array start inserting elements from index $1$.
+:::
+
+<br />
+
+
+Now let's calculate the prefix sum from $6$. 
+
+<center>
+<img src="/img/fenwick-tree-9.svg" alt="fenwick-tree-9.svg" style={{ width: '320px', height: 'auto' }}/>
+</center>
+
+Therefore prefix sum from $6$ will be $58$.
+
+
+Now, to compute the range sum from $4$ to $6$, subtract the prefix sum at index $3$ from the prefix sum at index $6$, which gives us answer as $37$.
+
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+public int rangeSum(int from, int to) {
+	prefixSum(to + 1) - prefixSum(from);
+}
+
+private int prefixSum(int element, int index) {
+	int sum = 0;
+  while(index > 0) {
+    // add element at current index
+    sum += fenwickTree[index];
+
+    // get child index of current index
+    index = getChild(index);
+  }
+}
+```
+</TabItem>
+</Tabs>
+
+
+## Update Element in Fenwick Tree
+
+To update an element in a Fenwick tree, we follow a similar process as adding an element. However, instead of adding the actual element, we add a delta value.
+
+
+Let's update $0{th}$ index in an input array to $3$.
+
+Delta at $0{th}$ index is $3 − 1 = 2$ , so we start by adding $2$ starting from $1$ st index in fenwick tree.
+
+<center>
+<img src="/img/fenwick-tree-9.svg" alt="fenwick-tree-9.svg" style={{ width: '320px', height: 'auto' }}/>
+</center>
+
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+private int update(int newValue, int index) {
+  // calculate delta value
+  int delta = arr[index] - newValue;
+
+  // update value at index in input array to newValue
+  arr[index] = newValue;
+
+  // call add function
+  add(delta, index);
+}
+```
+</TabItem>
+</Tabs>

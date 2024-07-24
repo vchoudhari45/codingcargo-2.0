@@ -1,8 +1,0 @@
-[
-	{
-		"id": 1671,
-		"name": "Minimum Number of Removals to Make Mountain Array",
-		"tags": ["dynamic programming"],
-		"pattern": "Longest Increasing Subsequence"
-	}
-]

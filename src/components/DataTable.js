@@ -38,7 +38,7 @@ const DataTable = ({ data, notag }) => {
 	const totalSolved = sortedData.length;
 
   return (
-    <div>
+    <div className='problemset-container'>
       <table>
         <thead>
           <tr>
