@@ -1,66 +1,86 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 698. Partition to k Equal Sum Su...
+# 698. Partition to K Equal Sum Su...
 
-This page provides solutions for the leetcode problem [410. Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/).
+This page provides solutions for the leetcode problem [698. Partition to K Equal Sum Subsets](https://leetcode.com/problems/partition-to-k-equal-sum-subsets).
 
 ## Problem Explaination 
 
-The problem is asking us to split an array into $\text{K}$ subarrays in such a way that the largest sum of any subarray is minimized.
+The problem is asking us to check if it is possible to partition an array into $\text{K}$ subarray such that each partition has an equal sum. 
+
 
 ## Solution
 
-This problem can be solved using the Binary Search technique. [More such questions can be found here](/data-structures-and-algorithms/binary-search).
+This problem can be solved using backtracking, but since input size is large, we will be use combinations. [More such questions can be found here](/data-structures-and-algorithms/combinations).
 
-Using binary search, we first assume a candidate value($\text{mid}$), and attempt to split the array into $\text{K}$ subarrays with sums less than or equal to candidate value.
+To solve this problem using backtracking, think of it like the $\text{N}$ Queen problem, where you try to assign each element of an array to one of the $\text{K}$ subsets. This approch will require time complexity of $\text{K}^\text{N}$. 
 
-Also, when we find a candidate value that allows the array to be split into $\text{K}$ subarrays such that each subarray sum is less than or equal to the candidate value, we will set $\text{hi} = \text{mid}$ instead of the typical binary search approach of $\text{hi} = \text{mid} - 1$ to keep the candidate value in the search range.
+For smaller values of $\text{K}$, backtracking works best. However, when $\text{K}$ grows larger, time complexity of $\text{K}^\text{\text{N}}$ will result in a time limit exceeded exception.
 
-Let's take the sample input below,
+A better approach is to use the combination method. In this approach, we first create a single subset, which takes a time complexity of $\text{2}^\text{N}$. Therefore, creating $\text{K}$ subsets will take $\text{K} * \text{2}^\text{N}$.
 
-$$
-\text{nums} = \begin{bmatrix} 7, 2, 5, 10, 8\end{bmatrix},  \ \text{K} = 2
-$$
-
-Initiate the binary search using the largest array value $10$ as the low threshold and the total sum of the array $32$ as the high threshold.
+Let's take the sample input as below,
 
 $$
-\text{lo} = 10, \ \text{hi} = 32, \ \text{mid} = 21
+\text{nums} = \begin{bmatrix}
+1,2,3
+\end{bmatrix}, \ 
+\text{K} = 2
 $$
 
-With a maximum sum as $21$, the first subarray will have $\begin{bmatrix}7, 2, 5\end{bmatrix}$, and the second subarray will have $\begin{bmatrix}10, 8\end{bmatrix}$. Because none of the subarray sums exceed the value of $21$, let's minimize the candidate value further, by decreasing the higher threshold.
+We will start by verifying if sum of the array elements can be divided into $\text{K}$ equal sum parts using the formula:
 
 $$
-\text{lo} = 10, \ \text{hi} = 21, \ \text{mid} = 15
+\text{Sum of array elements} \ \% \ \text{K}  = \ 0
 $$
 
-:::info[]
-Observe that we're setting $\text{hi} = \text{mid}$ instead of $\text{hi} = \text{mid} - 1$ because we want to maintain the candidate value of $21$ within the search space.
-
-This is because, in the next iteration of binary search, we get a candidate value as $15$. If $15$ does not allow splitting the array into $\text{K}$ subarrays with all subarray sums less than or equal to $15$, then $21$ should be our answer.
-:::
-
-With a maximum sum as $15$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, 2, 5\end{bmatrix}$ is fine, but the second subarray $\begin{bmatrix}10, 8\end{bmatrix}$ exceeds the max sum of $15$. Because array can't be split into $\text{K}=2$ subarrays with each subarray having a sum less than or equal to $15$, let's increase the lower threshold.
+If the sum of array elements is not divisible by $\text{K}$, it is impossible to partition the array into $\text{K}$ subsets with equal sums. Since condition holds true for sample input, let's calculate required equal sum using formula below: 
 
 $$
-\text{lo} = 16, \ \text{hi} = 21, \ \text{mid} = 18
+\text{Sum of array elements} \ \div \ \text{K}
 $$
 
-With a maximum sum of $18$, we can make two subarrays the first will have $\begin{bmatrix}7, 2, 5\end{bmatrix}$ and the second will have $\begin{bmatrix}10, 8\end{bmatrix}$. Because none of the subarray sums exceed the value of $18$, let's minimize the candidate value further, by decreasing the higher threshold.
+Required equal sum will be calculated as $3$.
 
-$$
-\text{lo} = 16, \ \text{hi} = 18, \ \text{mid} = 17
-$$
+Next, we will create a single subset using the choose or skip approach, such that sum of all the elements in the subset equals required sum $3$. We will repeat this process until $\text{K} = 2$ subsets are formed.
 
-With a maximum sum of $17$, we can't form two subarrays. The first subarray $\begin{bmatrix}7, 2, 5\end{bmatrix}$ is fine, but the second subarray $\begin{bmatrix}10, 8\end{bmatrix}$ exceeds the max sum of $17$. Because array can't be split into $\text{K}=2$ subarrays with each subarray having a sum less than or equal to $17$, let's increase the lower threshold.
+Below is a graphical representation of creating subsets using the combination choose or skip approach:
+
+<div style={{textAlign:"center"}}>
+
+```mermaid
+graph TD
+    A((Root)) --Keep 1--> B((&nbsp;&nbsp; 1 &nbsp;&nbsp;))
+    A((Root)) --Skip 1--> C((&nbsp;&nbsp;  &nbsp;&nbsp;))
+    
+    B --&nbsp;Keep 2&nbsp;--> E((&nbsp; 1,2 &nbsp;))
+		B --&nbsp;Skip 2&nbsp;--> F((&nbsp; 1 &nbsp;))
+    
+    C --&nbsp;Keep 2&nbsp;--> G((&nbsp; 2 &nbsp;))
+		C --&nbsp;Skip 2&nbsp;--> H((&nbsp; &nbsp;))
 
 
-$$
-\text{lo} = 18, \ \text{hi} = 18, \ \text{mid} = 18
-$$
+		E --&nbsp;Keep 3&nbsp;--> I((&nbsp; 1,2,3 &nbsp;))
+		E --&nbsp;Skip 3&nbsp;--> J((&nbsp; 1,2 &nbsp;))
 
-Because the lower limit equals the upper limit, we exit the binary search, finding the answer as $18$.
+		F --&nbsp;Keep 3&nbsp;--> K((&nbsp; 1,3 &nbsp;))
+		F --&nbsp;Skip 3&nbsp;--> L((&nbsp; 1 &nbsp;))
+    
+    G --&nbsp;Keep 3&nbsp;--> M((&nbsp; 2,3 &nbsp;))
+		G --&nbsp;Skip 3&nbsp;--> N((&nbsp; 2 &nbsp;))
+
+		H --&nbsp;Keep 3&nbsp;--> O((&nbsp; 3 &nbsp;))
+		H --&nbsp;Skip 3&nbsp;--> P((&nbsp; &nbsp;))
+```
+
+</div>
+
+For our sample input $\text{nums} = \begin{bmatrix}1,2,3\end{bmatrix}$, when our algorithm reaches a node with the subset $[1, 2]$, it finds that subset sum is $3$, which matches the required equal sum. 
+
+We also mark the elements used in creation of first subset as visited using bitmap masking, ensuring that these elements are not reused when creating remaining $\text{K} - 1$ subsets.
+
+Once we have generated total $\text{K}$ subsets and verified that each subset sum equals $3$, we return true, else return false.
 
 
 ## Implementation
@@ -69,66 +89,115 @@ Because the lower limit equals the upper limit, we exit the binary search, findi
   <TabItem value="Java" label="Java" default>
 
 ```java
+import java.util.HashMap;
+
 class Solution {
-    public int splitArray(int[] nums, int k) {
-        int lo = Integer.MIN_VALUE;
-        int hi = 0;
-        
+
+    private HashMap<Integer, Boolean> memo;
+
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        // Memoization
+        memo = new HashMap<>();
+
+        // Calculate sum of all elements of an array
+        int totalArraySum = 0;
         for (int num : nums) {
-            lo = Math.max(lo, num); 
-            hi += num; 
+            totalArraySum += num;
         }
 
-        while (lo < hi) {
-            int mid = lo + (hi - lo) / 2; 
-            
-            int partitions = getPartitions(nums, mid); 
-
-            if (partitions > k) lo = mid + 1; 
-            else hi = mid; 
+        // Check if an array can be partitioned into k subsets
+        if (totalArraySum % k != 0) {
+            return false;
         }
-        return lo; 
+
+        return combination(nums, 0, 0, 0, totalArraySum / k, k);
     }
 
-    private int getPartitions(int[] nums, int required) {
-        int index = 0, sum = 0, partition = 1;
+    private boolean combination(int[] nums, int mask, int index, int sum, 
+      int requiredSum, int k) {
 
-        while (index < nums.length) {
-            sum += nums[index]; 
-            if (sum > required) {
-                sum = nums[index]; 
-                partition++; 
-            }
-            index++;
+        if (memo.containsKey(mask)) return memo.get(mask);
+
+        // K subsets are ready
+        if (k == 0) {
+            return true;
+        } 
+        // Current subset sum is greater than required sum
+        else if (sum > requiredSum) {
+          return false;
+        } 
+        // Current subset sum is equal to required sum
+        else if (sum == requiredSum) {
+            // Check if we can create next k - 1 subsets  
+            boolean ans = combination(nums, mask, 0, 0, requiredSum, k - 1);
+            memo.put(mask, ans);
+            return ans;
         }
-        return partition;
+
+        if (index == nums.length) return false;
+
+        // Check if current element is visited
+        if (((mask >> index) & 1) == 0) {
+            // Mark current element as visited 
+            mask = (mask | (1 << index));
+
+            // Choose current element 
+            if (combination(nums, mask, index + 1, sum + nums[index], 
+              requiredSum, k)) {
+                memo.put(mask, true);
+                return true;
+            }
+
+            // Unmark current element as visited
+            mask = (mask ^ (1 << index)); 
+        }
+
+        // Skip current element 
+        if (combination(nums, mask, index + 1, sum, requiredSum, k)) {
+            memo.put(mask, true);
+            return true;
+        }
+
+        memo.put(mask, false);
+        return false;
     }
 }
 ```
 </TabItem>
 </Tabs>
 
+:::info[]
+
+In this solution we have avoided redundant computations by adding memoization. 
+
+Consider if we've chosen the $0$<sup>th</sup> and $1$<sup>st</sup> elements in set $1$ and the $2$<sup>nd</sup> and $3$<sup>rd</sup> elements in set $2$, but then found 
+we can't make set $3$ with the remaining items, we remember this situation.
+
+If in different recursive calls, we selected the $0$<sup>th</sup> and $3$<sup>rd</sup> elements in set $1$, and the $1$<sup>st</sup> and $2$<sup>nd</sup> elements in set $2$, rather than rechecking if we can create set $3$, we retrieve the previously stored answer (false) from memory.
+
+:::
+
 ## Complexity 
 
-Let's say there are $\text{N}$ elements in an array, and total sum of all elements in an array is $\text{S}$.
+Let's say there are $\text{N}$ elements in an array, and we need to create $\text{K}$ subsets.
 
 ### Time complexity 
 
-The time complexity is $\text{O}(\log \text{S})$ for searching the optimal solution using binary search, and $\text{O}(\text{N})$ for checking if the array can be split into $\text{K}$ subarrays. 
+The time complexity is $\text{O}(2^{\text{N}})$ for creating a single subset, as we can either choose or skip each element of an array, and $\text{O}(\text{K})$ for creating $\text{K}$ subsets.
 
 Total time complexity will be, 
 
 $$
-\text{O}(\text{N} \log \text{S})
+\text{O}(\text{K} * 2^{\text{N}})
 $$
 
 
 
 ### Space complexity
 
-The solution uses constant space for storing binary search variables.
+At any given time, the excution stack will have at most $\text{N}$ elements.
 
 $$
-\text{O}(1)
+\text{O}(N)
 $$
 
