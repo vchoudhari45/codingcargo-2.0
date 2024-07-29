@@ -14,9 +14,9 @@ The problem is asking us to check if it is possible to partition an array into $
 
 This problem can be solved using backtracking, but since input size is large, we will be use combinations. [More such questions can be found here](/data-structures-and-algorithms/combinations).
 
-To solve this problem using backtracking, think of it like the $\text{N}$ Queen problem, where you try to assign each element of an array to one of the $\text{K}$ subsets. This approch will require time complexity of $\text{K}^\text{N}$. 
+To solve this problem using backtracking, think of it like the $\text{N}$-Queen problem, where you try to assign each element of an array to one of the $\text{K}$ subsets. 
 
-For smaller values of $\text{K}$, backtracking works best. However, when $\text{K}$ grows larger, time complexity of $\text{K}^\text{\text{N}}$ will result in a time limit exceeded exception.
+Backtracking approach will require a time complexity of $\text{K}^\text{N}$, as there are $\text{K}$ options for each of the $\text{N}$ elements in the array. For smaller values of $\text{K}$, backtracking works best. However, when $\text{K}$ grows larger, time complexity of $\text{K}^\text{\text{N}}$ will result in a time limit exceeded exception.
 
 A better approach is to use the combination method. In this approach, we first create a single subset, which takes a time complexity of $\text{2}^\text{N}$. Therefore, creating $\text{K}$ subsets will take $\text{K} * \text{2}^\text{N}$.
 
@@ -51,37 +51,43 @@ Below is a graphical representation of creating subsets using the combination ch
 
 ```mermaid
 graph TD
+		classDef dottedNodes stroke-dasharray: 3, 3;
+		classDef colorNode stroke-width: 3px;
+
     A((Root)) --Keep 1--> B((&nbsp;&nbsp; 1 &nbsp;&nbsp;))
-    A((Root)) --Skip 1--> C((&nbsp;&nbsp;  &nbsp;&nbsp;))
+    A((Root)) -.Skip 1.-> C((&nbsp;&nbsp;  &nbsp;&nbsp;)) 
     
     B --&nbsp;Keep 2&nbsp;--> E((&nbsp; 1,2 &nbsp;))
-		B --&nbsp;Skip 2&nbsp;--> F((&nbsp; 1 &nbsp;))
+		B -.&nbsp;Skip 2&nbsp;.-> F((&nbsp; 1 &nbsp;))
     
-    C --&nbsp;Keep 2&nbsp;--> G((&nbsp; 2 &nbsp;))
-		C --&nbsp;Skip 2&nbsp;--> H((&nbsp; &nbsp;))
+    C -.&nbsp;Keep 2&nbsp;.-> G((&nbsp; 2 &nbsp;))
+		C -.&nbsp;Skip 2&nbsp;.-> H((&nbsp; &nbsp;))
 
+		E -.&nbsp;Keep 3&nbsp;.-> I((&nbsp; 1,2,3 &nbsp;))
+		E -.&nbsp;Skip 3&nbsp;.-> J((&nbsp; 1,2 &nbsp;))
 
-		E --&nbsp;Keep 3&nbsp;--> I((&nbsp; 1,2,3 &nbsp;))
-		E --&nbsp;Skip 3&nbsp;--> J((&nbsp; 1,2 &nbsp;))
-
-		F --&nbsp;Keep 3&nbsp;--> K((&nbsp; 1,3 &nbsp;))
-		F --&nbsp;Skip 3&nbsp;--> L((&nbsp; 1 &nbsp;))
+		F -.&nbsp;Keep 3&nbsp;.-> K((&nbsp; 1,3 &nbsp;))
+		F -.&nbsp;Skip 3&nbsp;.-> L((&nbsp; 1 &nbsp;))
     
-    G --&nbsp;Keep 3&nbsp;--> M((&nbsp; 2,3 &nbsp;))
-		G --&nbsp;Skip 3&nbsp;--> N((&nbsp; 2 &nbsp;))
+    G -.&nbsp;Keep 3&nbsp;.-> M((&nbsp; 2,3 &nbsp;))
+		G -.&nbsp;Skip 3&nbsp;.-> N((&nbsp; 2 &nbsp;))
 
-		H --&nbsp;Keep 3&nbsp;--> O((&nbsp; 3 &nbsp;))
-		H --&nbsp;Skip 3&nbsp;--> P((&nbsp; &nbsp;))
+		H -.&nbsp;Keep 3&nbsp;.-> O((&nbsp; 3 &nbsp;))
+		H -.&nbsp;Skip 3&nbsp;.-> P((&nbsp; &nbsp;))
+
+		class C,G,H,F,I,J,K,L,M,N,O,P dottedNodes;
+		class E colorNode;
 ```
 
 </div>
 
-For our sample input $\text{nums} = \begin{bmatrix}1,2,3\end{bmatrix}$, when our algorithm reaches a node with the subset $[1, 2]$, it finds that subset sum is $3$, which matches the required equal sum. 
+For our sample input $\text{nums} = \begin{bmatrix}1,2,3\end{bmatrix}$, when our algorithm reaches a node with the subset $[1, 2]$, it finds that subset sum is $3$, which matches the required sum. Thus creating a first subset.
 
 We also mark the elements used in creation of first subset as visited using bitmap masking, ensuring that these elements are not reused when creating remaining $\text{K} - 1$ subsets.
 
-Once we have generated total $\text{K}$ subsets and verified that each subset sum equals $3$, we return true, else return false.
+For the next iteration of subset creation, only one element, remains, which forms another subset $[3]$.
 
+Since we have created $\text{K} = 2$ subsets, $[1,2]$ and $[3]$, each with the required equal sum of $3$, we return true.
 
 ## Implementation
 
@@ -198,6 +204,6 @@ $$
 At any given time, the excution stack will have at most $\text{N}$ elements.
 
 $$
-\text{O}(N)
+\text{O}(\text{N})
 $$
 

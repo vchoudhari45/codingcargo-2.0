@@ -55,10 +55,18 @@ graph TD
 </div>
 
 
-We calculate maximum working time for each distribution. For example, in the distribution $\text{W1}: 3, 2$ and $\text{W2}:4$ maximum working time is for the worker $\text{W1}$ with the value of $5$. 
+We calculate maximum working time for each distribution. 
 
-Finally, we compare maximum working time value for each distribution and find minimum among all distributions.
+- For the distribution $\text{W}1: [3, 2, 4]$ and $\text{W}2: [\ ]$, the maximum working time is $9$ for the worker $\text{W}1$.
+- For the distribution $\text{W}1: [3, 2]$ and $\text{W}2: [4]$, the maximum working time is $5$ for the worker $\text{W}1$.
+- For the distribution $\text{W}1: [3, 4]$ and $\text{W}2: [2]$, the maximum working time is $7$ for the worker $\text{W}1$.
+- For the distribution $\text{W}1: [3]$ and $\text{W}2: [2, 4]$, the maximum working time is $6$ for the worker $\text{W}2$.
+- For the distribution $\text{W}1: [2, 4]$ and $\text{W}2: [3]$, the maximum working time is $6$ for the worker $\text{W}1$.
+- For the distribution $\text{W}1: [2]$ and $\text{W}2: [3, 4]$, the maximum working time is $7$ for the worker $\text{W}2$.
+- For the distribution $\text{W}1: [4]$ and $\text{W}2: [3, 2]$, the maximum working time is $5$ for the worker $\text{W}2$.
+- For the distribution $\text{W}1: [\ ]$ and $\text{W}2: [3, 2, 4]$, the maximum working time is $9$ for the worker $\text{W}2$.
 
+Among all the distributions, the minimum value of the maximum working time is $5$, so we return $5$ as the answer.
 
 ## Implementation
 
