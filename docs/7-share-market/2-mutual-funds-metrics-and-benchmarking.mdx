@@ -1,0 +1,154 @@
+---
+slug: /share-market/mutual-funds-metrics-and-benchmarking
+---
+
+# Mutual Funds Metrics and Benc...
+
+This page provides an introduction to Mutual Funds Metrics and Benchmarking. These are my notes from the Zerodha Varsity course.
+
+
+## Mutual Fund Metrics
+
+A mutual fund metric is a quantitative measure used to evaluate the performance, risk, and other attributes of a mutual fund.
+
+### Absolute Return
+
+If the investment period is less than one year, the return is called an absolute return, and it is calculated using the formula below.
+
+$$
+(\text{Ending Value} \div \text{Beginning Value}) \ - \ 1
+$$
+
+For example, on January $1^\text{st}$, $2020$, I invested \$$2500$ in a mutual fund. By July $7^\text{th}$, the value of the fund had increased to \$$3000$. The absolute return would be $20\%$.
+
+
+### CAGR
+
+CAGR or the Compound Annual Growth Rate measures the rate at which the investment is growing, and it is calculated using the formula below.
+
+$$
+\left[(\text{Ending Value} \div \text{Beginning Value})^{\large{\frac{1}{\text{Number of Years}}}}\right] \ - \ 1 
+$$
+
+
+For instance, I invested \$$2500$ in $2017$ in a particular mutual fund. Three years later, the investment had grown to \$$4000$. The Compound Annual Growth Rate (CAGR) can be calculated as $\left[ \left( 4000 \div 2500 \right)^{\large{\frac{1}{3}}} \right] - 1 \approx 16.96\%$.
+
+
+### XIRR
+
+XIRR stands for Extended Internal Rate of Return. XIRR comes in handy when you make regular investments in a mutual fund over an extended period. Hence for SIPs, you need to use XIRR to measure the growth rate.
+
+Excel has an XIRR function that you can use, function has following two inputs, 
+
+- The series of cash outflows and the current value of the investment.
+- The respective dates of cash flow and the date of the current value.
+
+
+### Rolling Returns 
+
+Rolling return is a method of calculating the annualized average return of an investment over a specific period, starting at different points in time. It helps in assessing the performance consistency of a fund by considering multiple overlapping periods, providing a more comprehensive view of how the investment performs over time.
+
+
+
+For example Suppose you want to calculate the $3$-year rolling returns of a mutual fund over a $5$-year period. 
+
+Here's how you would do it:
+
+#### Data (Annual Returns):
+
+- Year $1$: $10\%$
+- Year $2$: $12\%$
+- Year $3$: $8\%$
+- Year $4$: $15\%$
+- Year $5$: $9\%$
+
+#### Calculate $3$-Year Rolling Returns:
+- $1^{st}$ $3$-Year Period (Year $1$ to $3$): Return = $(1 + 0.10) × (1 + 0.12) × (1 + 0.08) - 1 = 32.5\%$
+- $2^{nd}$ $3$-Year Period (Year $2$ to $4$): Return = $(1 + 0.12) × (1 + 0.08) × (1 + 0.15) - 1 = 39.58\%$
+- $3^{rd}$ $3$-Year Period (Year $3$ to $5$): Return = $(1 + 0.08) × (1 + 0.15) × (1 + 0.09) - 1 = 35.85\%$
+
+By calculating rolling returns, investors can evaluate the fund's performance stability and consistency over different periods, making it a valuable tool for long term investment analysis.
+
+## Mutual Fund Benchmarking
+
+Mutual fund benchmarking is the process of comparing a fund's performance against a standard index to evaluate its relative success.
+
+### Beta 
+
+The beta of a mutual fund is a measure of its relative risk compared with its benchmark, expressed as a number; beta can take any value above or below zero.
+
+For example, the ABC fund has a beta of $0.95$, hence the fund is slightly less risky compared to its benchmark. If it had a beta of $1.2$, the fund would be considered more risky than its benchmark.
+
+### Alpha 
+
+Assume an equity fund generates a $12\%$ CAGR over three years, while its benchmark, the Nifty $50$, generates a $10.5\%$ CAGR for the same period. In this case, the fund is said to have outperformed its benchmark. The excess return relative to the benchmark is called the alpha. Alpha is a risk adjusted.
+
+
+### Standard Deviation
+
+The standard deviation of a stock or mutual fund represents its riskiness. It is expressed as an annualized percentage. The higher the standard deviation, the greater the volatility of the asset, and consequently, the higher the risk.
+
+$$
+\text{Loss} = \text{Investment} * (1 - \text{SD})
+$$
+
+$$
+\text{Gain} = \text{Investment} * (1 + \text{SD})
+$$
+
+The larger the SD, the larger the possibility of loss or gains.
+
+
+### Sharpe Ratio
+
+Sharpe Ratio bundles the concept of risk, reward, and the risk free rate and gives us a perspective.
+
+$$
+\text{Sharpe ratio} = [\text{Fund Return} \ - \ \text{Risk Free Return}] \div \text{Standard Deviation of the fund}
+$$
+
+For example assume, there are two large cap funds Fund A and Fund B as below 
+
+
+|Criteria				 |Fund A|Fund B|
+|----------------|------|------|
+|Return					 |$14\%$|$16\%$|
+|Risk						 |$28\%$|$34\%$|
+|Risk Free Return|$6\%$ |$6\%$ |
+
+
+Let's apply the math for Fund A, We get 
+
+$$
+\text{Sharpe ratio} = [14\% - 6\%] / 28\% = 8\%/28\%= 0.29
+$$
+
+The number tells us that the fund generates 0.29 units of return (over and above the risk free return) for every unit of risk undertaken. Naturally, by this measure, the higher the Sharpe ratio, the better, as we all want higher returns for every unit of risk undertaken.
+
+Let's apply the math for Fund B, We get 
+
+$$
+\text{Sharpe ratio} = [16\% - 6\%] / 35\% = 10\%/34\%= 0.29
+$$
+
+So it turns out that both the funds are similar in terms of their risk and reward perspective. And there is no advantage of choosing Fund A over Fund B.
+
+### Sortino’s Ratio
+
+The Sortino ratio is an improvement over the Sharpe ratio, where the denominator includes only the negative returns or downside risk.
+
+The objective of the Sortino ratio is to estimate the excess return adjusted for downside risk only. Like the Sharpe ratio, the higher the Sortino ratio, the better.
+
+### Capture Ratio
+
+The capture ratio tells us, for a given period, to what extent the fund captured the positive returns of its benchmark and the negative returns of its benchmark.
+
+This is the capture ratio of HDFC Top $100$, Direct, Growth fund on a $3$-year basis. It is available on Morningstar India website.
+
+|Capture Ratio	 |Fund  |Category|Index |
+|----------------|------|--------|------|
+|Upside					 |$99$  |$92$    |$100$ |
+|Downside				 |$119$ |$95$    |$100$ |
+
+
+The fund has an upside capture ratio of 99, which implies that the fund has managed to capture 99% of the index’s upward movement. Likewise, the downside capture ratio is 119, which means that the fund has captured 119% of the index’s downward returns.

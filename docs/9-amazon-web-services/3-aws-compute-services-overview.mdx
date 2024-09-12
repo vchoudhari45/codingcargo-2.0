@@ -1,0 +1,316 @@
+# AWS Compute Services Overview
+
+This page provides an introduction to AWS Compute Services. These are my notes from the AWS course.
+
+There are three types of computes in AWS 
+- Instances
+- Containers 
+- Serverless
+
+
+## Instances
+
+Instances are virtual computers in the cloud. Whatever you would do on a physical computer, you can do with an instance. You determine your compute options: CPU, memory, storage. You choose the OS and maintain all security and patching of the instance. You can scale the resources up or down as you need it.
+
+AWS manages the underlying physical hardware and infrastructure on which the instance runs but does not have access to your instance. AWS cannot access the OS, passwords or keys, or any data stored in your account. With Amazon EC2, you pay for the capacity you use, and billing starts when the instance starts and is in a running state. You are not billed if an instance is in a stopped state.
+
+### Amzon EC2
+
+Amzon Elastic Compute Cloud(Amzon EC2) provides various instance types that you can configure with different numbers and size of CPU, memory, storage and networking resources.
+
+In AWS compute services, Virtual machiness are called instances. A Virtual machine is a software that can perform all the same functions as a physical computer, including running application and operating systems(OSs). It is digital version of physcial computer.
+
+
+### EC2 Instance Families
+	
+Each instance family is optimized to fit different use cases.
+
+For example c5n.xlarge
+
+- First position – The first position, c, indicates the instance family. This indicates that this instance belongs to the compute optimized family.
+
+- Second position – The second position, 5, indicates the generation of the instance. This instance belongs to the fifth generation of instances.
+
+- Remaining letters before the period – In this case, n indicates additional attributes, such as local NVMe storage.
+
+- After the period – After the period, xlarge indicates the instance size. In this example, it's xlarge.
+
+There are approximately six categories of EC2 instance families, as outlined below:
+
+#### General Purpose 
+
+General purpose instances provide a balance of compute, memory, and networking resources, and can be used for a variety of workloads.
+
+Ideal for applications that use these resources in equal proportions, such as web servers and code repositories
+
+
+#### Compute optimized
+
+Compute optimized instances are ideal for compute-bound applications that benefit from high-performance processors.
+
+Well-suited for batch processing workloads, media transcoding, high performance web servers, high performance computing (HPC), scientific modeling, dedicated gaming servers and ad server engines, machine learning inference, and other compute intensive applications
+
+#### Memory optimized
+
+Memory optimized instances are designed to deliver fast performance for workloads that process large datasets in memory.
+
+Memory-intensive applications, such as high-performance databases, distributed web-scale in-memory caches, mid-size in-memory databases, real-time big-data analytics, and other enterprise applications
+
+#### Accelerated computing
+
+Accelerated computing instances use hardware accelerators or co-processors to perform functions such as floating-point number calculations, graphics processing, or data pattern matching more efficiently than is possible in software running on CPUs.
+
+Machine learning, HPC, computational fluid dynamics, computational finance, seismic analysis, speech recognition, autonomous vehicles, and drug discovery
+
+#### Storage optimized
+
+Storage optimized instances are designed for workloads that require high sequential read and write access to large datasets on local storage. They are optimized to deliver tens of thousands of low-latency random I/O operations per second (IOPS) to applications that replicate their data across different instances.
+
+NoSQL databases (Cassandra, MongoDB and Redis), in-memory databases, scale-out transactional databases, data warehousing, Elasticsearch, and analytics.
+
+
+#### HPC optimized
+
+High performance computing (HPC) instances are purpose built to offer the best price performance for running HPC workloads at scale on AWS.
+
+Ideal for applications that benefit from high-performance processors, such as large, complex simulations and deep learning workloads.
+
+### EC2 Instance Lifecycle
+
+- When you launch an instance, it enters the pending state. When an instance is pending, billing has not started. At this stage, the instance is preparing to enter the running state. Pending is where AWS performs all actions needed to set up an instance, such as copying the AMI content to the root device and allocating the necessary networking components.
+
+
+- When your instance is running, it's ready to use. This is also the stage where billing begins. As soon as an instance is running, you can take other actions on the instance, such as reboot, terminate, stop, and stop-hibernate.
+
+- When you reboot an instance, it’s different than performing a stop action and then a start action. Rebooting an instance is equivalent to rebooting an operating system. The instance keeps its public DNS name (IPv4) and private and public IPv4 addresses. An IPv6 address (if applicable) remains on the same host computer and maintains its public and private IP address, in addition to any data on its instance store volumes.
+
+- When you stop your instance, it enters the stopping and then stopped state. This is similar to when you shut down your laptop. You can stop and start an instance if it has an Amazon Elastic Block Store (Amazon EBS) volume as its root device. When you stop and start an instance, your instance can be placed on a new underlying physical server. Your instance retains its private IPv4 addresses and if your instance has an IPv6 address, it retains its IPv6 address. When you put the instance into stop-hibernate, the instance enters the stopped state, but saves the last information or content into memory, so that the start process is faster.
+
+- When you terminate an instance, the instance stores are erased, and you lose both the public IP address and private IP address of the machine. Termination of an instance means that you can no longer access the machine. As soon as the status of an instance changes to shutting down or terminated, you stop incurring charges for that instance.
+
+### EC2 Pricing Options
+
+There are five EC2 pricing options, as outlined below:
+
+#### On-Demand Instances
+
+You pay for compute capacity per hour or per second, depending on which instances that you run. There are no long-term commitments or upfront payments required. Billing begins whenever the instance is running, and billing stops when the instance is in a stopped or terminated state. You can increase or decrease your compute capacity to meet the demands of your application and only pay the specified hourly rates for the instance that you use.
+
+#### Spot Instances
+
+For applications that have flexible start and end times, Amazon EC2 offers the Spot Instances option. With Amazon EC2 Spot Instances, you can request spare Amazon EC2 computing capacity for up to 90 percent off the On-Demand price. 
+
+With Spot Instances, you set a limit on how much you want to pay for the instance hour. This is compared against the current Spot price that AWS determines. Spot Instance prices adjust gradually based on long-term trends in supply and demand for Spot Instance capacity. If the amount that you pay is more than the current Spot price and there is capacity, you will receive an instance.         
+
+#### Savings Plans 
+
+Savings Plans are a flexible pricing model that offers low usage prices for a 1-year or 3-year term commitment to a consistent amount of usage. Savings Plans apply to Amazon EC2, AWS Lambda, and AWS Fargate usage and provide up to 72 percent savings on AWS compute usage.
+
+#### Reserved Instances
+
+For applications with steady state usage that might require reserved capacity, Amazon EC2 offers the Reserved Instances option. With this option, you save up to 72 percent compared to On-Demand Instance pricing. You can choose between three payment options: All Upfront, Partial Upfront, or No Upfront. You can select either a 1-year or 3-year term for each of these options. 
+
+#### Dedicated Hosts
+
+A Dedicated Host is a physical Amazon EC2 server that is dedicated for your use. Dedicated Hosts can help you reduce costs because you can use your existing server-bound software licenses, such as Windows Server, SQL Server, and Oracle licenses. And they can also help you meet compliance requirements. Amazon EC2 Dedicated Host is also integrated with AWS License Manager, a service that helps you manage your software licenses, including Microsoft Windows Server and Microsoft SQL Server licenses.
+
+### Benefits 
+
+- With Amazon EC2, you can quickly build and start a new server: You don't need to rack the server, run cable, and update hardware drivers as you would do with a traditional server.
+
+- You can scale capacity as needed, both up and down. This means that if you need more memory, processing, or storage, you can add it.
+
+- Instances offer at least 99.99% (four nines) of availability. 
+
+- Amazon EC2 offers instances that are optimized for specific types of workloads, including memory optimized, compute optimized, storage optimized, accelerated computing, and general purpose.
+
+- Various instance types are available with different pricing options, so you can choose the best option to fit your business requirements. These options include On-Demand Instances, Reserved Instances, and Spot Instances.
+
+- Amazon EC2 gives you complete control over the instance, down to the root level. You can manage the instance as you would manage a physical server.
+
+- You can use instances for long-running applications, especially those with state information and long-running computation cycles.
+
+## Container
+
+Container provide a standard way to package your application's code, configurations, and dependencies into a single object. 
+
+Containers run on top of the host OS and share host's kernels. Each container running on a host runs its own isolated root file system in a seperate namespace that may include it's own OS. They are designed to help ensure quick, reliable, and consistent deployments, regardless of the environment.
+
+When you use containers on AWS, you need processes to start, stop, restart, and monitor containers running across, not just one EC2 instance, but a number of them together, called a cluster. The process of doing these tasks is called container orchestration.
+
+<center>
+<img src="/img/vms-vs-container.png" alt="vms-vs-container.png" style={{ width: '700px', height: 'auto' }}/>
+</center>
+
+Compared to virtual machines (VMs), containers share the same operating system and kernel as the host that they are deployed on.
+
+Containers share the same operating system and kernel as the host that they exist on. But virtual machines contain their own operating system. Each virtual machine must maintain a copy of an operating system, which results in a degree of wasted resources.
+
+A container is more lightweight. Containers spin up quicker, almost instantly. This difference in startup time becomes instrumental when designing applications that must scale quickly during I/O bursts.
+
+Containers can provide speed, but virtual machines offer the full strength of an operating system and more resources, like package installation, dedicated kernel, and more.
+
+
+### Amazon ECS
+
+Amazon ECS is an end-to-end container orchestration service that helps you spin up new containers. With Amazon ECS, your containers are defined in a task definition that you use to run an individual task or a task within a service. 
+
+<center>
+<img src="/img/amazon-ecs.png" alt="amazon-ecs.png" style={{ width: '750px', height: 'auto' }}/>
+</center>
+
+To prepare your application to run on Amazon ECS, you create a task definition. The task definition is a text file, in JSON format, that describes one or more containers. A task definition is similar to a blueprint that describes the resources that you need to run a container, such as CPU, memory, ports, images, storage, and networking information.
+
+Here is a simple task definition
+
+```json
+{
+"family": "webserver",
+"containerDefinitions": [{
+   "name": "web",
+   "image": "nginx",
+   "memory": "100",
+   "cpu": "99"
+}],
+"requiresCompatibilities": ["FARGATE"],
+"networkMode": "awsvpc",
+"memory": "512",
+"cpu": "256"
+}
+```
+
+
+### Amazon EKS
+
+Amazon Elastic Kubernetes Service (Amazon EKS) is a managed service that you can use to run Kubernetes on AWS without without necessarily having to operate your own worker nodes. Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications. Amazon EKS is certified Kubernetes-conformant, so existing applications that run on upstream Kubernetes are compatible with Amazon EKS. 
+
+Amazon EKS is conceptually similar to Amazon ECS, but with the following differences:
+
+- In Amazon ECS, the machine that runs the containers is an EC2 instance that has an ECS agent installed and configured to run and manage your containers. This instance is called a container instance. In Amazon EKS, the machine that runs the containers is called a worker node or Kubernetes node. 
+
+- An ECS container is called a task. An EKS container is called a pod.
+
+- Amazon ECS runs on AWS native technology. Amazon EKS runs on Kubernetes. 
+
+### Benefits 
+
+- The application is packaged so that you control the application and all associated resources, such as policies, security, and deployment.
+
+- Containers are portable and can be moved to different OS or hardware platforms, and through different environments such as development, testing/staging, pre-production, and production.
+
+- There are no time-out limits when running. This is useful for applications that run longer than 15 minutes or that need to initiate instantly when called.
+
+- Containers run without the startup latency of Lambda or Amazon EC2.
+
+- Containers have no size limit. They can be as large or as small as you need them to be.
+
+- Containers are useful when taking a large traditional application and breaking it down into small parts, or microservices, to make the application more scaleable and resilient. 
+
+### Usecases
+
+- Applications that are compute intensive run better in a container environment. If you have a small application that runs under in 15 minutes but is compute intensive, consider using a container. Lambda is not the best fit for a heavily compute-intensive piece of code.
+
+- Large monoliths that have many parts are very suitable applications to consider moving to containers. Segmenting a larger application means that updates can be applied on only specific parts. 
+
+### Anti Patterns
+
+- Containers can absolutely support persistent storage; however, it tends to be easier to containerize applications that don't require persistent storage. Persistent storage requirements increase the security and storage complexity and also make the containers less portable. If the container is moved, the storage needs to be reconfigured and secured. If the application requires a complex configuration for networking, routing, storage, and so on, the containers are much more challenging to move.
+
+
+## Serverless 
+
+Serverless computing doesn't mean there are no servers. It means that you are running your code on servers that are built, managed, and maintained by someone else.
+
+### AWS Fargate
+
+AWS Fargate is a serverless compute platform for containers that you can use with either ECS or EKS. With AWS Fargate as the compute platform, you run your containers on a managed serverless platform. The scaling and fault tolerance is built in, and you don't need to worry about the underlying operating system or environment. Instead, you define your application content, networking, storage, and scaling requirements. There is no provisioning, patching, cluster capacity management, or infrastructure management required. 
+
+To break that down a bit, the way you work with Fargate is you first build your container images and push them into a repository like Amazon Elastic Container Registry, for example. Which is a place where you can store container images for them to be pooled and deployed from. So you have your container images in your repo, and then you define memory and compute resources for your task if you're using ECS or your pod if you're using EKS. Then you run your containers. And at the end, you only pay for the amount of vCPU, memory, and storage resources consumed by your containerized applications.
+
+Fargate abstracts the EC2 instance so that you’re not required to manage the underlying compute infrastructure. However, with Fargate, you can use all the same Amazon ECS concepts, APIs, and AWS integrations. It natively integrates with IAM and Amazon Virtual Private Cloud (Amazon VPC). With native integration with Amazon VPC, you can launch Fargate containers inside your network and control connectivity to your applications.
+
+### AWS Lambda
+
+Using AWS Lambda, you can run code without provisioning or managing servers. You pay only for the compute time you consume. There is no charge when your code is not running. With Lambda, you can run code for virtually any type of application or backend service without provisioning or managing servers. Upload your code, and Lambda takes care of everything required to run and scale your code with high availability. 
+
+Lambda runs your code on a high availability compute infrastructure and requires no administration from the user. You upload your source code in one of the languages that Lambda supports, and Lambda takes care of everything required to run and scale your code with high availability. There are no servers to manage. You get continuous scaling with subsecond metering and consistent performance.
+
+With Lambda, you can run code without provisioning or managing servers, and you pay only for what you use. You are charged for the number of times that your code is invoked (requests) and for the time that your code runs, rounded up to the nearest 1 millisecond (ms) of duration.
+
+AWS rounds up duration to the nearest ms with no minimum run time. With this pricing, it can be cost effective to run functions whose execution time is very low, such as functions with durations under 100 ms or low latency APIs.
+
+
+#### Functions 
+
+A function is a resource that you can invoke to run your code in Lambda. Lambda runs instances of your function to process events. When you create the Lambda function, it can be authored in several ways:
+
+- You can create the function from scratch.
+- You can use a blueprint that AWS provides.
+- You can select a container image to deploy for your function.
+- You can browse the AWS Serverless Application Repository. 
+
+
+#### Trigger
+
+Triggers describe when a Lambda function should run.
+
+
+#### Event
+
+An event is a JSON-formatted document that contains data for a Lambda function to process. The runtime converts the event to an object and passes it to your function code. When you invoke a function, you determine the structure and contents of the event.
+
+#### Application Environment 
+
+An application environment provides a secure and isolated runtime environment for your Lambda function
+
+#### Deployment Package
+
+You deploy your Lambda function code using a deployment package. Lambda supports two types of deployment packages:
+
+- A .zip file archive – This contains your function code and its dependencies. Lambda provides the operating system and runtime for your function.
+
+- A container image – This is compatible with the Open Container Initiative (OCI) specification. You add your function code and dependencies to the image. You must also include the operating system and a Lambda runtime.
+
+
+#### Runtime 
+
+The runtime provides a language-specific environment that runs in an application environment. When you create your Lambda function, you specify the runtime that you want your code to run in. You can use built-in runtimes, such as Python, Node.js, Ruby, Go, Java, or .NET Core. Or you can implement your Lambda functions to run on a custom runtime.
+
+
+#### Lambda Function Handler
+
+The AWS Lambda function handler is the method in your function code that processes events. When your function is invoked, Lambda runs the handler method. When the handler exits or returns a response, it becomes available to handle another event. 
+
+You can use the following general syntax when creating a function handler in Python.
+
+```python
+def handler_name (event, context):
+...
+return some_value
+```
+
+### Benefits
+
+- You might need to develop applications quickly and might not have the time to build and maintain the underlying infrastructure. Using a serverless solution, you and your developers can focus on building and refining your applications without spending time managing and maintaining servers.
+
+- You only pay for the time that your application runs. This model helps keep costs down so that you aren't paying for time when your application is idle. The AWS Lambda free tier includes one million free requests per month and 400,000 GB-seconds of compute time per month
+
+- Lambda is a suitable choice for any short-lived application that can finish running in under 15 minutes. If an application needs to run longer than 15 minutes, it's no longer cost effective to use Lambda. Instead, consider other solutions.
+
+- You might need event-initiated, or event-driven, stateless applications that need quick response times. 
+
+- Lambda runs your function in multiple Availability Zones to ensure that it is available to process events in case of a service interruption in a single zone.
+
+
+### Usescases
+
+- When you want to focus only on your code and not on infrastructure and your application is less compute intensive, small, simple, and modular.
+
+
+## Additional Compute Options
+
+AWS offers hundreds of different services, ranging from end-user computing, frontend web and mobile applications, to game development, databases, blockchain, ML, and the list goes on. The one constant is that Amazon EC2 is the foundational building block of all of these services.
+
+ - AWS Batch
+ - AWS Elastic Beanstalk
+ - Amazon Lightsail 

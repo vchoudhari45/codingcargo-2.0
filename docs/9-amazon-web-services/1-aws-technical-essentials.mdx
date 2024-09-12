@@ -1,0 +1,156 @@
+# AWS Technical Essentials
+
+This page provides an introduction to AWS Technical Essentials. These are my notes from the AWS course.
+
+## Cloud Computing Deployment Models
+
+- On-Premises
+- Cloud 
+- Hybrid
+
+## AWS Regions 
+
+Regions are geographic locations worldwide where AWS hosts its data centers. AWS Regions are named after the location where they reside. For example, in the United States, the Region in Northern Virginia is called the Northern Virginia Region, and the Region in Oregon is called the Oregon Region. AWS has Regions in Asia Pacific, China, Europe, the Middle East, North America, and South America.
+
+For example us-east-1, ap-northeast-1 etc.
+
+
+Following are the AWS Regions Consideration
+
+- Compliance
+- Latency
+- Pricing 
+- Service Availability
+
+
+## Availability Zones
+
+Inside every Region is a cluster of Availability Zones. An Availability Zone consists of one or more data centers with redundant power, networking, and connectivity. These data centers operate in discrete facilities in undisclosed locations. They are connected using redundant high-speed and low-latency links.
+
+For example 
+us-east-1a is an Availability Zone in us-east-1
+
+
+## Scope of AWS services
+
+Depending on the AWS service that you use, your resources are either deployed at the Availability Zone, Region, or Global level. Each service is different, so you must understand how the scope of a service might affect your application architecture.
+
+When you operate a Region-scoped service, you only need to select the Region that you want to use. If you are not asked to specify an individual Availability Zone to deploy the service in, this is an indicator that the service operates on a Region-scope level. For Region-scoped services, AWS automatically performs actions to increase data durability and availability.
+
+On the other hand, some services ask you to specify an Availability Zone. With these services, you are often responsible for increasing the data durability and high availability of these resources.
+
+## Edge Location
+
+Edge locations are global locations where content is cached. For example, if your media content is in London and you want to share video files with your customers in Sydney, you could have the videos cached in an edge location closest to Sydney. This would make it possible for your customers to access the cached videos more quickly than accessing them from London. Currently, there are over 400+ edge locations globally.
+
+Amazon CloudFront delivers your content through a worldwide network of edge locations. When a user requests content that is being served with CloudFront, the request is routed to the location that provides the lowest latency. So that content is delivered with the best possible performance. CloudFront speeds up the distribution of your content by routing each user request through the AWS backbone network to the edge location that can best serve your content.
+
+## Interactive with AWS 
+
+- The AWS Management Console
+- The AWS Command Line Interface (AWS CLI)
+- The AWS Software Development Kits (AWS SDK)
+
+
+## AWS Security 
+
+When you work with the AWS Cloud, managing security and compliance is a shared responsibility between AWS and you. AWS is responsible for security of the cloud vs Customer is responsible for securitiy in the cloud.
+
+
+## Authentication and Authorization
+
+Authentication ensures that the user is who they say they are. User names and passwords are the most common types of authentication. But you might also work with other forms, such as token-based authentication or biometric data, like a fingerprint. 
+
+Authorization is the process of giving users permission to access AWS resources and services. Authorization determines whether a user can perform certain actions, such as read, edit, delete, or create resources.
+
+
+## AWS IAM
+
+AWS Identity and Access Management (IAM) is an AWS service that helps you manage access to your AWS account and resources. It also provides a centralized view of who are allowed inside your AWS account (authentication), and who have permissions to use and work with your AWS resources (authorization).
+
+For example, to provide a user of your AWS account with read-only access to a particular AWS service, you can granularly select which actions and which resources in that service that they can access.
+
+
+Characteristics of AWS IAM are as below:
+
+- IAM is global and not specific to any one Region. You can see and use your IAM configurations from any Region in the AWS Management Console.
+
+- You can grant other identities permission to administer and use resources in your AWS account without having to share your password and key.
+
+- IAM supports identity federation, which allows users with passwords elsewhere—like your corporate network or internet identity provider—to get temporary access to your AWS account. 
+
+- IAM supports Multi Factor Authentication (MFA). You can add MFA to your account and to individual users for extra security.
+
+### IAM User
+
+An IAM user represents a person or service that interacts with AWS. When you create a user, you can provide them with the following types of access:
+
+- Access to the AWS Management Console
+- Programmatic access to the AWS CLI and AWS API
+
+To access the console, provide the user with a user name and password. For programmatic access, AWS generates a set of access keys that can be used with the AWS CLI and AWS API. IAM user credentials are considered permanent, which means that they stay with the user until there’s a forced rotation by admins.
+
+
+### IAM Groups
+
+An IAM group is a collection of users. All users in the group inherit the permissions assigned to the group. This makes it possible to give permissions to multiple users at once.
+
+For example, you might organize your IAM groups by developers, security, and admins. 
+
+Characteristics IAM Groups are as below: 
+
+- Groups can have many users.
+- Users can belong to many groups.
+- Groups cannot belong to groups.
+
+
+### IAM Policies
+
+To manage access and provide permissions to AWS services and resources, you create IAM policies and attach them to an IAM identity. Whenever an IAM identity makes a request, AWS evaluates the policies associated with them.
+
+For example, if you have a developer inside the developers group who makes a request to an AWS service, AWS evaluates any policies attached to the developers group and any policies attached to the developer user to determine if the request should be allowed or denied.
+
+
+This policy has four major JSON elements: Version, Effect, Action, and Resource.
+
+- The Version element defines the version of the policy language. 
+- The Effect element specifies whether the policy will allow or deny access. 
+- The Action element describes the type of action that should be allowed or denied.
+- The Resource element specifies the object or objects that the policy statement covers. 
+
+```java
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyS3AccessOutsideMyBoundary",
+      "Effect": "Deny",
+      "Action": [
+        "s3:*"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:ResourceAccount": [
+            "222222222222"
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+This policy uses a Deny effect to block access to Amazon S3 actions, unless the Amazon S3 resource that's being accessed is in account 222222222222. This ensures that any Amazon S3 principals are accessing only the resources that are inside of a trusted AWS account.
+
+
+### IAM Roles
+
+An IAM role is an identity that can be assumed by someone or something who needs temporary access to AWS credentials. 
+
+IAM roles are identities in AWS that like an IAM user also have associated AWS credentials used to sign requests. However, IAM users have usernames and passwords as well as static credentials whereas IAM roles do not have any login credentials like a username and password and the credentials used to sign requests are programmatically acquired, temporary in nature, and automatically rotated. 
+
+
+For example, the EC2 instance will be assigned an IAM role. This role can then be assumed by the application running on the virtual machine to gain access to its temporary credentials to sign the AWS API calls being made.
+
+For example, let's say you have a business that employs 5,000 technical employees that all need access to AWS accounts. You already have an identity provider system in place that allows these employees to log into their laptops and gain access to various corporate resources. Should you also now go create 5,000 IAM users for these employees to access AWS? Well, that doesn't sound very efficient. You instead can leverage IAM roles to grant access to existing identities from your enterprise user directory. These are known as federated users. AWS assigns a role to a federated user when access is requested through an identity provider. We also have AWS services that can make this process easier such as AWS IAM Identity Center. 
