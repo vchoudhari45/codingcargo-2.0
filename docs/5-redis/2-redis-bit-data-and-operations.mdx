@@ -1,0 +1,111 @@
+# Redis Bit Data & Operations
+
+This page provides an Introduction to Redis Bit Data & Operations. These are my notes from the RU101 Redis University course.
+
+
+## Bitfield
+
+The motivation behind this command is to store many small integers as a single large bitmap, which is highly memory-efficient and opens new use cases for Redis. Bit operations are performed on the string datatype because strings are binary-safe.
+
+#### Histogram Counter Example 
+
+You can use bitfield to represent a histogram of values, we will have 24, integer counters for each hour of the day. 
+
+Create a histogram counter and set 0<sup>th</sup> hour count to 0.
+
+```java
+BITFIELD histogram:counter:machine1 SET u32 0 0
+```
+
+Now, Suppose we want to increment the 24<sup>th</sup> hour counter by 20. This can be done in two ways: either by directly using the offset 736(736 = 23 * 32), or by using the pound symbol (#) to specify the relative offset position.
+
+```java
+BITFIELD histogram:counter:machine1 INCRBY u32 768 20
+
+BITFIELD histogram:counter:machine1 INCRBY u32 #23 20
+```
+
+Bitfield historgram counter will looks like below,
+
+<center>
+<img src="/img/redis-bit-data-and-operations-histogram.svg" alt="redis-bit-data-and-operations-histogram.svg" style={{ width: '900px', height: 'auto' }}/>
+</center>
+
+#### Player Path Example 
+
+You can use bitfield to track a player's path in a 2D matrix. A 1 bit means a tile has been visited, and the default 0 means it hasn't. To calculate the bit offset, use the formula Y * width + X, so coordinates (2, 2) correspond to an offset of 8. 
+
+Create a bitfield for player:1
+
+```java
+BITFIELD player:1 SET u2 0 0
+1) (integer) 0
+```
+
+Now let's create a path for player:1 as show in the image below.
+
+<center>
+<img src="/img/redis-bit-data-and-operations-game-1.svg" alt="redis-bit-data-and-operations-game-1.svg" style={{ width: '180px', height: 'auto' }}/>
+</center>
+
+Here we can use BITFIELD SET command like we used for histogram example.
+
+```java
+BITFIELD player:1 SET u1 0 1 SET u1 4 1 SET u1 7 1 SET u1 8 1
+1) (integer) 0
+2) (integer) 0
+3) (integer) 0
+4) (integer) 0
+```
+
+Or we can use SETBIT command.
+
+```java
+SETBIT player:1 0 1
+(integer) 0
+
+SETBIT player:1 4 1
+(integer) 0
+
+SETBIT player:1 7 1
+(integer) 0
+
+SETBIT player:1 8 1
+(integer) 0
+```
+
+Let's create a path for player:2 as show in the image below.
+
+<center>
+<img src="/img/redis-bit-data-and-operations-game-2.svg" alt="redis-bit-data-and-operations-game-2.svg" style={{ width: '180px', height: 'auto' }}/>
+</center>
+
+
+```java
+BITFIELD player:2 SET u1 0 1 SET u1 3 1 SET u1 6 1 SET u1 7 1 SET u1 8 1
+1) (integer) 0
+2) (integer) 0
+3) (integer) 0
+4) (integer) 0
+5) (integer) 0
+```
+
+If we want to calculate path that is coverd by both player:1 and player:2 combined we can use AND operator.
+
+```java
+BITOP AND player:and:12 player:1 player:2
+(integer) 2
+```
+
+Now if we want to count tiles which are visited by both player:1 and player:2 combined we can use BITCOUNT operator.
+```java
+BITCOUNT player:and:12
+(integer) 3
+```
+
+Similarly we can calculate path that is covered by either player:1 or player:2 we can use OR operator.
+
+```java
+BITOP OR player:or:12 player:1 player:2
+(integer) 2
+```

@@ -10,7 +10,7 @@ Characteristics of a Key are as below:
 
 	- Unique 
 	- Binary Safe - Can be anything like simple string, number to binary value
-	- Key names can be up $512\text{mb}$
+	- Key names can be up 512mb
 	- Case Sensitive
 
 Below are some commands that work for every data type of a Redis key.
@@ -190,19 +190,23 @@ Below are the commands that works on Redis Hash Data Types.
 #### HSET 
 ```java
 HSET player:42 name abc level 4 hp 4 gold 20
+(integer) 4
 
 HSET player:42 status 0
+(integer) 1
 ```
 
 #### HEXISTS 
 Returns $0$ if field doesn't exists else return $1$
 ```java
 HEXISTS player:42 status
+(integer) 1
 ```
 
 #### HDEL
 ```java
 HDEL player:42 status
+(integer) 1
 ```
 
 #### HGET
@@ -227,6 +231,21 @@ HGETALL player:42
 #### HINCRBY 
 ```java
 HINCRBY player:42 gold 120
+(integer) 140
+```
+
+#### HINCRBYFLOAT
+```java
+HINCRBYFLOAT player:42 gold 120
+"260"
+```
+
+#### HSCAN
+```java
+HSCAN player:42 0 match l*
+1) "0"
+2) 1) "level"
+   2) "4"
 ```
 
 
@@ -367,28 +386,28 @@ Let's consider a scenario where we have events with specific attributes that we 
 Example events
 ```java
 {
-	"sku": "123",
-	"name": "Men's 100 m final",
-	"disabled_access": True,
-	"medal_event": True,
-	"venue": "Olympic Stadium",
-	"category": "Track & Field"
+  "sku": "123",
+  "name": "Men's 100 m final",
+  "disabled_access": True,
+  "medal_event": True,
+  "venue": "Olympic Stadium",
+  "category": "Track & Field"
 },
 {
-	"sku": "456",
-	"name": "Women's 100 m final",
-	"disabled_access": True,
-	"medal_event": False,
-	"venue": "Olympic Stadium",
-	"category": "Track & Field"
+  "sku": "456",
+  "name": "Women's 100 m final",
+  "disabled_access": True,
+  "medal_event": False,
+  "venue": "Olympic Stadium",
+  "category": "Track & Field"
 },
 {
-	"sku": "789",
-	"name": "Women's Judo final",
-	"disabled_access": False,
-	"medal_event": False,
-	"venue": "Nippon Budokan",
-	"category": "Track & Field"
+  "sku": "789",
+  "name": "Women's Judo final",
+  "disabled_access": False,
+  "medal_event": False,
+  "venue": "Nippon Budokan",
+  "category": "Track & Field"
 }
 ```
 
@@ -401,7 +420,6 @@ Typical approach is to use secondary indexes or full text search like Solr and L
 
 
 ```java
-
 SET "event:123" "{\"sku\": \"123\", \"name\": \"Men's 100 m final\", \"disabled_access\": True, \"medal_event\": True, \"venue\": \"Olympic Stadium\", \"category\": \"Track & Field\"}"
 OK 
 
@@ -619,5 +637,79 @@ DECR event:Judo
 ```java
 EXEC
 (nil)
+```
+
+## Storing Nested JSON
+
+Here is example of Nested JSON 
+
+```java
+{
+  "sku": "123",
+  "name": "Men's final",
+  "disabled_access": True,
+  "medal_event": True,
+  "available": {
+    "general": {
+      "qty": 100,
+      "price": 25
+    },
+    "vip": {
+      "qty": 10,
+      "price": 500
+    }
+  }
+}
+```
+
+### Storing in Hashes
+
+#### Pros
+- Provides encapsulation.
+- Commands in Redis are atomic.
+- Multiple fields can be manipulated in a single request without a transaction.
+- When a key is removed, all related data is also removed, this is equivalent to a CASCADE DELETE on a foreign key in a relational database.
+
+
+#### Cons
+- Hashes get larger with large objects.
+
+```java
+HMSET sku:123 name "Men's final" disabled_access True medal_event True
+OK
+
+HMSET sku:123 available:general:qty 100 available:general:price 25 
+OK
+
+HMSET sku:123 available:vip:qty 10 available:vip:price 500 
+OK
+
+# Retrieves data using HGETALL and SCAN commands
+HGETALL sku:123
+ 1) "name"
+ 2) "Men's final"
+ 3) "disabled_access"
+ 4) "True"
+ 5) "medal_event"
+ 6) "True"
+ 7) "available:general:qty"
+ 8) "100"
+ 9) "available:general:price"
+10) "25"
+11) "available:vip:qty"
+12) "10"
+13) "available:vip:price"
+14) "500"
+
+HSCAN sku:123 0 match available*
+1) "0"
+2) 1) "available:general:qty"
+   2) "100"
+   3) "available:general:price"
+   4) "25"
+   5) "available:vip:qty"
+   6) "10"
+   7) "available:vip:price"
+   8) "500"
 ```
 
