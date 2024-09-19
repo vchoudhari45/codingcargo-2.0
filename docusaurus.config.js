@@ -160,7 +160,7 @@ const config = {
       prism: {
 				theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
-        additionalLanguages: ['java'],
+        additionalLanguages: ['shell', 'yaml', 'java'],
       },
 
       mermaid: {

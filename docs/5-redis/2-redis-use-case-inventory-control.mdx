@@ -3,3 +3,10 @@
 This page outlines the design of an inventory control system using Redis. These notes are based on the RU101 Redis University course.
 
 
+## Requirements
+
+- A Ticket can be purchased only once.
+- During the purchase flow, inventory needs to be reserved so that others don't buy the same ticket.
+- If purchase does not complete, any reserved inventory needs ot be returned to the available pool.
+- Customer wants to see their purchases.
+
