@@ -8,6 +8,14 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
+import Prism from "prismjs";
+require('prismjs/components/prism-bash');
+require('prismjs/components/prism-yaml');
+require('prismjs/components/prism-java');
+require('prismjs/components/prism-python');
+require('prismjs/components/prism-c');
+require('prismjs/components/prism-json');
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'CodingCargo',
@@ -160,7 +168,7 @@ const config = {
       prism: {
 				theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
-        additionalLanguages: ['shell', 'yaml', 'java'],
+        additionalLanguages: ['bash', 'yaml', 'java', 'python', 'c', 'json'],
       },
 
       mermaid: {

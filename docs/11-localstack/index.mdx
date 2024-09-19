@@ -5,7 +5,7 @@
 LocalStack is complete, localized AWS environment where developers can build, test, profile and debug infrastructure and code ahead of deployment to the cloud.
 
 ## Installing LocalStack
-```java
+```bash
 docker pull localstack/localstack
 
 pip install awscli-local
@@ -16,17 +16,17 @@ brew install localstack/tap/localstack-cli
 ## Starting LocalStack
 
 You can start localstack using localstack command 
-```java
+```bash
 localstack start -d
 ```
 
 Or you can use docker command
-```java
+```bash
 docker run --rm -it -p 4566:4566 -p 4510-4559:4510-4559 localstack/localstack
 ```
 
 ## Stopping LocalStack
-```java
+```bash
 localstack stop
 
 container stopped: localstack-main
@@ -37,13 +37,12 @@ container stopped: localstack-main
 
 Install tflocal using below command
 
-```java
+```bash
 pip install terraform-local
 ```
 
 Create a terraform config file main.tf with below content
-
-```java
+```json 
 resources "aws_dynamodb_table" "food_store_foods" {
   name = "foodstore_foods"
   billing_mod = "PAY_PER_REQUEST"
@@ -58,12 +57,12 @@ resources "aws_dynamodb_table" "food_store_foods" {
 
 Now, you can initialize terraform local using below command.
 
-```java
+```bash
 tflocal init
 ```
 
 And then apply terraform configurations, to create a infrastructure in localstack
-```java
+```bash
 tflocal apply
 ```
 
