@@ -42,7 +42,7 @@ pip install terraform-local
 ```
 
 Create a terraform config file main.tf with below content
-```json 
+```hcl 
 resources "aws_dynamodb_table" "food_store_foods" {
   name = "foodstore_foods"
   billing_mod = "PAY_PER_REQUEST"

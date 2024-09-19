@@ -15,6 +15,7 @@ require('prismjs/components/prism-java');
 require('prismjs/components/prism-python');
 require('prismjs/components/prism-c');
 require('prismjs/components/prism-json');
+require('prismjs/components/prism-hcl');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -168,7 +169,7 @@ const config = {
       prism: {
 				theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
-        additionalLanguages: ['bash', 'yaml', 'java', 'python', 'c', 'json'],
+        additionalLanguages: ['bash', 'yaml', 'java', 'python', 'c', 'json', 'hcl'],
       },
 
       mermaid: {

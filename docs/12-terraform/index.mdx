@@ -22,13 +22,13 @@ Terraform providers automatically calculate dependencies between resources to cr
 
 
 ### Installing Terraform
-```java
+```bash
 brew tap hashicorp/tap
 brew install hashicorp/tap/terraform
 ```
 
 ### Updating Terraform
-```java
+```bash
 brew update
 brew upgrade hashicorp/tap/terraform
 ```
@@ -36,18 +36,18 @@ brew upgrade hashicorp/tap/terraform
 ### Provision NGINX server on Docker
 
 After you install Terraform and Docker on your local machine, start Docker Desktop.
-```java
+```bash
 open -a Docker
 ```
 
 Create a directory named learn-terraform-docker-container.
-```java
+```bash
 mkdir learn-terraform-docker-container
 cd learn-terraform-docker-container
 ```
 
 In the working directory, create a file called main.tf and paste the following Terraform configuration into it.
-```java
+```hcl
 terraform {
   required_providers {
     docker = {
@@ -77,20 +77,20 @@ resource "docker_container" "nginx" {
 
 Initialize the project, which downloads a plugin called a provider that lets Terraform interact with Docker.
 
-```java
+```bash
 terraform init
 ```
 
 
 Provision the NGINX server container with apply. When Terraform asks you to confirm type yes and press ENTER.
 
-```java
+```bash
 terraform apply
 ```
 
 To stop the container, run terraform destroy.
 
-```java
+```bash
 terraform destroy
 ```
 
@@ -99,21 +99,21 @@ terraform destroy
 
 To use your IAM credentials to authenticate the Terraform AWS provider, set the AWS_ACCESS_KEY_ID environment variable.
 
-```java
+```bash
 export AWS_ACCESS_KEY_ID=
 export AWS_SECRET_ACCESS_KEY=
 ```
 
 Each Terraform configuration must be in its own working directory. Create a directory for your configuration.
 
-```java
+```bash
 mkdir learn-terraform-aws-instance
 cd learn-terraform-aws-instance
 ```
 
 Create a file to define your infrastructure.
 
-```java
+```hcl
 terraform {
   required_providers {
     aws = {
@@ -141,25 +141,25 @@ resource "aws_instance" "app_server" {
 
 Initialize the directory
 
-```java
+```bash
 terraform init
 ```
 
 
 The terraform fmt command automatically updates configurations in the current directory for readability and consistency.
 
-```java
+```bash
  terraform fmt
 ```
 
 You can also make sure your configuration is syntactically valid and internally consistent by using the terraform validate command.
-```java
+```bash
 terraform validate
 Success! The configuration is valid.
 ```
 
 Apply the configuration now with the terraform apply command. 
-```java
+```bash
 terraform apply
 ```
 
@@ -171,7 +171,7 @@ When you applied your configuration, Terraform wrote data into a file called ter
 The Terraform state file is the only way Terraform can track which resources it manages, and often contains sensitive information, so you must store your state file securely and restrict access to only trusted team members who need to manage your infrastructure.
 
 Inspect the current state using terraform show.
-```java
+```bash
 terraform show
 
 aws_instance.app_server:
@@ -243,7 +243,7 @@ When Terraform created this EC2 instance, it also gathered the resource's metada
 
 
 Terraform has a built-in command called terraform state for advanced state management. Use the list subcommand to list of the resources in your project's state.
-```java
+```bash
 terraform state list
 aws_instance.app_server
 ```
