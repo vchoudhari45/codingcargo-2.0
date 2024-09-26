@@ -1,0 +1,430 @@
+# Pulumi Concepts
+
+This page provides an introduction to Pulumi Concepts. These are my notes from [Pulumi Docs](https://www.pulumi.com/docs/).
+
+## Inputs 
+
+All resources in Pulumi accept values that describe the way the resource behaves. We call these values inputs.
+
+```python
+key = tls.PrivateKey("my-private-key",
+  algorithm="ECDSA", # ECDSA is a plain value
+)
+```
+
+However, in most Pulumi programs, the inputs to a resource will reference values from another resource:
+
+```python
+password = random.RandomPassword(
+    "password",
+    length=16,
+    special=True,
+    override_special="!#$%&*()-_=+[]{}<>:?"
+)
+example = aws.rds.Instance(
+    "example",
+    instance_class="db.t3.micro",
+    allocated_storage=64,
+    engine="mysql",
+    username="someone",
+    password=password.result, # We pass the output from password as an input
+)
+```
+
+You can use the get function to consume properties from a resource that was provisioned elsewhere. For example, this program reads an existing EC2 Security Group whose ID is sg-0dfd33cdac25b1ec9 and uses the result as input to create an EC2 Instance that Pulumi will manage.
+
+```python
+import pulumi_aws as aws
+
+group = aws.ec2.SecurityGroup.get('group', 'sg-0dfd33cdac25b1ec9')
+
+server = aws.ec2.Instance('web-server',
+  ami='ami-6869aa05',
+  instance_type='t2.micro',
+  security_groups=[group.name]
+) # reference the security group resource above
+```
+
+:::info 
+Note that Pulumi will never attempt to modify the security group in this example. It queries the attributes of the security group from your cloud account and then uses its name as an input for the new EC2 Instance.
+:::
+
+
+## Outputs
+
+All resources created by Pulumi will have properties which are returned from the cloud provider API. These values are called outputs. 
+
+Outputs are a unique and complex type in Pulumi which behave very much like promises. This is because the provisioning of resources is an asynchronous operation. It takes time for a cloud provider to complete the provisioning process, and Pulumi optimizes the process by executing operations in parallel rather than sequentially. Outputs are also how Pulumi tracks dependencies between resources.
+
+Let’s say you want to print the ID of the VPC you’ve created. Given that this is an individual resouce property and not the entire resource itself, you might try logging the value like normal:
+
+
+```python
+import pulumi
+import pulumi_awsx as awsx
+
+vpc = awsx.ec2.Vpc("vpc")
+
+print(vpc.vpc_id)
+```
+
+However, if you update the program as shown above and run pulumi up, you will still not receive the value you are looking for as shown in the following CLI output:
+
+```bash
+# Example CLI output (truncated)
+Diagnostics:
+  pulumi:pulumi:Stack (aws-iac-dev):
+    Calling __str__ on an Output[T] is not supported.
+    To get the value of an Output[T] as an Output[str] consider:
+    1. o.apply(lambda v: f"prefix{v}suffix")
+    See https://www.pulumi.com/docs/concepts/inputs-outputs for more details.
+   This function may throw in a future version of Pulumi.
+```
+
+### Apply
+
+This is where apply comes into play. There are many resources that have properties of type Output, meaning these property values only become known after the infrastructure has been provisioned. When a Pulumi program is executed with pulumi up, the apply function will wait for the resource to be created and for its properties to be resolved before printing the desired value of the property. 
+
+```python
+import pulumi
+import pulumi_awsx as awsx
+
+vpc = awsx.ec2.Vpc("vpc")
+
+vpc.vpc_id.apply(lambda id: print('VPC ID:', id))
+```
+
+The above example will wait for the value to be returned from the API and print it to the console as shown below:
+
+```bash
+Updating (pulumi/dev)
+
+  Type                 Name         Status     Info
+  pulumi:pulumi:Stack  aws-iac-dev             1 message
+
+Diagnostics:
+  pulumi:pulumi:Stack (aws-iac-dev):
+    VPC ID: vpc-0f8a025738f2fbf2f
+
+Resources:
+  34 unchanged
+
+Duration: 12s
+```
+
+#### Converting JSON Objects to String
+
+If you need to construct a JSON string using output values from Pulumi resources, you can easily do so using a JSON stringify helper. In this example, a JSON string for an S3 bucket policy is composed with two outputs: the authenticated user’s account ID and the bucket’s computed Amazon Resource Name (ARN).
+
+```python
+import pulumi
+import pulumi_aws as aws
+
+# Get the account ID of the current user as a Pulumi output.
+account_id = aws.get_caller_identity_output().apply(
+  lambda identity: identity.account_id
+)
+
+# Create an S3 bucket.
+bucket = aws.s3.Bucket("my-bucket")
+
+# Create an S3 bucket policy allowing anyone in the account to list the contents of the bucket.
+policy = aws.s3.BucketPolicy(
+  "my-bucket-policy",
+  bucket=bucket.id,
+  policy=pulumi.Output.json_dumps({
+    "Version": "2012-10-17",
+    "Statement": [{
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": pulumi.Output.format("arn:aws:iam::{0}:root", account_id)
+      },
+      "Action": "s3:ListBucket",
+      "Resource": bucket.arn,
+    }],
+  }),
+)
+
+# Export the name of the bucket
+pulumi.export("bucketName", bucket.id)
+```
+
+#### Converting JSON Strings to Outputs
+
+If you have an output in the form of a JSON string and you need to interact with it like you would a regular JSON object, you can use Pulumi’s parsing helper function. In the example below, you can parse a JSON string into a JSON object and then, inside of an apply, manipulate the object to remove all of the policy statements:
+
+```python
+import pulumi
+
+json_iam_policy = pulumi.Output.from_input("""
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListAllMyBuckets",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "VisualEditor1",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": "arn:aws:s3:::my-bucket"
+    }
+  ]
+}
+""")
+
+def update_policy(policy):
+  # Empty the policy's Statements list.
+  policy.update({"Statement": []})
+  return policy
+
+
+# Parse the string output.
+policy_with_no_statements = pulumi.Output.json_loads(json_iam_policy).apply(
+  lambda policy: update_policy
+)
+
+# Export the modified policy.
+pulumi.export("policy", policy_with_no_statements)
+```
+
+### All
+
+If you need to access and use multiple outputs together, the all function acts like an apply across many resources, allowing you to retrieve and use multiple outputs at the same time. The all function waits for all output values to become available and then provides them as plain values to the apply function.
+
+#### Creating a New String
+
+Let’s say you have created a server resource and a database resource, and their output values are as follows:
+
+```bash
+# Example outputs for the server resource
+{
+  "name": "myDbServer",
+  "ipAddress": "10.0.0.0/24"
+}
+
+# Example outputs for the database resource
+{
+  "name": "myExampleDatabase",
+  "engine": "sql-db"
+}
+```
+
+In the following example, you provide the name of the server and the name of the database as arguments to all(). Those arguments are made available to the apply function and subsequently used to create the database connection string:
+
+```python
+from pulumi import Output
+# ...
+connection_string = Output.all(sql_server.name, database.name) \
+  .apply(lambda args: f"Server=tcp:{args[0]}.database.windows.net;initial catalog={args[1]};")
+```
+
+Or, you can pass in named (keyword) arguments to Output.all to create an Output dictionary, for example:
+
+```python
+from pulumi import Output
+# ...
+connection_string = Output.all(server=sql_server.name, db=database.name) \
+  .apply(lambda args: f"Server=tcp:{args['server']}.database.windows.net;initial catalog={args['db']};")
+```
+
+Or, you can use string interpolation, the example below demonstrates how to create a URL from the hostname and port output values of a web server.
+
+```python
+import pulumi
+import pulumi_aws as aws
+
+bucket = aws.s3.Bucket("bucket")
+
+file = aws.s3.BucketObject("bucket-object",
+   bucket=bucket.id,
+   key="some-file.txt",
+   content="some-content",
+)
+
+# concat takes a list of args and concatenates all of them into a single output:
+s3Url1 = pulumi.Output.concat("s3://", bucket.bucket, "/", file.key)
+
+# format takes a template string and a list of args or keyword args and formats the string, expanding outputs correctly:
+s3Url2 = pulumi.Output.format("s3://{0}/{1}", bucket.bucket, file.key)
+```
+
+#### Creating a JSON object
+
+You can also create JSON objects using multiple output values in Pulumi. Doing so requires the use of apply or one of Pulumi’s JSON-specific helpers.
+
+```python
+import pulumi
+import pulumi_aws as aws
+import json
+
+bucket = aws.s3.Bucket(
+  "content-bucket",
+  acl="private",
+  website={"index_document": "index.html", "error_document": "404.html"},
+)
+
+origin_access_identity = aws.cloudfront.OriginAccessIdentity(
+"cloudfront", comment=pulumi.Output.concat("OAI-", bucket.id),
+)
+
+bucket_policy = aws.s3.BucketPolicy(
+  "cloudfront-bucket-policy",
+  bucket=bucket.bucket,
+  policy=pulumi.Output.all(
+    cloudfront_iam_arn=origin_access_identity.iam_arn,
+    bucket_arn=bucket.arn
+  ).apply(
+    lambda args: json.dumps(
+      {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Sid": "CloudfrontAllow",
+            "Effect": "Allow",
+            "Principal": {"AWS": args["cloudfront_iam_arn"]},
+            "Action": "s3:GetObject",
+            "Resource": f"{args['bucket_arn']}/*",
+          }],
+      }
+    )
+  ),
+  opts=pulumi.ResourceOptions(parent=bucket)
+)
+```
+
+
+## Configurations
+
+In many cases, different stacks for a single project will need differing values. For instance, you may want to use a different size for your AWS EC2 instance, or a different number of servers for your Kubernetes cluster between your development and production stacks.
+
+Pulumi offers a configuration system for managing such differences. Instead of hard-coding the differences, you can store and retrieve configuration values using a combination of the CLI and the programming model.
+
+The key-value pairs for any given stack are stored in your project’s stack settings file, which is automatically named 'Pulumi.&lt;stack-name&gt;.yaml'. You can typically ignore this file, although you may want to check it in and version it with your project source code.
+
+
+The CLI offers a config command with set and get subcommands for managing key-value pairs.
+
+```bash
+pulumi config set aws:region us-west-2
+pulumi config get aws:region
+```
+
+The programming model offers a Config object with various getters for retrieving values.
+
+```python
+config = pulumi.Config();
+name = config.require('name');
+lucky = config.get_int('lucky') or 42
+secret = config.require_secret('secret')
+```
+
+To access a namespaced configuration value, such as one set for a provider library like aws, you must pass the library’s name to the constructor. For example, to retrieve the configured value of aws:region:
+
+
+```python
+aws_config = pulumi.Config("aws");
+aws_region = aws_config.require("region");
+```
+
+
+## Secrets
+
+All resource input and output values are recorded as stack state and stored in Pulumi Cloud, in a state file, or in your self-managed backend of choice. 
+
+These values are usually just plain-text strings, such as configuration settings, computed URLs, or resource identifiers. Sometimes, however, these values contain sensitive data, such as database passwords or service tokens, that must be handled carefully and protected from exposure.
+
+For example, this command sets a configuration variable named dbPassword to the plain-text value S3cr37:
+
+```bash
+pulumi config set --secret dbPassword S3cr37
+```
+
+If we list the configuration for our stack, the plain-text value for dbPassword will not be printed:
+
+```bash
+pulumi config
+KEY                        VALUE
+aws:region                 us-west-1
+dbPassword                 [secret]
+```
+
+Similarly, if our program attempts to print the value of dbPassword to the console either intentionally or accidentally, Pulumi will mask it out:
+
+```python
+import pulumi
+config = pulumi.Config()
+print('Password: {}'.format(config.require('dbPassword')))
+```
+
+```bash
+pulumi up
+Password: [secret]
+```
+
+When you run pulumi config set --secret to generate a new Pulumi secret, the Pulumi CLI uses the stack’s unique encryption key to encrypt the raw value and store the resulting ciphertext in the stack configuration file (Pulumi.dev.yaml, for example). 
+
+If you opened this file in a text editor, you’d see that the contents would look something like this:
+
+```yaml
+config:
+  myStack:somePlainTextItem: somePlainText
+  myStack:someSecretItem:
+    secure: AAABAIIlW0ewSuZ1FJxw/+Rpw6BNqTUvGJ30O8WkpL2hB4aPyS7UU68=
+```
+
+Use the following code to access these configuration values in your Pulumi program:
+
+```python
+import pulumi
+
+config = pulumi.Config()
+
+print(config.require('name'))
+print(config.require_secret('dbPassword'))
+```
+
+To specify an alternative encryption provider, specify it at stack initialization time:
+
+```bash
+pulumi stack init <name> --secrets-provider="<provider>://<provider-settings>"
+```
+
+The awskms provider uses an existing KMS key in your AWS account for encryption. This key can be specified using one of three approaches:
+
+- By ID: awskms://1234abcd-12ab-34cd-56ef-1234567890ab?region=us-east-1.
+- By alias: awskms://alias/ExampleAlias?region=us-east-1.
+- By ARN: awskms:///arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34bc-56ef-1234567890ab?region=us-east-1.
+
+```bash
+pulumi stack init my-stack --secrets-provider="awskms://1234abcd-12ab-34cd-56ef-1234567890ab?region=us-east-1"
+```
+
+## State and Backend
+
+Pulumi stores metadata about your infrastructure so that it can manage your cloud resources. This metadata is called state. Each stack has its own state, and state is how Pulumi knows when and how to create, read, delete, or update cloud resources. Checkpoint files are stored in a relative .pulumi directory. 
+
+For example, if you were using the Amazon S3 self-managed backend, your checkpoint files would be stored at s3://my-pulumi-state-bucket/.pulumi where my-pulumi-state-bucket represents the name of your S3 bucket.
+
+Inside the .pulumi folder, we access the following subdirectories:
+
+- meta.yaml: This is the metadata file. It does not hold information about the stacks but rather information about the backend itself.
+
+- stacks: Active state files for each stack (e.g. dev.json or proj/dev.json if the stack is scoped to a project).
+
+- locks: Optional lock files for each stack if the stack is currently being operated on by a Pulumi operation (e.g. dev/\$lock.json or proj/dev/\$lock.json where $lock is a unique identifier for the lock).
+
+- history: History for each stack (e.g. dev/dev-\$timestamp.history.json or proj/dev/dev-\$timestamp.history.json where $timestamp records the time the history file was created).
+
+
+To use the AWS S3 backend, pass the 's3://&lt;bucket-name&gt;' as your '&lt;backend-url&gt;':
+
+```bash
+pulumi login s3://<bucket-name>
+```

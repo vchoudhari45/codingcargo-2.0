@@ -1,0 +1,349 @@
+# Pulumi Project Structure
+
+This page provides an introduction to Pulumi Project Structure. These are my notes from [Pulumi Docs](https://www.pulumi.com/docs/).
+
+
+## Project 
+
+A Pulumi project is any folder that contains a Pulumi.yaml project file. Programs reside in a project, which is a directory that contains source code for the program and metadata on how to run the program. 
+
+A typical Pulumi.yaml file looks like the following:
+
+```yaml
+name: webserver
+runtime: nodejs
+description: A minimal JavaScript Pulumi program.
+```
+
+The get_project function returns the name of the currently deploying project. This can be useful for naming or tagging resources.
+
+```python
+project = pulumi.get_project()
+```
+
+## Program
+
+Pulumi programs, written in general-purpose programming languages, describe how your cloud infrastructure should be composed. 
+
+
+## Stack 
+
+After writing your program, you run the Pulumi CLI command pulumi up from within your project directory. This command creates an isolated and configurable instance of your program, known as a stack. 
+
+Each stack that is created in a project will have a file named "Pulumi.&lt;stackname&gt;yaml" that contains the configuration specific to this stack. This file typically resides in the root of the project directory.
+
+For stacks that are actively developed by multiple members of a team, the recommended practice is to check them into source control as a means of collaboration. Since secret values are encrypted, it is safe to check in these stack settings. When using ephemeral stacks, the stack settings are typically not checked into source control.
+
+Stacks are commonly used to denote different phases of development (such as development, staging, and production) or feature branches (such as feature-x-dev).
+
+#### Create a Stack
+
+```bash
+pulumi stack init staging
+```
+
+The stack name is specified in one of the following formats:
+- stackName
+- orgName/stackName
+- orgName/projectName/stackName
+
+
+#### Listing Stacks
+
+```bash
+pulumi stack ls
+```
+
+#### Select Stack
+
+```bash
+pulumi stack select mycompany/prod
+```
+
+#### Update Stack
+
+```bash
+pulumi up
+```
+
+#### View Stack Resources
+
+```bash
+pulumi stack
+```
+
+#### Stack Tags
+
+Stacks have associated metadata in the form of tags, with each tag consisting of a name and value. Custom tags can be assigned to a stack by running. As a best practice, custom tags should not be prefixed with pulumi:, gitHub:, or vcs: to avoid conflicting with built-in tags that are assigned and updated with fresh values each time a stack is updated.
+
+```bash
+pulumi stack tag set <name> <value>
+```
+
+Tags can be deleted by running
+
+```bash
+pulumi stack tag rm <name>
+```
+
+#### Stack Outputs
+
+A stack can export values as stack outputs. They can be used for important values like resource IDs, computed IP addresses, and DNS names.
+
+```bash
+pulumi.export("url", resource.url)
+```
+
+From the CLI, you can then use pulumi stack output url to get the value and incorporate into other scripts or tools. 
+
+
+#### Get Stack 
+
+The get_stack function gives you the currently deploying stack, which can be useful in naming, tagging, or accessing resources.
+
+```python
+stack = pulumi.get_stack()
+```
+
+#### Stack References
+
+Stack references allow you to access the outputs of one stack from another stack. Inter-stack dependencies allow one stack to reference the outputs of another stack.
+
+To reference values from another stack, create an instance of the StackReference type using the fully qualified name of the stack as an input, and then read exported stack outputs by their name:
+
+```python
+from pulumi import StackReference
+
+other = StackReference(f"acmecorp/infra/other")
+other_output = other.get_output("x");
+```
+
+#### Destroy Stack
+
+Before deleting a stack, if the stack still has resources associated with it, they must first be deleted via pulumi destroy.
+
+```bash
+pulumi destroy
+```
+
+#### Delete Stack
+
+Removing the stack will remove all stack history from pulumi.com and will delete the stack configuration file Pulumi.&lt;stack-name&gt;.yaml.
+
+```bash
+pulumi stack rm
+```
+
+
+## Resources 
+
+To declare new infrastructure in your program, you allocate resource objects whose properties correspond to the desired state of your infrastructure. Resources represent the fundamental units that make up your cloud infrastructure, such as a compute instance, a storage bucket, or a Kubernetes cluster.
+
+A resource’s desired state is declared by constructing an instance of the resource:
+
+```python
+res = Resource(name, args, options)
+```
+
+All resources have a required <b>name  argument</b>, which must be unique across resources of the same kind in a stack. Pulumi uses the logical name to track the identity of a resource through multiple deployments of the same program and uses it to choose between creating new resources or updating existing ones.
+
+A resource’s logical and physical names may not match. In fact, most physical resource names in Pulumi are, by default, auto-named. As a result, even if your IAM role has a logical name of my-role, the physical name will typically look something like my-role-d7c2fa0. The suffix appended to the end of the name is random.
+
+This random suffix serves two purposes:
+
+- It ensures that two stacks for the same project can be deployed without their resources colliding. for example, many development or testing stacks, or to scale to new regions.
+
+- It allows Pulumi to do zero-downtime resource updates. Due to the way some cloud providers work, certain updates require replacing resources rather than updating them in place. By default, Pulumi creates replacements first, then updates the existing references to them, and finally deletes the old resources.
+
+The <b>args argument</b> is an object with a set of named property input values that are used to initialize the resource. These can be normal raw values—such as strings, integers, lists, and maps—or outputs from other resources.
+
+The <b>options argument</b>  is optional, but lets you control certain aspects of the resource. For example, you can show explicit dependencies, use a custom provider configuration, or import an existing infrastructure.
+
+For cases that require specific names, you can override auto-naming by specifying a physical name as below:
+
+```python
+role = iam.Role(
+    'my-role',
+    name=f'my-role-{ pulumi.get_project() }-{ pulumi.get_stack() }',
+    opts=ResourceOptions(delete_before_replace=True),
+)
+```
+
+:::info
+ Some resources use a different property to override auto-naming. For instance, the aws.s3.Bucket type uses the property bucket instead of name. Other resources, such as aws.kms.Key, do not have physical names and use other auto-generated IDs to uniquely identify them.
+:::
+
+Overriding auto-naming makes your project susceptible to naming collisions. As a result, for resources that may need to be replaced, you should specify deleteBeforeReplace: true in the resource’s options. This option ensures that old resources are deleted before new ones are created, which will prevent those collisions.
+
+Full list of resources options with detailed description can be found [here](https://www.pulumi.com/docs/iac/concepts/options/). Below is a quick overview of the commands:
+
+#### additional_secret_outputs
+
+```python
+db = Database('db',
+    opts=ResourceOptions(additional_secret_outputs=['password']))
+```
+
+#### aliases
+
+```python
+db = Database('db',
+    opts=ResourceOptions(aliases=[Alias(name='old-name-for-db')]))
+```
+
+#### custom_timeouts
+```python
+db = Database('db',
+    opts=ResourceOptions(custom_timeouts=CustomTimeouts(create='30m')))
+```
+
+#### delete_before_replace
+```python
+db = Database("db",
+    opts=ResourceOptions(delete_before_replace=True))
+```
+
+#### ignore_changes
+```python
+import pulumi_kubernetes as k8s
+
+ns = k8s.core.v1.Namespace("res1". {})
+dep = k8s.apps.v1.Deployment("res2", opts=ResourceOptions(deleted_with=ns))
+
+
+res1 = MyResource("res1")
+res2 = MyResource("res2", opts=ResourceOptions(depends_on=[res1]))
+
+res = MyResource("res",
+  prop="new-value",
+  opts=ResourceOptions(ignore_changes=["prop"]))
+```
+
+#### import_
+```python
+# IMPORTANT: Python appends an underscore (`import_`) to avoid conflicting with the keyword.
+
+import pulumi_aws as aws
+
+group = aws.ec2.SecurityGroup('web-sg',
+  name='web-sg-62a569b',
+  description='Enable HTTP access',
+  ingress=[
+    { 'protocol': 'tcp', 'from_port': 80, 'to_port': 80, 'cidr_blocks': ['0.0.0.0/0'] }
+  ],
+  opts=ResourceOptions(import_='sg-04aeda9a214730248'))
+
+server = aws.ec2.Instance('web-server',
+  ami='ami-6869aa05',
+  instance_type='t2.micro',
+  security_groups=[group.name],
+  opts=ResourceOptions(import_='i-06a1073de86f4adef'))
+```
+
+#### parent
+```python
+parent = MyResource("parent");
+child = MyResource("child", opts=ResourceOptions(parent=parent));
+```
+
+#### protect 
+```python
+db = Database("db", opts=ResourceOptions(protect=True))
+```
+
+#### provider
+```python
+provider = Provider("provider", region="us-west-2")
+vpc = ec2.Vpc("vpc", opts=ResourceOptions(provider=provider))
+```
+
+#### providers
+```python
+aws_provider = aws.Provider("awsProvider", region="us-west-2")
+kube_provider = kubernetes.Provider("kubeProvider", kubeconfig="./kubeconfig)
+
+opts = ResourceOptions(providers=[aws_provder, kube_provider])
+
+vpc = aws.ec2.Vpc("vpc", opts=opts)
+namespace = kubernetes.v1.Namespace("namespace", opts=opts)
+```
+
+#### replaceOnChanges
+```python
+widget = apiextensions.CustomResource("widget",
+    api_version="acmecorp.com/v1alpha1",
+    kind="Widget",
+    spec={
+        "input": "something",
+    },
+    opts=ResourceOptions(replace_on_changes=["spec.input"])
+)
+```
+
+#### transformations
+```python
+def transformation(args: ResourceTransformationArgs):
+  if args.type_ == "aws:ec2/vpc:Vpc" or args.type_ == "aws:ec2/subnet:Subnet":
+    return ResourceTransformationResult(
+      props=args.props,
+      opts=ResourceOptions.merge(args.opts, ResourceOptions(
+      ignore_changes=["tags"],
+)))
+
+vpc = MyVpcComponent("vpc", opts=ResourceOptions(transformations=[transformation]))
+```
+
+#### transform
+```python
+def transform(args: ResourceTransformArgs):
+  if args.type_ == "aws:ec2/vpc:Vpc" or args.type_ == "aws:ec2/subnet:Subnet":
+    return ResourceTransformResult(
+      props=args.props,
+      opts=ResourceOptions.merge(args.opts, ResourceOptions(
+      ignore_changes=["tags"],
+)))
+
+vpc = MyVpcComponent("vpc", opts=ResourceOptions(transforms=[transform]))
+```
+
+#### version
+```python
+vpc = ec2.Vpc("vpc", opts=ResourceOptions(version="2.10.0"))
+```
+
+
+## Puting It All Together
+
+Let's create a program that shows how to create an AWS EC2 security group named web-sg with a single ingress rule and a t2.micro-sized EC2 instance using that security group.
+
+```python
+import pulumi
+import pulumi_aws as aws
+
+group = aws.ec2.SecurityGroup(
+    "web-sg",
+    description="Enable HTTP access",
+    ingress=[
+        {
+            "protocol": "tcp",
+            "from_port": 80,
+            "to_port": 80,
+            "cidr_blocks": ["0.0.0.0/0"],
+        }
+    ],
+)
+
+server = aws.ec2.Instance(
+    "web-server",
+    ami="ami-0319ef1a70c93d5c8",
+    instance_type="t2.micro",
+    vpc_security_group_ids=[group.id],
+)
+
+pulumi.export("public_ip", server.public_ip)
+pulumi.export("public_dns", server.public_dns)
+```
+
+When you author a Pulumi program the end result will be the state you declare, regardless of the current state of your infrastructure.
+
+A Pulumi program is executed by a language host to compute a desired state for a stack’s infrastructure. The deployment engine compares this desired state with the stack’s current state and determines what resources need to be created, updated or deleted. 

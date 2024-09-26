@@ -1,0 +1,108 @@
+# Pulumi Architecture
+
+This page provides an introduction to Pulumi Architecture. These are my notes from [Pulumi Docs](https://www.pulumi.com/docs/).
+
+<center>
+<img src="/img/pulumi-1.png" alt="pulumi-1.png" style={{ width: '500px', height: 'auto' }}/>
+</center>
+
+Here is a breakdown of each component of Pulumi’s architecture:
+
+- Language Host: imperative (JavaScript/TypeScript, Go, Python, C#/F#/.NET, Java) and declarative (YAML)
+- Pulumi Engine: declarative
+- Providers: imperative
+
+## Language Host
+
+The language host is responsible for running a Pulumi program and setting up an environment where it can register resources with the deployment engine. 
+
+## Deployment Engine
+
+The deployment engine is responsible for computing the set of operations needed to drive the current state of your infrastructure into the desired state expressed by your program. 
+
+When a resource registration is received from the language host, the engine consults the existing state to determine if that resource has been created before. If it has not, the engine uses a resource provider to create it. If it already exists, the engine works with the resource provider to determine what, if anything, has changed by comparing the old state of the resource with the new desired state of the resource as expressed by the program.
+
+## Resource Providers
+
+A resource provider handles communications with a cloud service to create, read, update, and delete the resources you define in your Pulumi programs. 
+
+Pulumi passes your code to a language host such as Node.js, waits to be notified of resource registrations, assembles a model of your desired state, and calls on the resource provider to produce that state. The resource provider translates those requests into API calls to the cloud service.
+
+A resource provider is made up of two different pieces:
+- A resource plugin is the binary used by the deployment engine to manage a resource
+- An SDK which provides bindings for each type of resource the provider can manage.
+
+
+### Default Provider Configuration
+
+By default, each provider uses its package’s global configuration settings, which are controlled by your stack’s configuration.
+
+For example, suppose you run this CLI command:
+
+```bash
+pulumi config set aws:region us-west-2
+```
+
+Then, suppose you deploy the following Pulumi program, it will creates a single EC2 instance in the us-west-2 region.
+
+```python
+from pulumi_aws import ec2
+
+instance = ec2.Instance("myInstance", instance_type="t2.micro", ami="myAMI")
+```
+
+
+While default providers are enabled by default, they can be disabled on a per stack basis. For example, to disable the aws provider, you can run:
+
+```bash
+pulumi config set --path 'pulumi:disable-default-providers[0]' aws
+```
+
+If you wanted to also disable the kubernetes default provider, as well as the aws default provider, you could run:
+
+```bash
+pulumi config set --path 'pulumi:disable-default-providers[1]' kubernetes
+```
+
+This adds a new entry to the list pulumi:disable-default-providers. To disable all default providers, use * as the package name:
+
+```bash
+pulumi config set --path 'pulumi:disable-default-providers[0]' '*'
+```
+
+
+### Explicit Provider Configuration
+
+While the default provider configuration may be appropriate for the majority of Pulumi programs, some programs may have special requirements. 
+
+One example is a program that needs to deploy to multiple AWS regions simultaneously. Another example is a program that needs to deploy to a Kubernetes cluster, created earlier in the program, which requires explicitly creating, configuring, and referencing providers.
+
+For example, the following configuration and program creates an ACM certificate in the us-east-1 region and a load balancer listener in the us-west-2 region.
+
+```python
+import pulumi
+import pulumi_aws as aws
+
+# Create an AWS provider for the us-east-1 region.
+useast1 = aws.Provider("useast1", region="us-east-1")
+
+# Create an ACM certificate in us-east-1.
+cert = aws.acm.Certificate("cert",
+  domain_name="foo.com",
+  validation_method="EMAIL",
+  opts=pulumi.ResourceOptions(provider=useast1)
+)
+
+# Create an ALB listener in the default region that references the ACM certificate created above.
+listener = aws.lb.Listener("listener",
+  load_balancer_arn=load_balancer_arn,
+  port=443,
+  protocol="HTTPS",
+  ssl_policy="ELBSecurityPolicy-2016-08",
+  certificate_arn=cert.arn,
+  default_action={
+    "target_group_arn": target_group_arn,
+    "type": "forward",
+  }
+)
+```
