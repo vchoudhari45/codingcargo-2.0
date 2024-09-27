@@ -16,61 +16,6 @@ The problem is asking us maximize the number of children who receive exactly \$$
 
 This problem can be solved using the Binary Search technique. [More such questions can be found here](/data-structures-and-algorithms/binary-search).
 
-Using binary search, we first assume a candidate value ($\text{mid}$), and attempt to distribute the money among children such that the number of children who receive exactly \$$8$ are ($\text{mid}$).
-
-Also, when we find a candidate value that allows us to distribute the money with condition specified in problem statement, we will set $\text{lo} = \text{mid}$ instead of the typical binary search approach of $\text{lo} = \text{mid} + 1$ to keep the candidate value in the search range.
-
-Now, because we are setting $\text{lo} = \text{mid}$, imagine a scenario where we have $\text{lo} = 2$, $\text{hi} = 3$, and the value $2$ allows us to distribute the money among children with conditions specified in problem. In this case for next iteration of binary search all the values will remain same and will run infinitely. 
-
-To avoid this problem, we set $\text{mid}$ to $\Large  \frac{(\text{lo} \ + \ \text{hi} \ + \ 1)}{2}$ instead of typical binary search logic of $\text{mid}$ as $\Large \frac{(\text{lo} \ + \ \text{hi})}{2}$.
-
-Let's take the sample input below,
-
-$$
-\text{money} = 20, \ \text{children} = 3
-$$
-
-Initiate the binary search using the $-1$ as the low threshold and the total number of children as high threshold.
-
-$$
-\text{lo} = -1, \ \text{hi} = 3, \ \text{mid} = 1
-$$
-
-With candidate value as $1$, we can distribute money as follows:
-
-- The first child gets \$$8$.
-- The second and third child receive the remaining \$$12$, ensuring no one gets \$$4$.
-
-Since candidate value of $1$ works, let's try to maximize the number of children who get exactly \$$8$ by increasing the lower threshold.
-
-$$
-\text{lo} = 1, \ \text{hi} = 3, \ \text{mid} = 2
-$$
-
-:::info[]
-Observe that we're setting $\text{lo} = \text{mid}$ instead of $\text{lo} = \text{mid} + 1$ because we want to maintain the candidate value of $1$ within the search space.
-
-This is because, in the next iteration of binary search, we get a candidate value as $2$. If candiate value of $2$ does not allow us to distribute money as per the conditions specified in problem, then $1$ should be our answer.
-:::
-
-With candidate value as $2$, we can distribute money as follows:
-
-- The first child gets \$$8$.
-- The second child gets \$$8$.
-- The third child receives the remaining \$$4$.
-
-Since third child receives \$$4$, and according to the problem's condition, no child should get \$$4$, candiate value of $2$, doesn't work. Let's lower the higher threshold.
-
-
-$$
-\text{lo} = 1, \ \text{hi} = 1, \ \text{mid} = 1
-$$
-
-
-Because the lower limit equals the upper limit, we exit the binary search, finding the answer as $1$.
-
-
-## Implementation
 
 <Tabs>
   <TabItem value="Java" label="Java" default>
@@ -105,7 +50,7 @@ class Solution {
 
 Let's say $\text{N}$ be the total amount of money to be distributed among $\text{K}$ children.
  
-### Time complexity 
+#### Time Complexity 
 
 The time complexity is $\text{O}(\log \text{K})$ for searching the optimal solution using binary search.
 
@@ -115,7 +60,7 @@ $$
 
 
 
-### Space complexity
+#### Space Complexity
 
 The solution uses constant space for storing binary search variables.
 

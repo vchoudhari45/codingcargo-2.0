@@ -1,0 +1,69 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 2279. Maximum Bags With Full...
+
+This page provides solutions for the leetcode problem [Leetcode 2279. Maximum Bags With Full Capacity of Rocks](https://leetcode.com/problems/maximum-bags-with-full-capacity-of-rocks/).
+
+
+## Problem Explanation 
+
+The problem asks us to determine the maximum number of bags that can be filled to their full capacity after adding extra rocks. The capacity of each bag is represented by the $\text{capacity}$ array, and the number of rocks already in each bag is provided in the $\text{rocks}$ array.
+ 
+
+## Solution
+
+This problem can be solved using the Greedy technique. [More such questions can be found here](/data-structures-and-algorithms/greedy).
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    public int maximumBags(int[] capacity, int[] rocks, int additionalRocks) {
+        int n = rocks.length;
+        int[] requiredRocks = new int[n];
+				
+        //calculate requiredRocks array 
+        for(int i = 0; i < n; i++) {
+            required[i] = capacity[i] - rocks[i];
+        }
+
+        //sort requiredRocks array
+        Arrays.sort(required);
+
+        //start filling bag with least requiredRocks first 
+        int index = 0;
+        while(additionalRocks > 0 && index < required.length) {
+            if(additionalRocks >= required[index]) {
+                additionalRocks -= required[index++];
+            }
+            else break; // break if additionalRocks can't fill current bag
+        }
+        return index;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+### Complexity 
+
+Let's say there are $\text{N}$ elements in a $\text{rocks}$ array.
+
+#### Time Complexity 
+
+Time complexity of $\text{O}(\text{N} \ \text{log} \ \text{N})$ for sorting $\text{capacity}$ array and $\text{O}(\text{N})$ for calculating maximum number of bags.
+
+$$
+\text{O}(\text{N} \ \text{log} \ \text{N})
+$$
+
+#### Space Complexity
+
+The solution uses $\text{O}(\text{N})$ space to calculate required rocks for each bag.
+
+$$
+\text{O}(\text{N})
+$$
+

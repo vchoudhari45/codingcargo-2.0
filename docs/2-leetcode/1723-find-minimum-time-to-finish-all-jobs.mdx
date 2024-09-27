@@ -13,63 +13,6 @@ The problem is asking us to divide the jobs among $\text{K}$ workers in such a w
 
 For this problem, we need to consider all possible distribution possibilities. Therefore, we use the backtracking technique. [More such problem can be found here](/data-structures-and-algorithms/backtracking).
 
-Let's take the sample input below,
-
-$$
-\text{jobs} = [3,2,4], \ \text{K} = 2
-$$
-
-:::info[Assumption]
-Assume job which takes $3$ units of time is called $\text{P}$, job which takes $2$ units of time is called $\text{Q}$ and job which takes $4$ units of time is called $\text{R}$.
-:::
-
-We start by assigning $\text{P}$ jobs among $2$ workers, which gives us $2$ possibilities. Next we assign $\text{Q}$ and $\text{R}$ jobs in the next iterations, which gives us total of $8$ possibilities.
-
-Below is a graphical representation of the distribution of $3$ jobs $\text{P}, \text{Q}, \text{R}$ among $2$ workers: 
-
-<div style={{textAlign:"center"}}>
-
-```mermaid
-graph TD
-    A([Start]) -->|Job P = 3 to W1| B([W1: 3])
-    A -->|Job P = 3 to W2| C([W2: 3])
-	
-    B -->|Job Q = 2 to W1| D([W1: 3, 2])
-    B -->|Job Q = 2 to W2| E([W1: 3 <br /> W2: 2])
-
-    C -->|Job Q = 2 to W1| F([W1: 2 <br /> W2: 3])
-    C -->|Job Q = 2 to W2| G([W2: 3, 2])
-
-		D -->|Job R = 4 to W1| H([W1: 3, 2, 4])
-    D -->|Job R = 4 to W2| I([W1: 3, 2 <br /> W2: 4])
-
-		E -->|Job R = 4 to W1| J([W1: 3, 4 <br /> W2: 2])
-		E -->|Job R = 4 to W2| K([W1: 3 <br /> W2: 2, 4])
-
-		F -->|Job R = 4 to W1| L([W1: 2, 4 <br /> W2: 3])
-		F -->|Job R = 4 to W2| M([W1: 2 <br /> W2: 3, 4])
-
-		G -->|Job R = 4 to W1| N([W1: 4 <br /> W2: 3, 2])
-		G -->|Job R = 4 to W2| O([W2: 3, 2, 4])
-``` 
-</div>
-
-
-We calculate maximum working time for each distribution. 
-
-- For the distribution $\text{W}1: [3, 2, 4]$ and $\text{W}2: [\ ]$, the maximum working time is $9$ for the worker $\text{W}1$.
-- For the distribution $\text{W}1: [3, 2]$ and $\text{W}2: [4]$, the maximum working time is $5$ for the worker $\text{W}1$.
-- For the distribution $\text{W}1: [3, 4]$ and $\text{W}2: [2]$, the maximum working time is $7$ for the worker $\text{W}1$.
-- For the distribution $\text{W}1: [3]$ and $\text{W}2: [2, 4]$, the maximum working time is $6$ for the worker $\text{W}2$.
-- For the distribution $\text{W}1: [2, 4]$ and $\text{W}2: [3]$, the maximum working time is $6$ for the worker $\text{W}1$.
-- For the distribution $\text{W}1: [2]$ and $\text{W}2: [3, 4]$, the maximum working time is $7$ for the worker $\text{W}2$.
-- For the distribution $\text{W}1: [4]$ and $\text{W}2: [3, 2]$, the maximum working time is $5$ for the worker $\text{W}2$.
-- For the distribution $\text{W}1: [\ ]$ and $\text{W}2: [3, 2, 4]$, the maximum working time is $9$ for the worker $\text{W}2$.
-
-Among all the distributions, the minimum value of the maximum working time is $5$, so we return $5$ as the answer.
-
-## Implementation
-
 <Tabs>
   <TabItem value="Java" label="Java" default>
 
@@ -117,7 +60,7 @@ class Solution {
 
 Let $\text{N}$ be the length of the input array $\text{jobs}$ and $\text{K}$ be the number of workers.
 
-### Time complexity 
+#### Time Complexity 
 
 Each of the $\text{N}$ job has $K$ workers to choose from.
 
@@ -127,7 +70,7 @@ $$
 
 
 
-### Space complexity
+#### Space Complexity
 
 Since there are $\text{N}$ jobs to assign to each worker, the stack size for the backtracking will go upto $\text{N}$.
 

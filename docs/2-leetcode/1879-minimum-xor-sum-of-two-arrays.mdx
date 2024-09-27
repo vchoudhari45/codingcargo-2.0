@@ -5,56 +5,13 @@ import TabItem from '@theme/TabItem';
 
 This page provides solutions for the leetcode problem [1879. Minimum XOR Sum of Two Arrays](https://leetcode.com/problems/minimum-xor-sum-of-two-arrays).
 
-## Problem Explaination 
+## Problem Explanation 
 
 The problem is asking us to minimize the XOR of two input array $\text{nums}1$ and $\text{nums}2$, given that you can rearrange elements of $\text{nums2}$.
 
 ## Solution
 
 This problem can be solved using the Permutations technique. [More such questions can be found here](/data-structures-and-algorithms/permutations).
-
-To solve this problem using the permutation technique, create all permutations of the array $\text{nums2}$ and calculate the XOR of each permuted array with the array $\text{nums1}$. 
-
-This approach will require a time complexity of $\text{N}!$, where $\text{N}$ is the total number of elements in the array $\text{nums2}$.
-
-Let's take the sample input as below,
-
-$$
-\text{nums}1 = \begin{bmatrix}1, 0, 3\end{bmatrix}, \text{nums}2 = \begin{bmatrix}1, 2, 3\end{bmatrix}
-$$
-
-Below is a graphical representation of creating permutations for the input array $\text{nums2}$:
-
-
-<div style={{textAlign:"center"}}>
-
-```mermaid
-graph TD
-    A((Root)) --1--> B((&nbsp;&nbsp; 1 &nbsp;&nbsp;))
-    A((Root)) --2--> C((&nbsp;&nbsp; 2 &nbsp;&nbsp;))
-    A((Root)) --3--> D((&nbsp;&nbsp; 3 &nbsp;&nbsp;))
-    
-    B --&nbsp;2&nbsp;--> E((&nbsp; 1,2 &nbsp;))
-    B --&nbsp;3&nbsp;--> F((&nbsp; 1,3 &nbsp;))
-    
-    C --&nbsp;1&nbsp;--> G((&nbsp; 2,1 &nbsp;))
-    C --&nbsp;3&nbsp;--> H((&nbsp; 2,3 &nbsp;))
-    
-    D --&nbsp;1&nbsp;--> I((&nbsp; 3,1 &nbsp;))
-    D --&nbsp;2&nbsp;--> J((&nbsp; 3,2 &nbsp;))
-    
-    E --&nbsp;3&nbsp;--> K((&nbsp; 1,2,3 &nbsp;))
-    F --&nbsp;2&nbsp;--> L((&nbsp; 1,3,2 &nbsp;))
-    G --&nbsp;3&nbsp;--> M((&nbsp; 2,1,3 &nbsp;))
-    H --&nbsp;1&nbsp;--> N((&nbsp; 2,3,1 &nbsp;))
-    I --&nbsp;2&nbsp;--> O((&nbsp; 3,1,2 &nbsp;))
-    J --&nbsp;1&nbsp;--> P((&nbsp; 3,2,1 &nbsp;))
-```
-
-</div>
-
-
-## Implementation
 
 <Tabs>
   <TabItem value="Java" label="Java" default>
@@ -117,7 +74,7 @@ Consider if we've chosen the $0$<sup>th</sup> and $1$<sup>st</sup> elements from
 
 Let's say there are $\text{N}$ elements in an array, and we need to create $\text{K}$ subsets.
 
-### Time complexity 
+#### Time Complexity 
 
 The time complexity is $\text{O}(2^{\text{N}})$ for creating a single subset, as we can either choose or skip each element of an array, and $\text{O}(\text{K})$ for creating $\text{K}$ subsets.
 
@@ -129,7 +86,7 @@ $$
 
 
 
-### Space complexity
+#### Space Complexity
 
 At any given time, the excution stack will have at most $\text{N}$ elements.
 

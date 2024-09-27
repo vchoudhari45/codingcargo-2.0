@@ -1,0 +1,70 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 2323. Find Minimum Time to Fini...
+
+This page provides solutions for the leetcode problem [2323. Find Minimum Time to Finish All Jobs II](https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs-ii/description/).
+
+
+## Problem Explanation 
+
+The problem asks us to calculate the number of days required to complete all the jobs, given the time each job takes (represented by the $\text{jobs}$ array) and time each worker can work (represented by the $\text{workers}$ array). The solution must ensure that each job is assigned to exactly one worker, and each worker completes exactly one job.
+
+
+## Solution
+
+This problem can be solved using the Greedy technique. [More such questions can be found here](/data-structures-and-algorithms/greedy).
+
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+import java.util.Arrays;
+
+class Solution {
+    // Main method to calculate minimum time required
+    public int minimumTime(int[] jobs, int[] workers) {
+        // Sort jobs and workers arrays
+        Arrays.sort(jobs);
+        Arrays.sort(workers);
+        
+        int min = 0;
+
+        // Iterate through jobs
+        for (int i = 0; i < jobs.length; i++) {
+            // Calculate days needed for current job and worker
+            int days = jobs[i] / workers[i];
+            if (jobs[i] % workers[i] > 0) days++;
+
+            // Update min with the maximum of current days and previous min
+            min = Math.max(min, days);
+        }
+
+        return min;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+
+### Complexity 
+
+Let's say there are $\text{N}$ elements in a $\text{jobs}$ array.
+
+#### Time Complexity 
+
+Time complexity of $\text{O}(\text{N} \ \text{log} \ \text{N})$ for sorting both arrays and $\text{O}(\text{N})$ for calculating number of days required to complete all the jobs.
+
+$$
+\text{O}(\text{N} \ \text{log} \ \text{N})
+$$
+
+#### Space Complexity
+
+The solution uses constant space.
+
+$$
+\text{O}(\text{1})
+$$
