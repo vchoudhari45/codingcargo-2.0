@@ -3,18 +3,18 @@ import TabItem from '@theme/TabItem';
 
 # Fenwick Tree
 
-The Fenwick Tree, also known as the Binary Indexed Tree, is a data structure that can perform range operations such as finding the total, minimum, or maximum value in  $O(log N)$ time. 
+This page provides links to solutions that use the Fenwick Tree data structure.
 
-It can also perform point updates in  $O(log N)$  time. However, it does not support range updates; in such cases, a segment tree should be used instead. 
+## Overview
 
-Despite being called a tree, the Fenwick tree is actually stored as an array of elements.
+The Fenwick Tree, also known as the Binary Indexed Tree, is a data structure that can perform range operations such as finding the total, minimum, or maximum value in  $\text{O(log N)}$ time. 
 
-## Fenwick Tree Function
+It can also perform point updates in  $\text{O(log N)}$  time. However, it does not support range updates; in such cases, a segment tree should be used instead. Despite being called a tree, the Fenwick tree is actually stored as an array of elements.
 
 To create a Fenwick tree, you need two functions called Get Parent and Get Child. These functions help you determine which index to update next when you add or change an element in the Fenwick tree.
 
 
-### Get Parent Function
+#### Get Parent Function
 
 Get Parent function generates the parent index by adding $1$ to the last set bit from the right.
 
@@ -38,7 +38,7 @@ public int getParent(int index) {
 </Tabs>
 
 
-### Get Child Function
+#### Get Child Function
 
 Similarly, Get Child function generates the child index by substracting $1$ from the last set bit from the right.
 
@@ -62,7 +62,7 @@ public int getChild(int index) {
 </Tabs>
 
 
-## How to Build Fenwick Tree
+## Build Fenwick Tree
 
 Let's create a fenwick tree for input array
 
@@ -72,7 +72,7 @@ $$
 \end{bmatrix}
 $$
 
-<br />
+
 
 Generate a new array with a length one greater than the input array, initializing all elements to 0. Fenwick tree array after adding $1^{st}$ element
 
@@ -80,7 +80,7 @@ Generate a new array with a length one greater than the input array, initializin
 <img src="/img/fenwick-tree-1.svg" alt="fenwick-tree-1.svg" style={{ width: '350px', height: 'auto' }}/>
 </center>
 
-<br />
+
 Fenwick tree array after adding $2^{nd}$ element
 
 <center>
@@ -88,7 +88,7 @@ Fenwick tree array after adding $2^{nd}$ element
 </center>
 
 
-<br />
+
 Fenwick tree array after adding $3^{rd}$ element
 
 <center>
@@ -96,7 +96,7 @@ Fenwick tree array after adding $3^{rd}$ element
 </center>
 
 
-<br />
+
 Fenwick tree array after adding $4^{th}$ element
 
 <center>
@@ -104,7 +104,7 @@ Fenwick tree array after adding $4^{th}$ element
 </center>
 
 
-<br />
+
 Fenwick tree array after adding $5^{th}$ element
 
 <center>
@@ -112,7 +112,7 @@ Fenwick tree array after adding $5^{th}$ element
 </center>
 
 
-<br />
+
 Fenwick tree array after adding $6^{th}$ element
 
 <center>
@@ -120,7 +120,7 @@ Fenwick tree array after adding $6^{th}$ element
 </center>
 
 
-<br />
+
 Fenwick tree array after adding $7^{th}$ element
 
 <center>
@@ -161,7 +161,7 @@ private void add(int element, int index) {
 </Tabs>
 
 
-## How to Use Fenwick Tree
+## Use Fenwick Tree
 
 The Fenwick tree we generated earlier enables range operations, particularly range sum calculations in $O(log N)$ time. 
 
@@ -179,7 +179,7 @@ Therefore prefix sum from $3$ will be $21$.
 Notice how we are starting with index $4$ for calculating prefix sum from $3$ as fenwick tree array start inserting elements from index $1$.
 :::
 
-<br />
+
 
 
 Now let's calculate the prefix sum from $6$. 
@@ -217,7 +217,7 @@ private int prefixSum(int element, int index) {
 </Tabs>
 
 
-## Update Element in Fenwick Tree
+## Update Fenwick Tree
 
 To update an element in a Fenwick tree, we follow a similar process as adding an element. However, instead of adding the actual element, we add a delta value.
 
@@ -248,3 +248,12 @@ private int update(int newValue, int index) {
 ```
 </TabItem>
 </Tabs>
+
+
+## How to Spot These Problems
+
+You can identify fenwick tree problems if the problem requires you to:
+- Quickly calculate the sum of elements from the start of an array up to a certain index.
+
+
+## Leetcode Problem Set

@@ -1,0 +1,91 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 76. Minimum Window Substrings
+
+This page provides solutions for the leetcode problem [76. Minimum Window Substrings](https://leetcode.com/problems/minimum-window-substring/).
+
+
+## Problem Explanation 
+
+The problem asks us to calculate the smallest window that contains all the elements of the substring $\text{t}$.
+
+
+## Solution
+
+This problem can be solved using the Sliding Window technique. [More such questions can be found here](/data-structures-and-algorithms/sliding-window).
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+import java.util.HashMap;
+
+public class Solution {
+
+    // Finds the minimum window substring in string 's' 
+    // containing all characters from string 't'.
+    public String minWindow(String s, String t) {
+        // initialize a HashMap to store character frequencies.
+        HashMap<Character, Integer> map = new HashMap<>();
+        int required = 0;
+
+        // count the total number of required characters and update the HashMap.
+        for (int i = 0; i < t.length(); i++) {
+            char ch = t.charAt(i);
+            required++;
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+
+        int end = 0, start = 0, min = Integer.MAX_VALUE;
+        String res = "";
+
+        // move the 'end' pointer through string 's'.
+        while (end < s.length()) {
+            char ch = s.charAt(end++);
+
+            // check if the current character is part of string 't'.
+            if (map.containsKey(ch)) {
+                map.put(ch, map.getOrDefault(ch, 0) - 1);
+                if (map.get(ch) >= 0) required--;
+
+                // check if the current window contains all required characters.
+                while (start < end && required == 0) {
+                    if (min > end - start) {
+                        // Update minimum window and result.
+                        min = end - start;
+                        res = s.substring(start, end);
+                    }
+
+                    char chs = s.charAt(start++);
+
+                    // update character frequency in the HashMap.
+                    if (map.containsKey(chs)) 
+                        map.put(chs, map.getOrDefault(chs, 0) + 1);
+
+                    if (map.getOrDefault(chs, 0) > 0) required++;
+                }
+            }
+        }
+
+        // return the minimum window substring.
+        return res;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+## Complexity 
+
+Let's say there are $\text{N}$ characters in string $s$ and $M$ characters in string $\text{t}$.
+
+#### Time complexity 
+$
+\text{O(N)}
+$
+
+#### Space complexity
+$
+\text{O(M)}
+$
