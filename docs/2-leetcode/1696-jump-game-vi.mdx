@@ -1,0 +1,79 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 1696. Jump Game VI
+
+This page provides solutions for the leetcode problem [1696. Jump Game VI](https://leetcode.com/problems/jump-game-vi).
+
+
+## Problem Explanation
+
+The problem requires us to calculate maximum score you can get in jump game with following rules.
+
+You are initially standing at index $\text{0}$. In one move, you can jump at most $\text{k}$ steps forward without going outside the boundaries of the array. That is, you can jump from index $\text{i}$ to any index in the range $\text{[i + 1, min(n - 1, i + k)]}$ inclusive. 
+
+You want to reach the last index of the array $\text{index = n - 1}$. Your score is the sum of all $\text{nums[j]}$ for each index $\text{j}$ you visited in the array.
+
+
+## Solution
+
+This problem can be solved using the Deque data Structure. [More such problem can be found here](/data-structures-and-algorithms/deque).
+
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    // calculates the maximum result by choosing elements from the array.
+    public int maxResult(int[] nums, int k) {
+        int n = nums.length;
+        int[] score = new int[n];
+        Deque<Integer> dq = new LinkedList<>();
+        score[0] = nums[0];
+        dq.offer(0);
+
+        for (int i = 1; i < n; i++) {
+            // remove elements from the front of the deque if outside the window
+            while (!dq.isEmpty() && i - dq.peekFirst() > k) {
+                dq.pollFirst();
+            }
+
+            // calculate the score for the current index
+            score[i] = score[dq.peekFirst()] + nums[i];
+
+            // remove elements from the back of the deque with smaller scores
+            while (!dq.isEmpty() && score[dq.peekLast()] <= score[i]) {
+                dq.pollLast();
+            }
+
+            // add the current index to the deque
+            dq.offer(i);
+        }
+
+        return score[n - 1];
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+## Complexity 
+
+Let's say there are $\text{N}$ elements in an array.
+
+#### Time Complexity 
+
+Each index is visited only once, so time complexity will be, 
+
+$$
+\text{O}(\text{N})
+$$
+
+#### Space Complexity
+
+At any given point deque will have $\text{N}$ elements, so space complexity will be, 
+
+$$
+\text{O}(\text{N})
+$$

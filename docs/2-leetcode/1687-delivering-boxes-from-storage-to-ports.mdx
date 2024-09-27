@@ -1,0 +1,115 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 1687. Delivering Boxes from Stor...
+
+This page provides solutions for the leetcode problem [1687. Delivering Boxes from Storage to Ports](https://leetcode.com/problems/delivering-boxes-from-storage-to-ports/description/).
+
+
+## Problem Explanation
+
+The problem requires us to calculate minimum number of trips the ship needs to make to deliver all boxes to their respective ports. 
+
+The boxes need to be delivered in the order they are given. The ship will follow these steps:
+
+- The ship will take some number of boxes from the boxes queue, not violating the maxBoxes and maxWeight.
+- For each loaded box in order, the ship will make a trip to the port the box needs to be delivered to and deliver. 
+- If the ship is already at the correct port, no trip is needed, and the box can immediately be delivered.
+- The ship then makes a return trip to storage to take more boxes from the queue.
+- The ship must end at storage after all the boxes have been delivered.
+
+
+## Solution
+
+This problem can be solved using the Deque data Structure. [More such problem can be found here](/data-structures-and-algorithms/deque).
+
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    private int[] weightPrefix;
+
+    // calculates the minimum number of trips to deliver 
+    // boxes based on given constraints
+    public int boxDelivering(int[][] boxes, int portsCount, int maxBoxes, 
+      int maxWeight) {
+        int n = boxes.length;
+        int[] trips = new int[n + 1];
+        weightPrefix = new int[n];
+        weightPrefix[0] = boxes[0][1];
+
+        // calculate the weight prefix array
+        for (int i = 1; i < n; i++) {
+            weightPrefix[i] = weightPrefix[i - 1] + boxes[i][1];
+        }
+
+        // deque data structure to hold optimal indexes
+        Deque<Integer> dq = new LinkedList<>();
+        int ports = 1;
+        dq.offer(0);
+
+        for (int i = 0; i < n; i++) {
+            // remove elements from the deque based on weight and box constraints
+            while (!dq.isEmpty() && 
+              (calculateWeight(dq.peekFirst(), i) > maxWeight || 
+                i - dq.peekFirst() + 1 > maxBoxes)) {
+
+                // update the number of ports once the first element 
+                // from the deque is removed
+                int prev = dq.pollFirst();
+                int current = dq.peekFirst();
+                if (boxes[prev][0] != boxes[current][0]) ports--;
+            }
+
+            // if the port of the current index is different from the previous index, 
+            // increment ports
+            if (i > 0 && boxes[i][0] != boxes[i - 1][0]) ports++;
+
+            int newTripIndex = dq.peekFirst();
+            // trips[newTripIndex] because we want to add the trips 
+            // required for all previous trips 
+            // ports + 1 because one trip is required to go back to storage
+            trips[i + 1] = trips[newTripIndex] + ports + 1;
+
+            // remove indexes which return the same 
+            // result or greater results for the trips
+            while (!dq.isEmpty() && 
+              trips[dq.peekLast()] >= trips[i + 1]) dq.pollLast();
+
+            dq.offer(i + 1);
+        }
+
+        return trips[n];
+    }
+
+    // calculate the weight of boxes between two indices.
+    private int calculateWeight(int from, int to) {
+        return weightPrefix[to] - (from - 1 >= 0 ? weightPrefix[from - 1] : 0);
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+## Complexity 
+
+Let's say there are $\text{N}$ elements in an array.
+
+#### Time Complexity 
+
+Each box index is visited only once, so time complexity will be, 
+
+$$
+\text{O}(\text{N})
+$$
+
+#### Space Complexity
+
+At any given point deque will have $\text{N}$ elements, so space complexity will be, 
+
+$$
+\text{O}(\text{N})
+$$
+

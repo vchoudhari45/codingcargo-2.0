@@ -1,171 +1,27 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+import DataTable from '@site/src/components/DataTable'; 
+
 # Deque
 
-This page offers detailed explanations and Java solutions for problems, using the Deque data structure.
+This page provides links to solutions for problems that use the Deque approach.
 
+## Overview
 
-## Delivering Boxes from Storage to Ports
+A deque (double-ended queue) is a linear data structure that allows insertion and deletion of elements from both ends, front and back. It's more flexible than a regular queue or stack, making it efficient for scenarios that require operations at both ends. 
 
-The problem description can be found at [LeetCode 1687. Delivering Boxes from Storage to Ports](https://leetcode.com/problems/delivering-boxes-from-storage-to-ports/description/).
+## How to Spot These Problems
 
+You can identify deque problems if the problem requires you to:
 
+- Efficiently access, insert, or remove elements from both the front and the back of a sequence.
 
-### Explanation 
+## Leetcode Problem Set
 
-A brute force solution to this problem involves utilizing nested for loops to calculate minimum trips. These loops iterate through indices up to a given index $i$, determining the minimum trips ending at index $i$. This approach has a time complexity of $O(n^2)$.
-
-An optimization can be achieved by using a Deque data structure and storing only those indexes that yield the minimum value. This optimized solution operates in $O(n)$ time.
-
-
-### Implementation
-
-<Tabs>
-  <TabItem value="Java" label="Java" default>
-
-```java
-class Solution {
-    private int[] weightPrefix;
-
-    // calculates the minimum number of trips to deliver 
-    // boxes based on given constraints
-    public int boxDelivering(int[][] boxes, int portsCount, int maxBoxes, 
-      int maxWeight) {
-        int n = boxes.length;
-        int[] trips = new int[n + 1];
-        weightPrefix = new int[n];
-        weightPrefix[0] = boxes[0][1];
-
-        // calculate the weight prefix array
-        for (int i = 1; i < n; i++) {
-            weightPrefix[i] = weightPrefix[i - 1] + boxes[i][1];
-        }
-
-        // deque data structure to hold optimal indexes
-        Deque<Integer> dq = new LinkedList<>();
-        int ports = 1;
-        dq.offer(0);
-
-        for (int i = 0; i < n; i++) {
-            // remove elements from the deque based on weight and box constraints
-            while (!dq.isEmpty() && 
-              (calculateWeight(dq.peekFirst(), i) > maxWeight || 
-                i - dq.peekFirst() + 1 > maxBoxes)) {
-
-                // update the number of ports once the first element 
-                // from the deque is removed
-                int prev = dq.pollFirst();
-                int current = dq.peekFirst();
-                if (boxes[prev][0] != boxes[current][0]) ports--;
-            }
-
-            // if the port of the current index is different from the previous index, 
-            // increment ports
-            if (i > 0 && boxes[i][0] != boxes[i - 1][0]) ports++;
-
-            int newTripIndex = dq.peekFirst();
-            // trips[newTripIndex] because we want to add the trips 
-            // required for all previous trips 
-            // ports + 1 because one trip is required to go back to storage
-            trips[i + 1] = trips[newTripIndex] + ports + 1;
-
-            // remove indexes which return the same 
-            // result or greater results for the trips
-            while (!dq.isEmpty() && 
-              trips[dq.peekLast()] >= trips[i + 1]) dq.pollLast();
-
-            dq.offer(i + 1);
-        }
-
-        return trips[n];
-    }
-
-    // calculate the weight of boxes between two indices.
-    private int calculateWeight(int from, int to) {
-        return weightPrefix[to] - (from - 1 >= 0 ? weightPrefix[from - 1] : 0);
-    }
-}
-```
-</TabItem>
-</Tabs>
-
-
-
-
-
-
-
-
-### Complexity 
-
-Let's say there are $N$ elements in an array.
-
-#### Time complexity 
-$
-O(N)
-$
-
-#### Space complexity
-$
-O(N)
-$
-
-<br />
-
-
-
-
-
-
-## Similar questions
-
-Here are some more questions that can be solved using the same technique.
-
-### Jump Game VI
-
-The problem description can be found at [Leetcode 1696. Jump Game VI](https://leetcode.com/problems/jump-game-vi/description/).
-
-
-<details>
-  <summary>Solution</summary>
-
-<Tabs>
-  <TabItem value="Java" label="Java" default>
-
-```java
-class Solution {
-    // calculates the maximum result by choosing elements from the array.
-    public int maxResult(int[] nums, int k) {
-        int n = nums.length;
-        int[] score = new int[n];
-        Deque<Integer> dq = new LinkedList<>();
-        score[0] = nums[0];
-        dq.offer(0);
-
-        for (int i = 1; i < n; i++) {
-            // remove elements from the front of the deque if outside the window
-            while (!dq.isEmpty() && i - dq.peekFirst() > k) {
-                dq.pollFirst();
-            }
-
-            // calculate the score for the current index
-            score[i] = score[dq.peekFirst()] + nums[i];
-
-            // remove elements from the back of the deque with smaller scores
-            while (!dq.isEmpty() && score[dq.peekLast()] <= score[i]) {
-                dq.pollLast();
-            }
-
-            // add the current index to the deque
-            dq.offer(i);
-        }
-
-        return score[n - 1];
-    }
-}
-```
-</TabItem>
-</Tabs>
-</details>
-
+<DataTable notag="true" data=
+{[
+	{ id: 1687, name: 'Delivering Boxes from Storage to Ports' },
+	{ id: 1696, name: 'Jump Game VI' }
+]}  
+/>

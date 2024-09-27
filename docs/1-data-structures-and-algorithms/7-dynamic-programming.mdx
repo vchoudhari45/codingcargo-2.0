@@ -1,86 +1,26 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+import DataTable from '@site/src/components/DataTable'; 
 
 # Dynamic Programming
 
+This page provides links to solutions for problems that use the Dynamic Programming.
+
+## Overview
+
 Dynamic Programming is an algorithmic technique used to solve problems by breaking them down into simpler overlapping sub-problems.
 
-#  Longest Increasing Subsequence
+## How to Spot These Problems
 
-This page offers detailed explanations and Java solutions for problems which involve finding longest increasing subsequence, using the Dynamic Programming.
+You can identify dynamic programming problems if the problem requires you to:
 
+- Optimize a solution by breaking it down into overlapping subproblems that can be solved independently.
 
-## Minimum Number of Removals to Make Mountain Array
+## Leetcode Problem Set
 
-The problem description can be found at [Leetcode 1671. Minimum Number of Removals to Make Mountain Array](https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array/description/).
-
-
-
-### Explanation 
-
-To solve this problem, we identify the longest increasing subsequence from each position. For each index, we calculate the sum of the longest increasing subsequences on the left and right sides. To find the final answer, \
-we subtract the largest sum obtained from the total length of the array.
-
-
-### Implementation
-<Tabs>
-  <TabItem value="Java" label="Java" default>
-
-```java
-class Solution {
-    public int minimumMountainRemovals(int[] nums) {
-        int n = nums.length;
-
-        // calculating Longest Increasing Subsequence from left side
-        int[] dpLeft = new int[n];
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                if (nums[j] < nums[i]) {
-                    dpLeft[i] = Math.max(dpLeft[i], dpLeft[j] + 1);
-                }
-            }
-        }
-
-        // calculating Longest Increasing Subsequence from right side
-        int[] dpRight = new int[n];
-        for (int i = n - 2; i >= 0; i--) {
-            for (int j = n - 1; j > i; j--) {
-                if (nums[j] < nums[i]) {
-                    dpRight[i] = Math.max(dpRight[i], dpRight[j] + 1);
-                }
-            }
-        }
-
-        // calculate the maximum sum of the Longest Increasing Subsequence 
-       // from the left and right sides.
-        int max = 0;
-        for (int i = 1; i < n - 1; i++) {
-            if (dpLeft[i] > 0 && dpRight[i] > 0) {
-                max = Math.max(max, dpLeft[i] + dpRight[i] + 1);
-            }
-        }
-
-        // substract max value from total length of array
-        return n - max;
-    }
-}
-```
-</TabItem>
-</Tabs>
-
-
-### Complexity 
-
-Let's say there are $N$ elements in an array.
-
-#### Time complexity 
-$
-O(N)
-$
-
-#### Space complexity
-$
-O(N)
-$
-
+<DataTable notag="true" data=
+{[
+	{ id: 1671, name: 'Minimum Number of Removals to Make Mountain Array' },
+]}  
+/>

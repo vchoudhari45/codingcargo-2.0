@@ -1,0 +1,88 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 1671. Minimum Number of Remo...
+
+This page provides solutions for the leetcode problem [1671. Minimum Number of Removals to Make Mountain Array](https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array/).
+
+
+## Problem Explanation
+
+The problem requires us to calculate minimum number of elements to remove to make input array $\text{nums}$​​​ a mountain array.
+
+An array is a mountain array if and only if:
+
+- $\text{arr.length >= 3}$
+- There exists some index $\text{i}$ ($\text{0}$-indexed) with $\text{0 < i < arr.length - 1}$ such that:
+  - $\text{arr[0] < arr[1] < ... < arr[i - 1] < arr[i]}$ 
+  - $\text{arr[i] > arr[i + 1] > ... > arr[arr.length - 1]}$
+
+## Solution
+
+This problem can be solved using the Dynamic Programming. [More such problem can be found here](/data-structures-and-algorithms/dynamic-programming).
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+class Solution {
+    public int minimumMountainRemovals(int[] nums) {
+        int n = nums.length;
+
+        // calculating Longest Increasing Subsequence from left side
+        int[] dpLeft = new int[n];
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) {
+                    dpLeft[i] = Math.max(dpLeft[i], dpLeft[j] + 1);
+                }
+            }
+        }
+
+        // calculating Longest Increasing Subsequence from right side
+        int[] dpRight = new int[n];
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = n - 1; j > i; j--) {
+                if (nums[j] < nums[i]) {
+                    dpRight[i] = Math.max(dpRight[i], dpRight[j] + 1);
+                }
+            }
+        }
+
+        // calculate the maximum sum of the Longest Increasing Subsequence 
+       // from the left and right sides.
+        int max = 0;
+        for (int i = 1; i < n - 1; i++) {
+            if (dpLeft[i] > 0 && dpRight[i] > 0) {
+                max = Math.max(max, dpLeft[i] + dpRight[i] + 1);
+            }
+        }
+
+        // substract max value from total length of array
+        return n - max;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+## Complexity
+
+Let $\text{N}$ be the length of the input array $\text{nums}$
+
+#### Time Complexity 
+
+Each of the $\text{N}$ indices in the input array is visited only once, so time complexity is:
+
+$$
+\text{O(N)}
+$$
+
+#### Space Complexity
+
+Solution uses $\text{O(N)}$ space for storing longest increasing sequence from right and left, so space complexity is:
+
+$$
+\text{O(N)}
+$$
+
