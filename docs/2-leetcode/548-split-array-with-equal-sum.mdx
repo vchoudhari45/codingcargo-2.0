@@ -1,0 +1,88 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 548. Split Array with Equal Sum
+
+This page provides solutions for the leetcode problem [548. Split Array with Equal Sum](https://leetcode.com/problems/split-array-with-equal-sum/).
+
+
+## Problem Explanation 
+
+The problem asks us to check if there is a triplet $\text{(i, j, k)}$ which satisfies the following conditions:
+
+- $\text{0 < i, i + 1 < j, j + 1 < k < n - 1}$
+- The sum of subarrays $\text{(0, i - 1), (i + 1, j - 1), (j + 1, k - 1)}$ and $\text{(k + 1, n - 1)}$ is equal.
+
+## Solution
+
+This problem can be solved using the Prefix Array technique. [More such questions can be found here](/data-structures-and-algorithms/prefix-array).
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
+```java
+import java.util.HashSet;
+
+class Solution {
+    public boolean splitArray(int[] nums) {
+        int[] prefix = new int[nums.length];
+        prefix[0] = nums[0];
+
+        // Calculate prefix sums
+        for (int i = 1; i < nums.length; i++) {
+            prefix[i] = prefix[i - 1] + nums[i];
+        }
+
+        // Picking value of 'j'
+        for (int middle = 3; middle < nums.length; middle++) {
+            HashSet<Integer> set = new HashSet<>();
+
+            // Picking value of 'i'
+            for (int left = 1; left + 1 < middle; left++) {
+                int first = sum(0, left - 1, prefix);
+                int second = sum(left + 1, middle - 1, prefix);
+                if (first == second) {
+                    set.add(first);
+                }
+            }
+
+            // Picking value of 'k'
+            for (int right = middle + 2; right + 1 < nums.length; right++) {
+                int third = sum(middle + 1, right - 1, prefix);
+                int fourth = sum(right + 1, nums.length - 1, prefix);
+                if (third == fourth && set.contains(third)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Method to calculate sum within a range using prefix sums
+    private int sum(int from, int to, int[] prefix) {
+        return prefix[to] - (from - 1 > 0 ? prefix[from - 1] : 0);
+    }
+}
+```
+</TabItem> 
+</Tabs> 
+
+## Complexity 
+
+Let's say there are $\text{N}$ elements in an array.
+
+#### Time complexity 
+
+To pick the triplet $\text{i, j}$, and $\text{k}$ we are running two for loop, so time complexity will be:  
+
+$$
+\text{O(N}^\text{2})
+$$
+
+#### Space complexity
+
+Solution uses prefix array and hashset which will have at most $\text{N}$ element, so space complexity will be: 
+
+$$
+\text{O(N)}
+$$

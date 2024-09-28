@@ -66,7 +66,7 @@ const DataTable = ({ data, notag }) => {
               </td>
 							{!notag && (
                 <td>
-                  <a href={`/${convertToSlug(item.tag)}`}>
+                  <a href={`data-structures-and-algorithms/${convertToSlug(item.tag)}`}>
                     {item.tag}
                   </a>
                 </td>

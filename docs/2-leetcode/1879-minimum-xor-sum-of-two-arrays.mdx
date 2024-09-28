@@ -76,9 +76,7 @@ Let's say there are $\text{N}$ elements in an array, and we need to create $\tex
 
 #### Time Complexity 
 
-The time complexity is $\text{O}(2^{\text{N}})$ for creating a single subset, as we can either choose or skip each element of an array, and $\text{O}(\text{K})$ for creating $\text{K}$ subsets.
-
-Total time complexity will be, 
+The time complexity is $\text{O}(2^{\text{N}})$ for creating a single subset, as we can either choose or skip each element of an array, and $\text{O}(\text{K})$ for creating $\text{K}$ subsets, so total time complexity will be:
 
 $$
 \text{O}(\text{K} * 2^{\text{N}})
@@ -88,7 +86,7 @@ $$
 
 #### Space Complexity
 
-At any given time, the excution stack will have at most $\text{N}$ elements.
+At any given time, the excution stack will have at most $\text{N}$ elements, so total space complexity will be:
 
 $$
 \text{O}(\text{N})
