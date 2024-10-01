@@ -1,0 +1,161 @@
+# Redis Transactions
+
+This page provides an Introduction to Redis Transactions. These are my notes from the RU101 Redis University course.
+
+## Redis Transactions
+
+Redis transactions ensure that all commands in a transaction are serialized and executed sequentially, ensuring isolation and atomicity. Commands queued during a transaction are isolated and private. Other sessions cannot see the changes until the transaction is executed.
+
+Redis does not support nested transactions because commands are queued instead of immediately executed, reducing the need for nested operations.
+
+Below are the commands used to control transactions in Redis
+
+#### MULTI
+
+Starts the transaction, queuing up subsequent commands for execution.
+
+#### EXEC
+
+Executes the queued commands.
+
+#### DISCARD
+
+Discards the queued commands.
+
+Below is an example flow for the transaction
+
+<b> Client 1</b>: Sets a key event:Judo to "Sold Out".
+
+```java
+SET event:Judo "Sold Out"
+OK
+```
+
+<b> Client 2</b>: Starts a transaction using MULTI and queues commands (SET and INCR), but these commands are not executed immediately.
+
+```java
+MULTI
+OK 
+
+SET event:Judo 100
+QUEUED
+
+INCR event:Judo
+QUEUED
+```
+
+<b> Client 1</b>: Performs a GET operation, still seeing the value "Sold Out" since client 2's commands are only queued.
+
+```java
+GET event:Judo
+"Sold Out"
+```
+
+<b> Client 2</b>: Queues a GET command, which is also not executed immediately.
+
+```java
+GET event:Judo
+```
+
+<b> Client 2</b>: Executes EXEC, the queued commands are executed as a batch, changing the value of the key from 100 to 101. The final GET command returns 101.
+
+```java
+EXEC
+1) OK
+2) (integer) 101
+3) "101"
+```
+
+<b> Client 1</b>: Performs a GET operation, and will see updated value.
+
+```java
+GET event:Judo
+101
+```
+
+### Handling Errors 
+
+- If an invalid command is queued, Redis marks the transaction as invalid, and none of the commands will be executed upon EXEC.
+
+-  If a valid command causes a failure, like performing INCR on a list data type, Redis will continue executing the remaining commands.
+
+- Redis does not support rollback to optimize performance. Programming errors should be addressed in pre-production cycles.
+
+
+## Optimistic Concurrency Control
+
+Optimistic locking or optimistic concurrency control is a mechanism that allows you to specify an interest in an object and get a notification if that object has changed. Keyspace notifications is the mechanism that can be used in Redis to satisfy this need. 
+
+Below are the commands for implmenting optimistic concurrency control in Redis.
+
+#### WATCH 
+
+WATCH is used to declare interest in one or more keys. When EXEC is called the transaction will fail if any watched keys have been modified. 
+
+WATCH has to be called before the transaction is started, so you need to decide upfront the keys that need to be observed. Multiple WATCH commands can be executed before the MULTI. The effects are cumulative. Subsequent WATCH commands do not override previous keys being watched.
+
+Watches are also local to the current client and connection. They are not global in scope. Only clients with the watch on a specific key will fail. 
+
+
+#### UNWATCH 
+
+UNWATCH is used to remove all watch keys. If a transaction is successfully completed with EXEC then all keys are automatically unwatched. You do not need to explicitly unwatch the keys in your code after a successful transaction.
+
+
+### Successful Transaction
+
+Below is an example of successful transaction scenario using WATCH and UNWATCH.
+
+<b>Client 1</b>: Watches the key event:Judo with a value of 200
+
+```java
+WATCH event:Judo
+OK
+```
+
+<b>Client 1</b>: starts a transaction, modifies the key to 101, and calls EXEC.
+
+```java
+MULTI
+OK
+
+SET event:Judo 101
+QUEUED
+
+GET event:Judo
+"101"
+```
+
+Since the key has not been modified by another client, the transaction succeeds, and the key is set to 101.
+
+
+### Unsuccessful Transaction
+
+Below is an example of unsuccessful transaction scenario using WATCH and UNWATCH.
+
+<b>Client 1</b>: watches the key event:Judo and starts a transaction to increment its value.
+
+```java
+WATCH event:Judo
+OK
+
+MULTI
+OK
+
+INCR event:Judo
+QUEUED
+```
+
+<b>Client 2</b>: Changes the key value to 100 by decrementing it.
+
+```java
+DECR event:Judo
+(integer) 100
+```
+
+<b>Client 1</b>: Calls EXEC, which fails with a nil response because the watched key has been modified. The transaction is discarded.
+
+```java
+EXEC
+(nil)
+```
