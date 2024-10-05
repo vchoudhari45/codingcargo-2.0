@@ -6,7 +6,7 @@ This page provides an introduction to LocalStack.
 
 LocalStack is complete, localized AWS environment where developers can build, test, profile and debug infrastructure and code ahead of deployment to the cloud.
 
-## Installing LocalStack
+## Install LocalStack
 ```bash
 docker pull localstack/localstack
 
@@ -15,7 +15,7 @@ pip install awscli-local
 brew install localstack/tap/localstack-cli
 ```
 
-## Starting LocalStack
+## Start LocalStack
 
 You can start localstack using localstack command 
 ```bash
@@ -27,50 +27,45 @@ Or you can use docker command
 docker run --rm -it -p 4566:4566 -p 4510-4559:4510-4559 localstack/localstack
 ```
 
-## Stopping LocalStack
+
+## Check LocalStack Status
+```bash
+localstack status
+```
+
+## Create S3 Bucket in LocalStack
+```bash
+aws --endpoint-url=http://localhost:4566 s3 mb s3://my-bucket
+
+make_bucket: my-bucket
+```
+
+## List S3 Bucket in LocalStack
+```bash
+aws --endpoint-url=http://localhost:4566 s3 ls
+
+2024-10-01 20:45:08 my-bucket
+```
+
+## Run Pulumi in LocalStack
+
+Install pulumilocal using below command
+
+```bash
+pip install pulumi-local
+```
+
+## Configure Pulumi in LocalStack
+
+```bash
+pulumi login file://.
+
+pulumi new aws-python --force
+```
+
+## Stop LocalStack
 ```bash
 localstack stop
 
 container stopped: localstack-main
 ```
-
-## Running Terraform on LocalStack
-
-Install tflocal using below command
-
-```bash
-pip install terraform-local
-```
-
-Create a terraform config file main.tf with below content
-```hcl 
-resources "aws_dynamodb_table" "food_store_foods" {
-  name = "foodstore_foods"
-  billing_mod = "PAY_PER_REQUEST"
-  hash_key = "food_id"
-
-  attributes {
-    name = "food_id"
-    type = "S"
-  }
-}
-```
-
-Now, you can initialize terraform local using below command.
-
-```bash
-tflocal init
-```
-
-And then apply terraform configurations, to create a infrastructure in localstack
-```bash
-tflocal apply
-```
-
-:::info
-Use terraform instead of tflocal if you want to create infrastructure in cloud provider. 
-:::
-
-
-## Running Pulumi in LocalStack
-

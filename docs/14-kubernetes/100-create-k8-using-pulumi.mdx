@@ -1,0 +1,55 @@
+# Create K8 Cluster using Pulumi
+
+This page provides steps to create K8 Cluster using Pulumi and GitHub Actions. 
+
+## Steps 
+
+- Create a repo in gitHub.
+- Create a local pulumi project which creates a kubernetes cluster using localStack.
+- In your AWS account create S3 bucket and KMS manually, with least privilege.
+- In gitHub Repo setting, create secretes for AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION & KMS_ARN.
+- Write gitHub action in Pulumi something like for github push event to any branch, something like below.
+
+```yaml
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Set up Pulumi
+      uses: pulumi/actions@v3
+      with:
+        version: 'latest'
+
+    - name: Install Dependencies
+      run: |
+        pip install pulumi pulumi-aws
+
+    - name: Configure AWS Credentials
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      run: |
+        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+        aws configure set region $AWS_DEFAULT_REGION
+
+    - name: Initialize prod Pulumi Stack
+      run: |
+        pulumi stack init prod --secrets-provider="awskms://${{ secrets.KMS_UAT_ARN }}"
+
+    - name: Pulumi Up
+      run: |
+        pulumi up --yes
+```
+
+Once changes are merge it will create a kuberntes cluster in AWS.

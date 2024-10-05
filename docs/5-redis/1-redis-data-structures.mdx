@@ -182,7 +182,7 @@ INCRBYFLOAT user:23:visit-count 0.1
 	- It is collection of field value pair
 	- Hashes are mutable
 	- Stores field value as string, which means values will not have nested array or objects
-	- All hashes commands takes $O(1)$ time, except `HGETALL` which takes $O(N)$ time where $N$ is number of fields in hash
+	- All hashes commands takes $O(1)$ time, except HGETALL which takes $O(N)$ time where $N$ is number of fields in hash
 	- Typical usecases are Rate Limiting, Session Cache
 
 Below are the commands that works on Redis Hash Data Types.
@@ -415,7 +415,7 @@ Typical approach is to use secondary indexes or full text search like Solr and L
 
 ### Object Inspection
 
-- Create a key for each event using the domain name `event` and a unique identifier called `sku`.
+- Create a key for each event using the domain name $\text{event}$ and a unique identifier called $\text{sku}$.
 - Use SCAN to find all matching domain objects, retrieve each object using GET in our application code, and inspect them individually to verify if they meet the criteria.
 
 
