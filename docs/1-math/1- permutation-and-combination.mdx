@@ -1,0 +1,993 @@
+---
+slug: /permutation-and-combination
+---
+
+# Permutation & Combination
+
+This page provides an introduction to Permutation and Combination. These are my notes from the Youtube Videos [Part I](https://www.youtube.com/watch?v=THHeijYTfKs) and [Part II](https://www.youtube.com/watch?v=e7Is5-jBNDo).
+
+## Overview
+
+Permutations and combinations are fundamental concepts in combinatorics, a branch of mathematics that deals with counting and arranging objects. These concepts are used to solve problems related to arranging, selecting, or counting items in various ways.
+
+#### Basic Principle of Counting
+
+There are two basic principles of counting
+
+#### Multiplication Principle
+
+It is used to determine the total number of possible outcomes when two or more independent events or choices are considered together. If there are $\text{n}$ ways to do one thing and $\text{m}$ ways to do another thing independently, then there are $\text{n * m}$ ways to do both things together.
+
+#### Example 1
+
+Total number of ways of attempting a question paper containting $10$ True/False type questions(Every question should be answered).
+
+#### Solution
+
+Each question can be answered either True/False. That means there are two ways to answer each question, so total ways is $2^{10}$
+
+
+#### Example 2
+
+Total number of ways of posting $3$ letters in $4$ letter boxes.
+
+#### Solution
+
+Every letter can be placed into one of the $4$ available letter boxes. That means each letter has $4$ distinct choices for its destination, resulting in a total of $4^3$ possible ways.
+
+
+#### Example 3
+
+Total number of ways in which $6$ person can occupy $4$ chairs.
+
+#### Solution
+
+Number of ways of arranging $r$ different items in a line $ = \text{r}!$. As each chair is occupied, the number of available options decreases starting from the initial count of $6$ people. 
+
+So answer is: $6 * 5 * 4 * 3 = 360$.
+
+
+#### Example 4
+
+If you have $10$ locks and $10$ corresponding keys, then find maximum number of attempts required to open all the locks.
+
+
+#### Solution
+
+For each lock we can do maximum of $10$ attempts, So maximum number attempts will be $10 * 10 = 100$.
+
+
+#### Example 5
+
+Given digits $1,2,3,4,5$ count all possible $5$ digit numbers when Repetition of digits is allowed and when Repetition of digits is not allowed.
+
+
+#### Solution
+
+When repetition of digits is allowed, You have $5$ choices $(1, 2, 3, 4, 5)$ for each of the $5$ positions in the $5$-digit number, so answer will be $5^5$
+
+When repetition of digits is not allowed, You have $5$ choices for the first position. After you've chosen one digit for the first position, you have $4$ choices left for the second position, then $3$ choices for the third position, $2$ choices for the fourth position, and $1$ choice for the fifth position, so answer will be $5!$.
+
+
+#### Example 6
+
+Given digits $0,1,2,3,4$ count all possible $5$ digit numbers when Repetition of digits is allowed and when Repetition of digits is not allowed.
+
+
+#### Solution
+
+When repetition of digits is allowed, For each of the four positions in the $5$-digit number, you can select from a set of $5$ choices $(0, 1, 2, 3, 4)$. However, for the first position, you have $4$ choices $(1, 2, 3, 4)$. 
+
+So answer will be $4 * 5^4$.
+
+
+When repetition of digits is not allowed, You have $4$ choices$(1,2,3,4)$ for the first position. After you've chosen one digit for the first position, you have $4$ choices left for the second position, then $3$ choices for the third position, $2$ choices for the fourth position, and $1$ choice for the fifth position. 
+
+So answer will be $4 * 4 * 3 * 2 * 1 = 96$.
+
+
+#### Example 7
+
+Given digits $0,1,2,3,4$ count all possible $5$ digit odd numbers when repetition of digit is NOT allowed.
+
+#### Solution
+
+In order for the number to be odd, the last digit must be either $1$ or $3$. Therefore, the fifth position has $2$ different choices.
+
+The first position has $3$ different choices, which can be either $(1, 2, 4)$ or $(2, 3, 4)$. After selecting the first and fifth positions, you have $3$ choices left for the second position, $2$ different choices left for the third position, and only $1$ choice for the fourth position.
+
+So answer will be $2 * 3 * 3 * 2 * 1 = 36$.
+
+
+### Addition Principle
+
+It is used to determine the total number of possible outcomes when you have mutually exclusive or disjoint events. If there are $\text{n}$ ways to do one thing and $\text{m}$ ways to do another thing, and these events are mutually exclusive (meaning they cannot happen at the same time), then the total number of ways to do either one of them is $\text{n + m}$.
+
+
+#### Example 1
+
+In a hall, there are a total of $11$ individuals gathered for an event. What is the total number of possible handshakes among them?
+
+#### Solution
+
+- The first person shakes hands with $10$ others.
+- The second person shakes hands with $9$ others (skipping the first person).
+- The third person shakes hands with $8$ others (skipping the first and second persons)
+
+This pattern continues until the tenth person shakes hands with $1$ other person, So to calculate the total number of handshakes, you can sum up the individual handshakes for each person.
+
+So answer is: $10 + 9 + 8 + 7 + 6 + 5 + 4 + 3 + 2 + 1 = \large \frac {10 \ \ * \ \  11}{2}$ $= 55 $
+
+
+## Permutation
+
+Permutation involves first selection and then arrangement. Number of ways to arrange a permutation of $\text{r}$ items from set of $\text{n}$ different items is denoted by $=$ $^\text{n}\text{P}_\text{r}$.
+
+
+$$
+^\text{n}\text{P}_\text{r} = \frac{\text{n}!}{\text{(n - r)}!}
+$$
+
+
+### Arrangement with Non-unique Items
+
+- Number of arrangements of $\text{A, B, C, D, E}$ (taken all at a time) $= 5!$
+- Number of arrangements of $\text{A, A, A, B, C}$ (taken all at a time) $= \large \frac{5!}{3!}$
+- Number of arrangements of $\text{A, A, A, B, B, C, C}$ (taken all at a time) $= \large \frac{7!}{(3! \ \ * \ \ 2! \ \ * \ \ 2!)}$
+
+
+### Restricted Arrangement
+
+Arrangement with some condition.
+
+
+#### Example 1
+
+If all the letters of the word $\text{PATLIPUTRA}$ are to be arranged then find number of words(s):
+
+- Starting with $\text{A}$
+- Start and end with vowel
+- Relative order of vowel remains the same
+- Vowels occupy even places
+
+#### Solution
+
+Let's first count total number of each letters,
+
+$\text{P} = 2$, 
+$\text{A} = 2$,
+$\text{T} = 2$,
+$\text{L} = 1$,
+$\text{I} = 1$,
+$\text{U} = 1$,
+$\text{R} = 1.$
+
+#### Starting with $\text{A}$
+
+If $\text{A}$ is fixed at $1^{\text{st}}$ position, there will be $9$ remaining positions. Remaining $9$ letters can be arranged on $9$ differnt position in $9$ ways. 
+
+Since word $\text{PATLIPUTRA}$ has duplicate letter, arragment of all such letter should be removed.
+
+So total number of words starting with $\text{A}$ will be $\large \frac{9!}{2! \ \ * \ \ 2!}$
+
+
+#### Start and End with Vowel
+
+There are total $3$($\text{A, I, U}$) vowels in world $\text{PATLIPUTRA}$, so there are $7$ cases possible as below.
+
+<b>Case I</b>: Starts with $\text{A}$ and ends with $\text{A}$.
+
+$$
+\frac{8!}{2! \ \ * \ \ 2!}
+$$
+
+
+<b>Case II</b>: Starts with $\text{A}$ and ends with $\text{I}$.
+
+$$
+\frac{8!}{2! \ \ * \ \ 2!}
+$$
+
+<b>Case III</b>: Starts with $\text{I}$ and ends with $\text{A}$.
+
+$$
+\frac{8!}{2! \ \ * \ \ 2!}
+$$
+
+<b>Case IV</b>: Starts with $\text{A}$ and ends with $\text{U}$.
+
+$$
+\frac{8!}{2! \ \ * \ \ 2!}
+$$
+
+<b>Case V</b>: Starts with $\text{U}$ and ends with $\text{A}$.
+
+$$
+\frac{8!}{2! \ \ * \ \ 2!}
+$$
+
+<b>Case VI</b>: Starts with $\text{U}$ and ends with $\text{A}$.
+
+$$
+\frac{8!}{2! \ \ * \ \ 2! \ \ * \ \ 2!}
+$$
+
+<b>Case VII</b>: Starts with $\text{U}$ and ends with $\text{A}$.
+
+$$
+\frac{8!}{2! \ \ * \ \ 2! \ \ * \ \ 2!}
+$$
+
+So total number of words that starts and ends with vowel is addition of all of the above cases.
+
+
+#### Relative Order of Vowel Remains the Same
+
+Relative order means, position $2^{\text{nd}}$, $5^{\text{th}}$, $7^{\text{th}}$
+$10^{\text{th}}$ should still be occupied by vowels as they are occupied by vowels in given word $\text{PATLIPUTRA}$. 
+
+Let's first write down vowels and consonants list. Vowels are $\text{A} = 2$, $\text{I} = 1$, $\text{U} = 1$ and consonants are $\text{P} = 2$, $\text{T} = 2$, $\text{L} = 1$, $\text{R} = 1$.
+
+$4$ vowels can be arragned on $4$ position in $4!$ ways out of which $2$ vowels are repeating so there are $\large \frac{4!}{2!}$ ways.
+
+Similarly, consonants can be arranged amoung themself in $\large \frac{6!}{2! \ \ * \ \ 2!}$ ways.
+
+So total number of words where relative order of vowel remains the same will be: 
+
+$$
+\frac{4!}{2!} * \frac{6!}{2! \ \ * \ \ 2!}
+$$
+
+#### Vowels Occupy Even Places
+
+There are total $5$ even position in word $\text{PATLIPUTRA}$ and total $4$ vowels, so any $4$ position can selected in $^5\text{C}_4$ ways. Also, $4$ vowels can be arranged among themself in $4!$ ways of which $2$ are same so vowels can be arranged in $\large \frac{4!}{2!}$ ways.
+
+So total number of ways to arrange vowels in even position is $^5\text{C}_4 * \large \frac{4!}{2!}$.
+
+Now, all the remaining position will be occupied by consonants, so total number of ways consonants will be placed in remaining position with arragement among themself is $^6\text{C}_6 * \large \frac{6!}{2! \ \ * \ \ 2!}$.
+
+So total number of words where vowels occupy even places will be:
+
+$$
+^5C_4 \ \  * \ \  \frac{4!}{2!} \ \ * \ \ ^6C_6 \ \ * \ \ \frac{6!}{2! \ \ * \ \ 2!}
+$$
+
+
+### Rank of Word
+
+Find the rank of a word $\text{SACHIN}$ if the letters of the word $\text{SACHIN}$ are permuted and are arranged in an alphabetical order as in an English dictionary.
+
+In the dictionary, the words appearing first will begin with $\text{A}$, then $\text{C}$, then $\text{H}$, then $\text{I}$, then $\text{N}$ and at last $\text{S}$.
+
+Let us fix the first position as $\text{A}$, remaining $5$ places above can be filled with letters $\text{C, H, I, N, S}$ in $5!$ ways.
+
+Similarly, fixing the first letter as $\text{C}$, the remaining $5$ places can be filled with letters $\text{A, H, I, N, S}$ in $5!$ ways.
+
+Now, $\text{SACHIN}$ there are $5$ letters($\text{A, C, H, I, N}$) come before $S$ in the alphabet, so there must be $5 * 5!$ words with a lower alphabetical rank.
+
+Based on that let's calculate table below: 
+
+|Alphbet|Rank of Alphabet |Rank less than itself to right of it|Factorial in decending order|
+|-------|-----------------|------------------------------------|----------------------------|
+|S      |6                |5                                   |5!                          |
+|A      |1                |0                                   |4!                          |    
+|C      |2                |0                                   |3!                          |
+|H      |3                |0                                   |2!                          |
+|I      |4                |0                                   |1!                          |
+|N      |5                |0                                   |0                           |
+
+
+So, rank of word $\text{SACHIN}$ is multiplication of last two columns $+$ $ 1$.
+
+
+### GAP Method
+
+Gap method is used when some objects or things are to be kept seperated.
+
+#### Example 1
+
+Number of arragements of all letters of words $\text{EQUATION}$ such that no two consonants appears together.
+
+#### Solution
+
+There are $3$ consonents $\text{QTN}$ and $5$ vowels $\text{EUAIO}$. 
+
+To ensure that the consonants are separated, we'll start by arranging the $5$ vowels, which creates $6$ empty spaces between them. From these $6$ spaces, we can then select $3$ locations in $^6\text{C}_3$ different ways.
+
+Additionally, $5$ vowels can be arranged among themselves in $5!$ ways and $3$ consonents can be arranged among themseleve in $3!$ ways.
+
+So total number of arragements will be: $^6\text{C}_3 * 3! * 5!$.
+
+
+### Tie Method
+
+Tie method is used when some objects or things are to be kept together.
+
+#### Example 1
+
+Number of arragements of all the letters of words $\text{EQUATION}$ such that all vowels should apprear together.
+
+#### Solution
+
+There are $3$ consonents $\text{QTN}$ and $5$ vowels $\text{EUAIO}$. 
+
+To keep the vowels together we first arrange the consonents $\text{QTN}$ which will create $4$ empty places for vowels to choose from, which can be done in $^4\text{C}_1$ ways. In addition to that $3$ consonents and $5$ vowels can arrange among themself in $3!$ and $5!$ different ways.
+
+So total number of words such that all vowels appears together will be: $^4\text{C}_1 * 3! * 5!$.
+
+
+### Circular Permutation
+
+Number of ways in which $\text{n}$ different things can be arranged on circle is $\text{(n - 1)}!$. 
+
+Number of ways in which $\text{n}$ different things can be arranged on circle when clockwise and anticlockwise arrangement are considered as same is $\large \frac{(\text{n} \ \  -  \ \ 1)!}{2}$.
+
+
+## Combination
+
+Combination involves only selection. Number of ways of selecting $\text{r}$ items from set of $\text{n}$ different items is denoted by $=$ $^\text{n}\text{C}_\text{r}$.
+
+
+$$
+^\text{n}\text{C}_\text{r} = \frac{\text{n}!}{\text{r}!\text{(n - r)}!}
+$$
+
+
+#### Example 1
+
+There are two urns. Urn $\text{A}$ has $3$ distinct red balls and urn $\text{B}$ has $9$ distinct blue balls. From each urn $2$ balls are taken out at random. Count the number of ways in which this can be done.
+
+
+#### Solution
+
+- $2$ balls can be drawn from Urn $\text{A}$ in $^3\text{C}_2$ ways.
+- $2$ balls can be drawn from Urn $\text{B}$ in $^9\text{C}_2$ ways.
+
+So total number of ways = $^3\text{C}_2$ * $^9\text{C}_2$ $ = 108$
+
+
+#### Example 2
+
+A Committee of $11$ members is to be formed from $8$ males and $5$ females. calculate number of ways the committee is formed with at least $6$ males.
+
+#### Solution
+
+Here question is asking for at least $6$ males, that means committee can have $6$, $7$ or all $8$ males.
+
+- Ways for selecting of $6$  males  ∗  Ways for selecting of  $5$  females +
+- Ways for selecting of $7$  males  ∗  Ways for selecting of  $4$  females +
+- Ways for selecting of $8$  males  ∗  Ways for selecting of  $3$  females.
+
+So total number of ways $= (^8\text{C}_6  ∗ ^5\text{C}_5) + (^8\text{C}_7 ∗ ^5\text{C}_4) + (^8\text{C}_8  ∗ ^5\text{C}_3)  =  78$
+
+
+#### Example 3
+
+Total $10$ points are there, out of which $4$ are collinear, then find total number of different straight lines that can be formed by joinning these points.
+
+<center>
+<img src="/img/permutations-and-combinations-1.svg" alt="permutations-and-combinations-1.svg" style={{ width: '300px', height: 'auto' }}/>
+</center>
+
+#### Solution
+
+To determine the count of straight lines, we need to choose two points from the following possible cases.
+
+<b>Case I</b>: Selecting both points from half circle.
+
+$$
+^6\text{C}_2
+$$
+
+<b>Case II</b>: One point from half circle and one point from line.
+
+$$
+^6\text{C}_1 * ^4\text{C}_1
+$$
+
+<b>Case III</b>: Both points from line.
+
+$$
+1
+$$
+
+So total number of ways $15 + 24 + 1 = 40$.
+
+#### Example 4
+
+There are $4$ straight lines, $3$ circles and $2$ parabola are present, then find maximum number of intersection possible.
+
+#### Solution
+
+Here question is asking for maximum number of intersections possible, so we should think of all the possible intersection.
+
+Line to Line intersection: $2$ lines can give us maximum of $1$ intersection point.
+
+$$
+^4\text{C}_2 * 1
+$$
+
+Line to Circle intersection: $1$ line and $1$ circle can give us maximum of $2$ intersection points.
+
+$$
+^4\text{C}_1 * ^3\text{C}_1 * 2
+$$
+
+Line to Parabola intersection: $1$ line and $1$ parabola can give us maximum of $2$ intersection points.
+
+$$
+^4\text{C}_1 * ^2\text{C}_1 * 2
+$$
+
+Circle to Circle intersection: $2$ circles can give us maximum of $2$ intersection points.
+
+$$
+^3\text{C}_2 * 2
+$$
+
+
+Circle to Parabola intersection: $1$ circle and $1$ parabola can give us maximum of $4$ intersection points
+
+$$
+^3\text{C}_1 * ^2\text{C}_1 * 4
+$$
+
+Parabola to Parabola intersection: $2$ parabola can give us maximum of $2$ intersection point.
+
+$$
+^2\text{C}_2 *4
+$$
+
+So total number of intersections will be addition of all of the above cases.
+
+
+#### Example 5
+
+Count total possible squares and rectangles in a given arragment.
+
+<center>
+<img src="/img/permutations-and-combinations-2.png" alt="permutations-and-combinations-2.png" style={{ width: '300px', height: 'auto' }}/>
+</center>
+
+#### Solution
+To count all rectagles, we select any $2$ vertical lines from given $7$ vertical lines and select any $2$ horizontal lines from given $8$ horizontal lines. So total number of rectangles $^7\text{C}_2 * ^8\text{C}_2 = 49$.
+
+To count all squares, we need to consider following cases: 
+
+- Total squares of unit $1 * 1 = 7 * 6 = 42$
+- Total squares of unit $2 * 2 = 6 * 5 = 30$
+- Total squares of unit $3 * 3 = 5 * 4 = 20$
+- Total squares of unit $4 * 4 = 4 * 3 = 12$
+- Total squares of unit $5 * 5 = 3 * 2 = 6$
+- Total squares of unit $6 * 6 = 2 * 1 = 2$
+
+So total number of squares $42 + 30 + 20 + 12 + 6 + 2 = 112$
+
+
+
+### Restricted Selection
+
+Selection with some condition.
+
+#### Example 1
+
+$5$ boys are selected out of $7$ boys such that two particular boys will NOT server together.
+
+
+#### Solution
+
+Let's say two particular boys are boy $\text{A}$ and boy $\text{B}$, following cases are possible if two particular boys will NOT server together.
+
+<b>Case I </b>: Boy $\text{A}$ will be selected and Boy $\text{B}$ will not be selected.
+
+$$
+^5\text{C}_4
+$$
+
+
+<b>Case II </b>: Boy $\text{A}$ will not be selected and Boy $\text{B}$ will be selected.
+
+$$
+^5\text{C}_4
+$$
+
+<b>Case III</b>: Boy $\text{A}$ will not be and selected Boy  $\text{B}$ will not be selected
+
+$$
+^5\text{C}_5
+$$
+
+So total number of ways will be $5 + 5 + 1 = 11$
+
+
+#### Example 2
+
+
+$5$ boys are selected out of $7$ boys such that two particular boys will always server together.
+
+#### Solution
+
+Let's say two specific boys are boy $\text{A}$ and boy $\text{B}$, following cases are possible if two particular boys will always server together.
+
+<b>Case I</b>: Boy $\text{A}$ will be selected and Boy $\text{B}$ will be selected
+
+$$
+^5\text{C}_3
+$$
+
+
+<b>Case II</b>: Boy $\text{A}$ will not be selected and Boy $\text{B}$ will not be selected
+
+$$
+^5\text{C}_5
+$$
+
+So total number of ways will be: $10 + 1 = 11$.
+
+
+### Selections with Unique & Non-Unique Items
+
+|n-identical things                           | n-different things                                 |
+|---------------------------------------------|----------------------------------------------------|
+|Number of ways of selecting zero things $= 1$|Number of ways of selecting zero things $ = 1$      |
+|Number of ways of selecting one things $= 1$ |Number of ways of selecting one things $ = $ $^nC_1$|
+|Number of ways of selecting two things $= 1$ |Number of ways of selecting two things $ = $ $^nC_2$|
+...
+|Number of ways of selecting all things $= 1$ |Number of ways of selecting all things $ = $ $^nC_n$|
+|Total possible selection $= (n + 1)$         |Total possible selection = $2^n$                    |
+
+
+#### Example 1
+
+Assuming the balls to be identical except for different in colors, calculate the number of ways in which one or more balls can be selected from $10$ white, $9$ green and $7$ black balls.
+
+#### Solution
+
+Total number of ways to select one or more balls from $10$ white, $9$ green and $7$ black balls will be: 
+
+(select $0$ or more balls from $10$ white balls) $*$ (select $0$ or more balls from $9$ green balls) $*$ (select $0$ or more balls from $7$ black balls) $ - \ \ 1$.
+
+By applying the formula $ = (n + 1)$ to choose $\text{x}$ things from $\text{n}$ identical items we get $11$ ways for white ball, $10$ ways for green ball and $8$ ways for black ball.
+
+:::info 
+We subtract $1$ to exclude the scenario where we choose zero balls from the white, green, and black sets, as we require at least one ball. 
+::::
+
+So total number of ways will be $11 * 10 * 8 - 1 = 879$.
+
+### Divisor 
+
+If number $\text{N}$ can be divided into prime factor as $\text{N} = 2^{\alpha} * 3^{\beta} * 5^{\gamma} * 7^{\delta} * ...$ then total number of divisor will be: 
+
+$$
+(\alpha + 1) * (\beta + 1) * (\gamma + 1) * (\delta + 1) \space * ....
+$$
+
+#### Proof
+
+Imagine you have a bag containing $\alpha$ identical objects, and you want to determine all possible selections of $\alpha$ objects. Applying the formula for all possible selections on $\alpha$ identical objects you get $(\alpha + 1)$. Similarly for $\beta$, $\gamma$, and $\delta$.
+
+Hence proved that, total number of divisor will be: 
+
+$$
+(\alpha + 1) * (\beta + 1) * (\gamma + 1) * (\delta + 1) \space * ....
+$$
+
+
+:::info
+To get total number of proper divisor, you subtract $2$ from above equation, as proper divisors are those that do not include $1$ and the number itself.
+:::
+
+#### Example 1
+
+Calculate total number of unique ways to express $\text{N} = 8$ as product of two factors.
+
+#### Solution
+
+There are $4$ divisors for $\text{N} = 8$ and those are $1, 2, 4$ and $8$, now if we choose those divisor as a first factor we get: 
+
+- $8 = 2^0 * 2^3$
+- $8 = 2^1 * 2^2$
+- $8 = 2^2 * 2^1$
+- $8 = 2^3 * 2^0$
+
+Here, the combinations of the last two products are identical to those of the first two products, so there are only $2$ unique ways.
+
+You can calculate unique ways to express $\text{N}$ as product of two factors, when $\text{N}$ is a perfect square using formula below:
+
+$$
+\frac{\text{Total number of divisors}}{2}
+$$
+
+So number of unique ways to express $\text{N} = 8$ as product of two factors will be $2$.
+
+
+#### Example 2
+
+Calculate total number of unique ways to express $\text{N} = 16$ as product of two factors.
+
+
+#### Solution
+
+There are $5$ divisors for $\text{N} = 16$ and those are $1, 2, 4, 8$ and $16$, now if we choose those divisor as a first factor we get: 
+
+- $16 = 2^0 * 2^4$
+- $16 = 2^1 * 2^3$
+- $16 = 2^2 * 2^2$
+- $16 = 2^3 * 2^1$
+- $16 = 2^4 * 2^0$
+
+Here, the combinations of the last three products are identical to those of the first three products, so there are only $3$ unique ways.
+
+You can also calculate unique ways to express $\text{N}$ as product of two factors, when $\text{N}$ is <b>NOT</b> a perfect square using formula below:
+
+$$ 
+\frac{\text{Total number of divisors + 1}}{2}
+$$
+
+
+So number of unique ways to express $\text{N} = 16$ as product of two factors will be $3$.
+
+
+
+### Division into Group 
+
+Below is an example of dividing different items into group when group size are different.
+
+#### Example 1
+
+Divide $9$ different things into group size of $2$, $3$ and $4$.
+
+#### Solution
+
+For the group of size $2$, you have $9$ choices for the first item and $8$ choices for the second item. However, since the order within the group doesn't matter (i.e., choosing $\text{A}$ and then $\text{B}$ is the same as choosing $\text{B}$ and then $\text{A}$), you need to divide by $2!$ (the number of ways to arrange $2$ items within a group). 
+
+So for the first group, we have: 
+
+$$
+\frac{9 \ \  * \ \ 8}{2!}
+$$
+
+
+For the group of size $3$, you have $7$ choices for the first item, $6$ choices for the second item, and $5$ choices for the third item. Again, you need to divide by $3!$ (the number of ways to arrange $3$ items within a group).
+
+So for the second group, we have:
+
+$$
+\frac{7 \ \  * \ \ 6 \ \ * \ \ 5}{3!}
+$$
+
+Similarly, for the group of size $4$, you have $4$ choices for the first item, $3$ choices for the second item, $2$ choices for the third item, and $1$ choice for the fourth item. Once more, you need to divide by $4!$ (the number of ways to arrange $4$ items within a group).
+
+So for the third group, we have:
+
+$$
+\frac{4 \ \  * \ \ 3 \ \ * \ \ 2 \ \ * \ \ 1}{4!}
+$$
+
+
+Total number of ways to divide $9$ different things into group size of $2$, $3$ and $4$ will be:
+
+$$
+\frac{9!}{2! \ \ * \ \ 3! \ \ * \ \ 4!}
+$$
+
+
+Below is an example of dividing items into group when group size are same.
+
+#### Example 2
+
+Divide $7$ different things into group size of $1$, $2$, $2$, $2$.
+
+#### Solution
+
+For the group of size $1$, you have $7$ choices because each item can be its own group.
+
+For the first group of size $2$, you have $6$ choices for the first item and $5$ choices for the second item. However, since the order within the group doesn't matter, you need to divide by $2!$ (the number of ways to arrange $2$ items within a group).
+
+So for the first group of size $2$, we have:
+
+$$
+\frac{6 \ \ * \ \ 5}{2!}
+$$
+
+For the second group of size $2$, you have $4$ choices for the first item and $3$ choices for the second item. Again, you need to divide by $2!$ (the number of ways to arrange $2$ items within a group).
+
+So for the second group of size 2, we have:
+
+$$
+\frac{4 \ \ * \ \ 3}{2!}
+$$
+
+Similarly, for the third group of size $2$, you have $2$ choices for the first item and $1$ choice for the second item. Once more, you need to divide by $2!$ (the number of ways to arrange $2$ items within a group).
+
+So for the third group of size $2$, we have:
+
+$$
+\frac{2 \ \ * \ \ 1}{2!}
+$$
+
+
+Additionally, because we have three groups, each with a size of $2$, we also divide by $3!$. So total number of ways to divide $7$ different things into group size of $1$, $2$, $2$, $2$ will be:
+
+$$
+\frac{7!}{1! \ \ * \ \ 2! \ \ * \ \ 2! \ \ * \ \ 2!  \ \ * \ \ 3! }
+$$
+
+### Distribution of Different Object
+
+Below are some of the examples of dividing different items into group when group size is not provided.
+
+#### Example 1
+
+Distribute $6$ different things across $3$ different children such that every child get at least one.
+
+#### Solution
+
+First let's divide $6$ different things into groups of $3$.
+
+<b>Case I</b>: Number of ways to divide $6$ different things into a group of $1, 2, 3$ will be: 
+
+$$
+\frac{6!}{1! \ \ * \ \ 2! \ \ * \ \ 3!}
+$$
+
+
+<b>Case II</b>: Number of ways to divide $6$ different things into a group of $1, 1, 4$ will be:
+
+$$
+\frac{6!}{1! \ \ * \ \ 4! \ \ * \ \ 1! * \ \ 2!}
+$$
+
+<b>Case III</b>: Number of ways to divide $6$ different things into a group of $2, 2, 2$ will be:
+
+$$
+\frac{6!}{2! \ \ * \ \ 2! \ \ * \ \ 2! * \ \ 3!}
+$$
+
+
+In addition to that total number of ways to distribute these $3$ group amoung three children is $3!$. 
+
+
+So total number of ways to distribute $6$ different things across $3$ different children such that every child get at least one will be:
+
+$$
+3! \ \ * \ \ \large( \normalsize
+\frac{6!}{1! \ \ * \ \ 2! \ \ * \ \ 3!} + 
+\frac{6!}{1! \ \ * \ \ 1! \ \ * \ \ 4! * \ \ 2!} + 
+\frac{6!}{2! \ \ * \ \ 2! \ \ * \ \ 2! * \ \ 3!}
+\large)
+$$
+
+### Distribute of Identical Object 
+
+Below are some of the examples of dividing identical items into group when group size is not provided.
+
+#### Example 1
+
+Total number of ways of distributing $5$ identical objects among $3$ persons, when zero distribution is allowed.
+
+#### Solution
+
+To distribute $5$ identical objects into $3$ person we will need $2$ sticks. 
+
+<center>
+O O O O O | |
+</center>
+
+Now, we can arrange all 7 objects among each other in 7! ways. However, since there are 5 identical things, we need to divide by 5! to account for the repeated arrangements. Additionally, there are 2 identical sticks, so we must also divide by 2!.
+
+So total number of ways will be:
+
+$$
+\frac{7!}{5! \ \ * \ \ 2!}
+$$
+
+
+#### Example 2
+
+Total number of ways of distributing $5$ identical objects among $3$ persons, such that each gets at least $1$.
+
+#### Solution
+
+$5$ identical objects will create total of $4$ empty spaces around them as represented by underscore(_) below: 
+
+<center>
+O _ O _ O _ O _ O 
+</center>
+
+:::info
+Here we are not putting underscore(_) at the begining and at the end of the identical objects, because as per the problem we want each person to get at least $1$ object.
+:::
+
+Since we want to distribute $5$ objects among $3$ people, we need to choose $2$ spaces from the $4$ empty spaces(_), so total number of ways are $^4\text{C}_2$.
+
+
+### Integral Solution of Equation
+
+Below are some of the examples of solving Integral equation. 
+
+#### Example 1
+
+Given equation $\text{x}_1 + \text{x}_2 + \text{x}_3 + ... + \text{x}_\text{r} = \text{n}$, calculate number of solutions if $\text{x}_1, \text{x}_2, \text{x}_3, .... \text{x}_\text{r} \in \text{N}$ i.e. $\text{x}_1, \text{x}_2, \text{x}_3, .... \text{x} > 0$.
+
+
+#### Solution
+
+Think of it as dividing $\text{n}$ identical objects into $\text{r}$ different children when zero distribution is not allowed. Let's say $\text{n} = 5$ and $\text{r} = 3$ distribution will look like below:
+
+<center>
+O _ O _ O _ O _ O 
+</center>
+
+Formula for calculating number of ways to distribute $\text{n}$ identical objects into $\text{r}$ different people is below: 
+
+$$
+^{(\text{n} - 1)}\text{C}_{(\text{r} - 1)}
+$$
+
+
+#### Example 2
+
+Given equation $\text{x}_1 + \text{x}_2 + \text{x}_3 + ... + \text{x}_\text{r} = \text{n}$, calculate number of solutions if $\text{x}_1, \text{x}_2, \text{x}_3, .... \text{x}_\text{r} \in \text{W}$ i.e. $\text{x}_1, \text{x}_2, \text{x}_3, .... \text{x} >= 0$.
+
+#### Solution
+
+Think of it as dividing $\text{n}$ identical objects into $\text{r}$ different people when zero distribution is allowed. Let's say $\text{n} = 5$ and $\text{r} = 3$ distribution will look like below:
+
+<center>
+O O O O O | |
+</center>
+
+Formula for calculating number of ways to distribute $\text{n}$ identical objects into $\text{r}$ different children is below: 
+
+$$
+^{(\text{n + r} - 1)}\text{C}_{(\text{r} - 1)}
+$$
+
+
+#### Example 3
+
+$\text{x + y + z + t = 15}, \ \ (\text{x, y, z} \in \text{non-negative integers})$, calculate number of solutions.
+
+#### Solution
+
+Think of this problem as distributing $15$ identical objects into $4$ groups, such that each group has zero or more objects.
+
+<center>
+O O O O O O O O O O O O O O O | | | 
+</center>
+
+So total number of solutions for equations will be:
+
+$$
+\frac{18!}{3! \ \ * \ \ 15!}
+$$
+
+
+#### Example 4
+
+$\text{x + y + z + t = 16}, \ \ (\text{x >= 1, y >= 2, z >= 3, t >= 0})$, calculate number of solutions.
+
+#### Solution
+
+- Substract $1$ from right hand side to satisfy the condition for $\text{x}$.
+- Substract $2$ from right hand side to satisfy the condition for $\text{y}$.
+- Substract $3$ from right hand side to satisfy the condition for $\text{z}$.
+
+New equation after satisfying condition for $\text{x, y, }$ and $\text{z}$ will be: 
+
+$$
+\text{x' + y' + z' + t = 10}
+$$
+
+Now, think of this problem as distributing $10$ identical objects into $4$ groups, such that each group has zero or more objects.
+
+<center>
+O O O O O O O O O O | | | 
+</center>
+
+So total number of solutions for equations will be:
+
+$$
+\frac{13!}{3! \ \ * \ \ 10!}
+$$
+
+
+#### Example 5
+
+$\text{x + y + z + t = 16}, \ \ (\text{x, y, z, t} \in \text{odd positive integers})$, calculate number of solutions.
+
+#### Solution
+
+To satisfy condition replacing $\text{x, y, z, t}$ with below values: 
+
+- $\text{x = 2p + 1}$
+- $\text{y = 2q + 1}$
+- $\text{z = 2r + 1}$
+- $\text{t = 2s + 1}$
+
+New equation after satisfying condition for $\text{x, y, z}$ and $\text{t}$ will be: 
+
+$\text{p + q + r + s  = 6}, \ \ (\text{p, q, r, s} \in \text{W})$
+
+Now, think of this problem as distributing $6$ identical objects into $4$ groups, such that each group has zero or more objects.
+
+<center>
+O O O O O O | | | 
+</center>
+
+So total number of solutions for equations will be:
+
+$$
+\frac{9!}{6! \ \ * \ \ 3!}
+$$
+
+
+#### Example 6
+
+In how many ways $3$ boys and $15$ girls can sit together in a row such that between every $2$ boys there are at least $2$ girls.
+
+#### Solution
+
+Let's say we have arragement as below: 
+
+$\text{x girls} \ \ +  \ \ \text{Boy 1} + \ \ \text{y girls} \ \ +  \ \ \text{Boy 2} + \ \ \text{z girls} \ \ +  \ \ \text{Boy 3} + \ \ \text{t girls}$
+
+Now, we want at least $2$ girls between $2$ boys, so we can rewrite the equations as below:
+
+$\text{x + y + z + t = 15}, \ \ (\text{x >= 0, y >= 2, z >= 2 and t >= 0})$
+
+Substract $2$ from right hand side to satisfy the condition for $\text{y}$ and $\text{z}$, new equation after satisfying condition for $\text{y}$ and $\text{z}$ will be: 
+
+$\text{x + y' + z' + t = 11}, \ \ (\text{x >= 0, y >= 0, z >= 0 and t >= 0})$
+
+<center>
+O O O O O O O O O O O | | | 
+</center>
+
+In addition to that, $15$ girls and $3$ boys can be arranged among themself among in $15!$ and $3!$ ways.
+
+
+So total number of solutions for equations will be:
+
+$$
+\frac{14!}{11! \ \ * \ \ 3!} \ \ * \ \ 15! \ \ * \ \ 3! 
+$$
+
+
+### Principle of Inclusion and Exclusion
+
+Principle of Inclusion and Exclusion is a counting technique used to find the size of the union of several sets, especially when those sets may overlap. 
+
+#### Example 
+
+Number of arrangements of $\text{a, b, c, d, e, f, g}$ (taken all) such that neither $\text{beg}$ nor $\text{cad}$ pattern appears.
+
+#### Solution
+
+Total number of arragements of $\text{a, b, c, d, e, f, g}$ will be $7!$.
+
+Now, to ensure that $\text{beg}$ stays together, we apply the tie method, treating $\text{beg}$ as a single unit. This reduces the total number of elements to $5$ as $\text{a, c, d, f,}$ and $\text{beg}$. So total number of arragements of $\text{a, b, c, d, e, f, g}$ with pattern $\text{beg}$ will be $5!$.
+
+Similarly, total number of arragements of $\text{a, b, c, d, e, f, g}$ with pattern $\text{cad}$ will be $5!$.
+
+To get our answer, we can subtract the arrangements with the patterns $\text{cad}$ and $\text{beg}$ from the total arrangements. However, this approach would lead to removing arrangements that contain both patterns $\text{cad}$ and $\text{beg}$ twice, which is incorrect. 
+
+We need to account for this overlap to ensure an accurate result, so let's calculate the arrangements that contain both patterns $\text{beg}$ and $\text{cad}$ together. By applying the tie method again, we reduce the total number of elements to just $\text{a, f}$ and the combined pattern $\text{begcad}$. This gives us a total of $3!$ arrangements that simultaneously contain both patterns.
+
+So total number of arragement which contains neither $\text{beg}$ or $\text{cad}$ will be:
+
+Total arrangements - Arrangements with pattern $\text{cad}$  - Arrangements with pattern $\text{beg}$  + Arrangements with pattern $\text{cad}$ and $\text{beg}$ together.
+
+
+<center>
+<img src="/img/permutations-and-combinations-3.svg" alt="permutations-and-combinations-1.svg" style={{ width: 'auto', height: '300px' }}/>
+</center>
+
+
+$$
+7! - 5! - 5! + 3!
+$$
+
+
