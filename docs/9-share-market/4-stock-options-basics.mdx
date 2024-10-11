@@ -1,24 +1,18 @@
----
-slug: /share-market/stock-options-basics
----
-
 # Stock Options Basics
 
 This page provides an introduction to Stock Options Basics. These are my notes from the youtube video on Stock Options Basics.
 
-## Option Characteristics
+All options have the following three main characteristics:
 
-All options have the following three main characteristics, 
-
-#### Expiration date
+#### Expiration Date
 
 All options have an expiration date after which the option will have no value.
 
-#### Strike price 
+#### Strike Price 
 
 If my call option has a strike price of \$$105$, I have the right to buy shares of the stock at the strike price of \$$105$ using the option.
 
-#### Contract multiplier
+#### Contract Multiplier
 
 If an option is valued at \$$5$, it can't be bought for \$$5$, you will need \$$500$ because options generally represent the right to trade $100$ shares of stock. The number $100$ here is called the contract multiplier.
 
@@ -27,13 +21,13 @@ If an option is valued at \$$5$, it can't be bought for \$$5$, you will need \$$
 
 There are two main types of options, 
 
-### Call Option
+#### Call Option
 
 - Give the owner of call options the ability to buy $100$ shares of stock at the strike price upto expiration date.
 - Call option intrinsic value $\text{abs}(\text{Stock Price} - \text{Strike Price})$.
 - Each call option have extrinsic value which is associated with time left tor the expiration.
 
-### Put Option 
+#### Put Option 
 
 - Give the owner of put options the ability to sell $100$ shares of stock at the strike price upto expiration date.
 - Put option intrinsic value $\text{abs}(\text{Strike Price} - \text{Stock Price})$.
@@ -44,15 +38,15 @@ There are two main types of options,
 
 The option premium derives its value from intrinsic and extrinsic value.
 
-### Intrinsic Value
+#### Intrinsic Value
 
 The price of an option will always reflect the potential profit it can provide to the owner if they were to exercise the option. This price is called the intrinsic value.	
 
-### Extrinsic Value
+#### Extrinsic Value
 
 The extrinsic value of an option, also known as time value, is the portion of the option's premium that exceeds its intrinsic value.
 
-Let's say I have a TSLA call option with a strike price of \$$800$, and the current TSLA stock price is \$$1000$. Because I can use the call option to make a \$$200$ profit per share, the call option price must be worth \$$200$ or more. Let's say the call option price is \$$250$. The extra \$$50$ is the extrinsic value or time value of the option.
+Let's say I have a TSLA call option with a strike price of \$$800$, and the current TSLA stock price is \$$1000$. Because I can use the call option to make a \$$200$ profit per share, the call option price must be worth \$$200$ or more. If call option is priced at \$$250$, then extra \$$50$ is the extrinsic value or time value of the option.
 
 
 There are three option types based on Intrinsic and Extrinsic value.
@@ -77,11 +71,9 @@ Shorting an option means selling a contract for an option that you do not own. I
 
 ## Implied Volatility 
 
-Implied volatility represents the market's expectation of how much a stock's price will change in the future.
+Implied volatility represents the market's expectation of how much a stock's price will change in the future. It is derived from a stock's option prices and represents the expected "One Standard Deviation" of stock price movement over a one-year period.
 
-It is derived from a stock's option prices and represents the expected one standard deviation of stock price movement over a one-year period.
-
-In statistics, one standard deviation represents a range that encompasses approximately $68$% of the outcomes around the mean or average. Formula for calculating expected stock price after 1 year $ = $ stock price $\pm$ (stock price $*$ Implied Volatility)
+In statistics, "One Standard Deviation" represents a range that encompasses approximately $68$% of the outcomes around the mean or average. Formula for calculating expected stock price after $1$ year $ = $ stock price $\pm$ (stock price $*$ Implied Volatility)
 
 :::info
 More Buying Pressure than Selling Pressure = Increase in option prices = Higher Implied volatility \

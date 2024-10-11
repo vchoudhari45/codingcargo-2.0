@@ -2,51 +2,7 @@
 
 This page provides an introduction to Redis. These are my notes from the RU101 Redis University course.
 
-## Overview 
-
-Redis can be used as a database, cache, streaming engine, message broker, and more.
-
-## Start Redis Docker Container 
-To start Redis Stack server using the redis-stack-server image, run the following command in your terminal:
-
-```java
-docker run -d --name redis-stack-server -p 6379:6379 \
-redis/redis-stack-server:latest
-```
-
-:::info
-You can also download sample data from the Redis University `.rdb` file as below and start a Redis server with sample data.
-:::
-
-```java
-# download the sample data file
-wget https://storage.googleapis.com/redis-university-assets/ru101/ru101.rdb.gz
-
-# gunzip the file
-gunzip ru101.rdb.gz
-
-# start docker container
-docker run -d --name redis-stack-server -p 6379:6379 \
--v "./ru101.rdb:/data/dump.rdb" \
-redis/redis-stack-server:latest
-```
-
-## Connect to Redis CLI 
-
-You can then connect to the server using redis-cli, just as you connect to any Redis instance.
-```java
-docker exec -it redis-stack-server redis-cli
-```
-
-
-## To Stop Redis Container 
-
-To stop Redis Stack server, run the following command in your terminal:
-
-```java
-# list all docker container running the redis/redis-stack-server image
-docker ps -a | grep redis/redis-stack-server
-
-# stop & remove container using containerId returned from above command 
-docker stop <container_id>
-docker rm <container_id>
+- <a href="/redis/redis-overview">Redis Overview</a>
+- <a href="/redis/redis-transactions">Redis Transactions</a>
+- <a href="/redis/redis-use-case-inventory-control">Redis Use Case: Inventory Control</a>
+- <a href="/redis/redis-bit-data-and-operations">Redis Bit Data and Operations</a>

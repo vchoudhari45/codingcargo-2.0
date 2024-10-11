@@ -1,0 +1,71 @@
+# Stock Options Greeks
+
+This page provides an introduction to Stock Options Greeks. These are my notes from the youtube video on Stock Options Greeks.
+
+Stock options greeks tell you how an option's price is expected to change when certain variable like time, the stock price, and implied volatility change.
+
+## Delta
+
+Delta is the first primary option Greek, which estimates how an option's price will change with a \$$1$ change in a stock price.
+
+#### Call Options 
+
+Let's say current the stock price is \$$100$, the option price is \$$5$, and delta is $0.50$. In this scenario:
+
+- If the stock price increases by \$$1$, then the option price becomes \$$5.50$.
+- If the stock price decreases by \$$1$, then the option price becomes \$$4.50$.	
+
+:::info
+Call options have positive $(+)$ delta values. 
+:::
+
+
+
+#### Put Options 
+
+Let's say the current stock price is \$$100$, the option price is \$$5$, and delta is $-0.50$. In this scenario: 
+
+- If the stock price increases by \$$1$, then the option price becomes \$$4.50$.
+- If the stock price decreases by \$$1$, then the option price becomes \$$5.50$.	
+
+:::info
+Put options have negative $(-)$ delta values. 
+:::
+
+## Gamma 
+
+Gamma is second primary option Greek, which estimates how an option's delta will change with a $1 change in stock price.
+
+
+#### Call Options 
+
+Call deltas increase toward $+1$ when the stock price increases and decrease toward $0$ when the stock price decreases.
+
+:::info
+Call options have positive $(+)$ Gamma values.
+:::
+
+
+#### Put Options
+
+Put deltas increases toward $0$ when the stock price increases and decrease toward $-1$ when the stock price decreases.
+
+:::info
+Put options have negative $(+)$ Gamma values.
+:::
+
+## Theta
+
+Theta is third primary option Greek, which estimates how an option's price will decrease with the passing of one day. 
+
+:::info
+All options have negative $(-)$ theta values.
+:::
+
+## Vega 
+
+Vega is fourth primary option Greek, which estimates how an option's price will change with a $1\%$ change in implied volatility. 
+
+:::info
+All option have positive $(+)$ vega values.
+:::
