@@ -1,3 +1,231 @@
 # Probability
 
 This page provides an introduction to Probability. These are my notes from the [YouTube Video](https://www.youtube.com/watch?v=iNzpUTrm3DU).
+
+
+## Overview 
+
+Probability is a measure of the likelihood or chance that a specific event will occur. It ranges from 0 to 1. Let's understand some of the terminlogies of probabilities as below:
+
+### Random Experiment 
+
+Random experiment is the experiment whose outcome is known.
+
+### Sample Space 
+
+Sample space is set of all possible outcomes. For e.g. throwing a dice has sample space as below, and it is denoted by $\text{S}$:
+
+$$
+\text{S} = \{1, 2, 3, 4, 5, 6\}
+$$
+
+
+
+### Event 
+
+Event is Subset of sample space, and it is denoted by $\text{E}$.
+
+#### Equally Likely Events
+
+Equally likely events are those who has equal chances of occurence or have equal probability.
+
+$$
+\text{P(E}_1) = \text{P(E}_2)
+$$
+
+
+#### Mutually Exclusive Events
+
+Mutually exclusive are those whose simultaneous occurance is impossible. It is also known as Disjoint or Incompatible events.
+
+$$
+\text{E}_1 \cap \text{E}_2 = \phi
+$$
+
+#### Mutually Exhaustive Events
+
+Mutually exhaustive events are those whose union is sample space.
+
+$$
+\text{E}_1 \cup \text{E}_2 = \text{S}
+$$
+
+
+### Classic Probability
+
+If a random experiment has total $\text{(m + n)}$ mutually exclusive and equally likely outcomes, out of which $\text{m}$ favours event $\text{E}$, then probability of occurrence of Event $\text{E}$ is denoted by $\text{P(E)}$.
+
+$$
+\text{P(E)} = \frac{\text{favourable outcomes}}{\text{total outcomes}} = \frac{\text{m}}{\text{m+n}}
+$$
+
+
+:::info
+When outcomes are not equally likely $\text{P(E)} = \text{Sum of probability of favourable outcomes}$.
+:::
+
+Below are some of the important characterstics of probability:
+
+- Sum of probabilities of each sample point or probability of sample space $ = 1$.
+
+- If $\text{P(E)} = 0,$ then event $\text{E}$ is impossible event.
+
+- If $\text{P(E)} = 1,$ then event $\text{E}$ is sure event.
+
+- Probability of non-occurrence of an event is:
+
+$$
+\text{E} = \text{P}(\overline{\text{E}}) = 1 - \text{P(E)}
+$$
+
+- Formula for odds in favour of any event is:
+$$
+\text{E} = \frac{\text{Number of favourable outcome}}{\text{Number of unfavourable outcome}}
+$$ 
+
+- Formula for odds against event is:
+
+$$
+\text{E} = \frac{\text{Number of unfavourable outcome}}{\text{Number of favourable outcome}}
+$$
+
+
+
+#### Example 1
+
+A fair dice is rolled, calculate the probability of getting a prime number.
+
+#### Solution
+
+There are total three prime numbers on the fair dice ${2, 3, 5}$ in a sample set $\{1, 2, 3, 4, 5, 6\}$ for throwing a dice. So probability of getting a prime number will be:
+
+$$
+\text{P(E)} = \frac{3}{6} = \frac{1}{2}
+$$
+
+
+#### Example 2
+
+Two coins are tossed simultaneously, what is the probability of getting at least one head.
+
+#### Solution
+
+Cases where we will get at least one head when two coins are tossed will be:
+
+<b>Case 1</b>: H H <br />
+<b>Case 2</b>: H T <br />
+<b>Case 3</b>: T H <br />
+
+So total probability of getting at least one head when two coin are tossed will be:
+
+$$
+\text{P(E)} = \frac{3}{4}
+$$
+
+
+#### Example 3
+
+A dice is rolled, if it shows prime number then a coin is tossed, what is the probability of getting head.
+
+#### Solution
+
+Let's write the sample set first: 
+
+$$
+\text{S} = \{
+	(1),
+	(2, \text{H}),
+	(2, \text{T}),
+	(3, \text{H}),
+	(3, \text{T}),
+	(4),
+	(5, \text{H}),
+	(5, \text{T}),
+	(6)
+\}
+$$
+
+Now, let's write probability of each of the event: 
+
+$
+\text{P(1)} = \large\frac{1}{6}
+$
+
+$
+\text{P(2, H)} = \large\frac{1}{6} * \frac{1}{2}
+$
+
+$
+\text{P(2, T)} = \large\frac{1}{6} * \frac{1}{2}
+$
+
+$
+\text{P(3, H)} = \large\frac{1}{6} * \frac{1}{2}
+$
+
+$
+\text{P(3, T)} = \large \frac{1}{6} * \frac{1}{2}
+$
+
+$
+\text{P(4)} = \large\frac{1}{6}
+$
+
+$
+\text{P(5, H)} = \large \frac{1}{6} * \frac{1}{2}
+$
+
+
+$
+\text{P(5, T)} = \large \frac{1}{6} * \frac{1}{2}
+$
+
+$
+\text{P(6)} = \large\frac{1}{6}
+$
+
+As in this case all the events in the sample space doesn't have equally likely probability, we apply formula below:
+
+$$
+\text{P(E)} = \text{Sum of probability of favourable outcomes}
+$$
+
+So probability of getting a head on coin toss after rolling a prime number on a die will be:
+
+$$
+P(E) = \frac{1}{4}
+$$ 
+
+
+#### Example 4
+
+An urn contains nine balls of which three are red, four are blue and two are green. Three balls are drawn at random without replacement from the urn. calculate the probability that three balls have different color.
+
+#### Solution
+
+Number of ways we can draw $3$ balls from $9$ balls without replacement will be:
+
+$$
+^9\text{C}_3
+$$
+
+Number of ways we can draw $3$ balls from $9$ balls and all of them are of different color will be:
+
+$$
+^3\text{C}_1 * ^4\text{C}_1 * ^2\text{C}_1
+$$
+
+Let's apply classic probability formula as drawing a ball from urn has equal probability. So probability that three balls have different colors will be:
+
+$$
+\frac{3 \ \ * \ \  4 \ \ * \ \  2}{^9\text{C}_3} = \frac{2}{7}
+$$
+
+
+#### Example 5
+
+Four fair dice $\text{D}_1, \text{D}_2, \text{D}_3$ and $D_4$, each having six faces numbered $1, 2, 3, 4, 5, 6$ are rolled simultanously. calculate the probability that $\text{D}_4$ shows a number appearing on one of the $\text{D}_1, \text{D}_2$, and $\text{D}_3$.
+
+
+#### Solution
+
