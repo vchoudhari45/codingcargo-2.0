@@ -142,7 +142,7 @@ Containers run on top of the host OS and share host's kernels. Each container ru
 When you use containers on AWS, you need processes to start, stop, restart, and monitor containers running across, not just one EC2 instance, but a number of them together, called a cluster. The process of doing these tasks is called container orchestration.
 
 <center>
-<img src="/img/vms-vs-container.png" alt="vms-vs-container.png" style={{ width: '700px', height: 'auto' }}/>
+<img src="/img/vms-vs-container.svg" alt="vms-vs-container.svg" style={{ width: '700px', height: 'auto' }}/>
 </center>
 
 Compared to virtual machines (VMs), containers share the same operating system and kernel as the host that they are deployed on.
@@ -159,7 +159,7 @@ Containers can provide speed, but virtual machines offer the full strength of an
 Amazon ECS is an end-to-end container orchestration service that helps you spin up new containers. With Amazon ECS, your containers are defined in a task definition that you use to run an individual task or a task within a service. 
 
 <center>
-<img src="/img/amazon-ecs.png" alt="amazon-ecs.png" style={{ width: '750px', height: 'auto' }}/>
+<img src="/img/amazon-ecs.svg" alt="amazon-ecs.svg" style={{ width: '750px', height: 'auto' }}/>
 </center>
 
 To prepare your application to run on Amazon ECS, you create a task definition. The task definition is a text file, in JSON format, that describes one or more containers. A task definition is similar to a blueprint that describes the resources that you need to run a container, such as CPU, memory, ports, images, storage, and networking information.

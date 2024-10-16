@@ -127,7 +127,7 @@ $$
 $$
 
 
-### Arrangement with Non-unique Items
+### Arrangement of Non-Unique Items
 
 - Number of arrangements of $\text{A, B, C, D, E}$ (taken all at a time) $= 5!$
 - Number of arrangements of $\text{A, A, A, B, C}$ (taken all at a time) $= \large \frac{5!}{3!}$
@@ -444,7 +444,7 @@ So total number of intersections will be addition of all of the above cases.
 Count total possible squares and rectangles in a given arragment.
 
 <center>
-<img src="/img/permutations-and-combinations-2.png" alt="permutations-and-combinations-2.png" style={{ width: '300px', height: 'auto' }}/>
+<img src="/img/permutations-and-combinations-2.svg" alt="permutations-and-combinations-2.svg" style={{ width: '300px', height: 'auto' }}/>
 </center>
 
 #### Solution
@@ -523,16 +523,16 @@ $$
 So total number of ways will be: $10 + 1 = 11$.
 
 
-### Selections with Unique & Non-Unique Items
+### Selections of Unique & Non-Unique Items
 
-|n-identical things                           | n-different things                                 |
-|---------------------------------------------|----------------------------------------------------|
-|Number of ways of selecting zero things $= 1$|Number of ways of selecting zero things $ = 1$      |
-|Number of ways of selecting one things $= 1$ |Number of ways of selecting one things $ = $ $^nC_1$|
-|Number of ways of selecting two things $= 1$ |Number of ways of selecting two things $ = $ $^nC_2$|
+|N Non-Unique things                          | N Unique things                                                 |
+|---------------------------------------------|-----------------------------------------------------------------|
+|Number of ways of selecting zero things $= 1$|Number of ways of selecting zero things $ = 1$      							|
+|Number of ways of selecting one things $= 1$ |Number of ways of selecting one things $ = $ $^\text{n}\text{C}_1$|
+|Number of ways of selecting two things $= 1$ |Number of ways of selecting two things $ = $ $^\text{n}\text{C}_2$|
 ...
-|Number of ways of selecting all things $= 1$ |Number of ways of selecting all things $ = $ $^nC_n$|
-|Total possible selection $= (n + 1)$         |Total possible selection = $2^n$                    |
+|Number of ways of selecting all things $= 1$ |Number of ways of selecting all things $ = $ $^\text{n}\text{C}_n$|
+|Total possible selection $= (\text{n} + 1)$  |Total possible selection = $2^\text{n}$                           |
 
 
 #### Example 1
@@ -545,7 +545,7 @@ Total number of ways to select one or more balls from $10$ white, $9$ green and 
 
 (select $0$ or more balls from $10$ white balls) $*$ (select $0$ or more balls from $9$ green balls) $*$ (select $0$ or more balls from $7$ black balls) $ - \ \ 1$.
 
-By applying the formula $ = (n + 1)$ to choose $\text{x}$ things from $\text{n}$ identical items we get $11$ ways for white ball, $10$ ways for green ball and $8$ ways for black ball.
+By applying the formula $ = (\text{n} + 1)$ to choose $\text{x}$ things from $\text{n}$ identical items we get $11$ ways for white ball, $10$ ways for green ball and $8$ ways for black ball.
 
 :::info 
 We subtract $1$ to exclude the scenario where we choose zero balls from the white, green, and black sets, as we require at least one ball. 

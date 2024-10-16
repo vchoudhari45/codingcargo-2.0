@@ -234,7 +234,7 @@ Let's generate the cases for favourable outcomes.
 <b>Case 1</b>: Both of them are less than $4$.
 
 $$
-^3\text{C}2
+^3\text{C}_2
 $$
 
 <b>Case 2</b>: One of them is less than $4$.
@@ -422,9 +422,6 @@ Below are some of the important points for set theory related to probability:
 
 - Probability of non-occurance of $\text{A} = \text{P}(\overline{\text{A}}) = 1 - \text{P(A)}$
 
-
-### Idependent Events
-
 - If $\text{P}(\text{A} \cap \text{B}) = \text{P(A) . P(B)}$ then $\text{A}$ and $\text{B}$ are independent events.
 
 - If $\text{A}$ and $\text{B}$ are independent events then all possible combinations like $(\overline{\text{A}}, \text{B})$ Or $(\text{A}, \overline{\text{B}})$ etc are also independent events.
@@ -473,4 +470,102 @@ So probability of $\text{E}_1$ given $\text{E}_2$ will be:
 $$
 \text{P}(\frac{\text{E}_1}{\text{E}_2}) = \frac{2}{3}
 $$
+
+
+## Total Probability Theorem
+
+If there is an event $\text{A}$ such that it overlaps with $\text{n}$ mutually exclusive events $\text{E}_1$, $\text{E}_2$, $\text{E}_3$ .... $\text{E}_\text{n}$.
+
+<center>
+<img src="/img/probability-1.svg" alt="probability-1.svg" style={{ width: 'auto', height: '250px' }}/>
+</center>
+
+Then total probability of event $\text{A}$ will be:
+
+$$
+\text{P(A)} = \text{P}(\text{A} \cap \text{E}_1) + \text{P}(\text{A} \cap \text{E}_2) + \text{P}(\text{A} \cap \text{E}_3) \ \ + \ \ ... \ \ + \ \ \text{P}(\text{A} \cap \text{E}_\text{n})
+$$
+
+
+#### Example 1
+
+A bag contains $4$ red ball and $6$ black balls. A ball is drawn at random from the bag, it's color is observed and this ball along with two additional ball of the same colour are returned to bag. Calculate the probability such that, if a ball is drawn at random from the bag is red ball.
+
+
+#### Solution
+
+Let's draw possibilities mentioned in the question.
+
+
+<center>
+<img src="/img/probability-2.svg" alt="probability-2.svg" style={{ width: 'auto', height: '300px' }}/>
+</center>
+
+Given we drawn a red ball and replaced it with $2$ extra red balls in the first step, then probability of getting a red ball when drawn randomly will be:
+
+$$
+\frac{4}{10} * \frac{6}{12}
+$$
+
+Given we drawn a black ball and replaced it with $2$ extra black balls in the first step, then probability of getting a red ball when drawn randomly will be:
+
+$$
+\frac{6}{10} * \frac{4}{12}
+$$
+
+Now, we need to calculate the probability of drawing a red ball at random from the bag after replace of $2$ extra balls. According to the total Probability Theorem, we'll add the probabilities of getting a red ball from each path as below:
+
+
+$$
+(\frac{6}{10} * \frac{4}{12}) \ \ + \ \ (\frac{4}{10} * \frac{6}{12})
+$$
+
+So probability of getting a red ball when drawn randomly will be:
+
+$$
+\frac{2}{5}
+$$
+
+
+
+## Bayes Theorm
+
+From conditional probability formula we know:
+
+$$
+\text{P}(\frac{\text{A}}{\text{B}}) \ \ = \frac{\text{P}(\text{A} \cap \text{B})}{\text{P(B)}}
+$$
+
+It can also be re-written as:
+
+$$
+\text{P}(\text{A} \cap \text{B}) = \text{P}(\frac{\text{A}}{\text{B}}) \ \ * \ \ \text{P(B)}
+$$
+
+
+Substituting this value in the equation for total probability of event $\text{A}$ we will get:
+
+$$
+\text{P(A)} = \text{P}(\frac{\text{A}}{\text{E}_1}) * \text{P}(\text{E}_1) \ \ + \ \ 
+\text{P}(\frac{\text{A}}{\text{E}_2}) * \text{P}(\text{E}_2) \ \ + \ \ ... \ \ + \ \
+\text{P}(\frac{\text{A}}{\text{E}_\text{n}}) * \text{P}(\text{E}_\text{n}) 
+$$ 
+
+Bayes' theorem enables the computation of posterior probabilities, that is the probability that event $\text{A}$ was caused by event $\text{E}1$, given $\text{A}$ has occurred using below formula:
+
+$$
+\text{P}(\frac{\text{E}_1}{\text{A}}) = \frac{\text{P}(\frac{\text{A}}{\text{E}_1}) * \text{P}(\text{E}_1)}{\text{P(A)}}
+$$
+
+Where
+
+$\text{P}(\large\frac{\text{E}_1}{\text{A}}\normalsize)$, is probability that event $\text{A}$ was caused by event $\text{E}1$.
+
+$\text{P}(\large\frac{\text{A}}{\text{E}_1}\normalsize)$, is probability that event $\text{A}$ given event $\text{E}1$ has occurred.
+
+$\text{P}(\text{E}_1)$, is probability of event $\text{E}_1$.
+
+$\text{P}(\text{A})$, is total probability of event $\text{A}$.
+
+#### Example 1
 
